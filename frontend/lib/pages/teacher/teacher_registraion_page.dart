@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class TeacherRegisterPage extends StatefulWidget {
   const TeacherRegisterPage({super.key});
@@ -9,212 +11,10 @@ class TeacherRegisterPage extends StatefulWidget {
 
 class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
   // List of countries (sorted in ascending order)
-  final List<String> countries = [
-    'أفغانستان',
-    'ألبانيا',
-    'الجزائر',
-    'أمريكا',
-    'أندورا',
-    'أنغولا',
-    'أنتيغوا وباربودا',
-    'الأرجنتين',
-    'أرمينيا',
-    'أستراليا',
-    'النمسا',
-    'أذربيجان',
-    'باهاماس',
-    'البحرين',
-    'بنغلاديش',
-    'باربادوس',
-    'بيلاروسيا',
-    'بلجيكا',
-    'بليز',
-    'بنين',
-    'بوتان',
-    'بوليفيا',
-    'البوسنة والهرسك',
-    'بوتسوانا',
-    'البرازيل',
-    'بريطانيا',
-    'بروناي',
-    'بلغاريا',
-    'بوركينا فاسو',
-    'بورما',
-    'بوروندي',
-    'كمبوديا',
-    'الكاميرون',
-    'كندا',
-    'الرأس الأخضر',
-    'جمهورية أفريقيا الوسطى',
-    'تشاد',
-    'تشيلي',
-    'الصين',
-    'كولومبيا',
-    'جزر القمر',
-    'الكونغو',
-    'كوستاريكا',
-    'كرواتيا',
-    'كوبا',
-    'قبرص',
-    'التشيك',
-    'الدنمارك',
-    'جيبوتي',
-    'دومينيكا',
-    'جمهورية الدومينيكان',
-    'هولندا',
-    'تيمور الشرقية',
-    'الإكوادور',
-    'مصر',
-    'الإمارات العربية المتحدة',
-    'غينيا الاستوائية',
-    'إريتريا',
-    'إستونيا',
-    'إثيوبيا',
-    'فيجي',
-    'الفلبين',
-    'فنلندا',
-    'فرنسا',
-    'الغابون',
-    'غامبيا',
-    'جورجيا',
-    'ألمانيا',
-    'غانا',
-    'اليونان',
-    'غرينادا',
-    'غواتيمالا',
-    'غينيا',
-    'غينيا بيساو',
-    'غيانا',
-    'هايتي',
-    'هندوراس',
-    'هنغاريا',
-    'آيسلندا',
-    'الهند',
-    'إندونيسيا',
-    'إيران',
-    'العراق',
-    'أيرلندا',
-    'إسرائيل',
-    'إيطاليا',
-    'ساحل العاج',
-    'جامايكا',
-    'اليابان',
-    'الأردن',
-    'كازاخستان',
-    'كينيا',
-    'كيريباتي',
-    'كوريا الشمالية',
-    'كوريا الجنوبية',
-    'الكويت',
-    'قيرغيزستان',
-    'لاوس',
-    'لاتفيا',
-    'لبنان',
-    'ليسوتو',
-    'ليبيريا',
-    'ليبيا',
-    'ليختنشتاين',
-    'ليتوانيا',
-    'لوكسمبورغ',
-    'مقدونيا',
-    'مدغشقر',
-    'مالاوي',
-    'ماليزيا',
-    'جزر المالديف',
-    'مالي',
-    'مالطا',
-    'جزر مارشال',
-    'موريتانيا',
-    'موريشيوس',
-    'المكسيك',
-    'ميكرونيزيا',
-    'مولدوفا',
-    'موناكو',
-    'منغوليا',
-    'الجبل الأسود',
-    'المغرب',
-    'موزمبيق',
-    'ميانمار',
-    'ناميبيا',
-    'ناورو',
-    'نيبال',
-    'هولندا',
-    'نيوزيلندا',
-    'نيكاراغوا',
-    'النيجر',
-    'نيجيريا',
-    'النرويج',
-    'عمان',
-    'باكستان',
-    'بالاو',
-    'بنما',
-    'بابوا غينيا الجديدة',
-    'باراغواي',
-    'بيرو',
-    'الفلبين',
-    'بولندا',
-    'البرتغال',
-    'قطر',
-    'رومانيا',
-    'روسيا',
-    'رواندا',
-    'سانت كيتس ونيفيس',
-    'سانت لوسيا',
-    'سانت فينسنت والغرينادين',
-    'ساموا',
-    'سان مارينو',
-    'ساو تومي وبرينسيبي',
-    'السعودية',
-    'السنغال',
-    'صربيا',
-    'سيشل',
-    'سيراليون',
-    'سنغافورة',
-    'سلوفاكيا',
-    'سلوفينيا',
-    'جزر سليمان',
-    'الصومال',
-    'جنوب أفريقيا',
-    'إسبانيا',
-    'سريلانكا',
-    'السودان',
-    'سورينام',
-    'إسواتيني',
-    'السويد',
-    'سويسرا',
-    'سوريا',
-    'تايوان',
-    'طاجيكستان',
-    'تنزانيا',
-    'تايلاند',
-    'توغو',
-    'تونغا',
-    'ترينيداد وتوباغو',
-    'تونس',
-    'تركيا',
-    'تركمانستان',
-    'توفالو',
-    'أوغندا',
-    'أوكرانيا',
-    'الإمارات العربية المتحدة',
-    'المملكة المتحدة',
-    'الولايات المتحدة',
-    'أوروغواي',
-    'أوزبكستان',
-    'فانواتو',
-    'الفاتيكان',
-    'فنزويلا',
-    'فيتنام',
-    'اليمن',
-    'زامبيا',
-    'زيمبابوي'
-  ]..sort();
+  final List<String> countries = ['مصر', 'السعودية', 'الإمارات', 'الكويت', 'قطر', 'البحرين', 'عمان'];
 
-  // List of age options (starting from 5)
-  final List<String> ages = List.generate(96, (index) => (index + 5).toString());
-
-  
-  
+  // List of age options (starting from 23)
+  final List<String> ages = List.generate(78, (index) => (index + 23).toString());
 
   // Form key for validation
   final _formKey = GlobalKey<FormState>();
@@ -223,22 +23,66 @@ class _TeacherRegisterPageState extends State<TeacherRegisterPage> {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
+  final dayController = TextEditingController();
+  final monthController = TextEditingController();
+  final yearController = TextEditingController();
+  final bioController = TextEditingController();
 
-
-String selectedAge = '';
-String selectedCountry = '';
-
-
-
-  @override
-void initState() {
-  super.initState();
-  selectedAge = ages[0];        // Initialize in initState
-  selectedCountry = countries[0]; // Initialize in initState     // Initialize in initState
-}
+  String selectedAge = '';
+  String selectedCountry = '';
 
   // Gender selection
-  String selectedGender = 'ذكر'; // Default gender
+  String selectedGender = 'male'; // Default gender
+
+  // For profile picture
+  File? _profileImage;
+
+  // For PDF files
+  File? _bachelorDegreeFile;
+  File? _ejazaFile;
+
+  // For preferred student level (now using checkboxes)
+  final List<String> _studentLevelOptions = ['مبتدئ', 'متوسط', 'خبير'];
+  final List<bool> _selectedStudentLevels = [false, false, false];
+
+  // For preferred qera2at
+  final List<String> _qera2atOptions = List.generate(20, (index) => 'قراءة ${index + 1}');
+  final List<bool> _selectedQera2at = List.generate(20, (index) => false);
+
+  // Function to pick an image from the gallery
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _profileImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  // Function to pick a PDF file
+  Future<void> _pickPDF(String type) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (type == 'bachelor') {
+          _bachelorDegreeFile = File(pickedFile.path);
+        } else if (type == 'ejaza') {
+          _ejazaFile = File(pickedFile.path);
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedAge = ages[0]; // Initialize in initState
+    selectedCountry = countries[0]; // Initialize in initState
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -256,19 +100,29 @@ void initState() {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Image at the top (changes based on gender)
-                Center(
-                  child: Image.asset(
-                    selectedGender == 'female'
-                        ? 'assets/img/fteacher.png'
-                        : 'assets/img/teacher.png',
-                    height: 150,
-                    width: 150,
-                    fit: BoxFit.contain,
-                  ),
+                // Circular profile picture with file picker
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 75,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: _profileImage != null ? FileImage(_profileImage!) : null,
+                        child: _profileImage == null
+                            ? const Icon(Icons.camera_alt, size: 50, color: Colors.black54)
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'صورة الملف الشخصي',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                
                 const SizedBox(height: 16),
+
                 // First Name
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -291,6 +145,7 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16),
+
                 // Last Name
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -313,33 +168,96 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Age Dropdown
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: DropdownButtonFormField<String>(
-                    value: selectedAge,
-                    items: ages.map((age) {
-                      return DropdownMenuItem(
-                        value: age,
-                        child: Text(age),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedAge = value!;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'العمر',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.calendar_view_day),
-                    ),
+
+                // Date of Birth (Day, Month, Year)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'تاريخ الميلاد',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 const SizedBox(height: 16),
-              
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: dayController,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                            labelText: 'يوم',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'الرجاء إدخال اليوم';
+                            }
+                            final day = int.tryParse(value);
+                            if (day == null || day < 1 || day > 31) {
+                              return 'يوم غير صالح';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: TextFormField(
+                          controller: monthController,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                            labelText: 'شهر',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'الرجاء إدخال الشهر';
+                            }
+                            final month = int.tryParse(value);
+                            if (month == null || month < 1 || month > 12) {
+                              return 'شهر غير صالح';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: TextFormField(
+                          controller: yearController,
+                          textAlign: TextAlign.right,
+                          decoration: InputDecoration(
+                            labelText: 'سنة',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'الرجاء إدخال السنة';
+                            }
+                            final year = int.tryParse(value);
+                            if (year == null || year < 1900 || year > DateTime.now().year) {
+                              return 'سنة غير صالحة';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
                 // Gender Radio Buttons
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -371,13 +289,14 @@ void initState() {
                               });
                             },
                           ),
-                          const Text('أنثى' ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          const Text('أنثى', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
+
                 // Country Dropdown
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -404,6 +323,7 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16),
+
                 // Phone Number
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -427,9 +347,147 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // Email
-                
+
+                // Bachelor Degree PDF Upload
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'رفع شهادة البكالوريوس (صورة)',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () => _pickPDF('bachelor'),
+                          child: const Text('اختر ملف'),
+                        ),
+                      ),
+                      if (_bachelorDegreeFile != null)
+                        Center(
+                          child: Text(
+                            'تم اختيار الملف: ${_bachelorDegreeFile!.path.split('/').last}',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Ejaza PDF Upload
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'رفع الإجازة (صورة)',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () => _pickPDF('ejaza'),
+                          child: const Text('اختر ملف'),
+                        ),
+                      ),
+                      if (_ejazaFile != null)
+                        Center(
+                          child: Text(
+                            'تم اختيار الملف: ${_ejazaFile!.path.split('/').last}',
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Preferred Student Level (now using checkboxes)
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'المستوى المفضل للطلاب',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        children: List.generate(
+                          _studentLevelOptions.length,
+                          (index) => CheckboxListTile(
+                            value: _selectedStudentLevels[index],
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedStudentLevels[index] = value!;
+                              });
+                            },
+                            title: Text(_studentLevelOptions[index]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Preferred Qera2at
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'القراءات المفضلة',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        children: List.generate(
+                          _qera2atOptions.length,
+                          (index) => CheckboxListTile(
+                            value: _selectedQera2at[index],
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedQera2at[index] = value!;
+                              });
+                            },
+                            title: Text(_qera2atOptions[index]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Bio Text Area
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: TextFormField(
+                    controller: bioController,
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      labelText: 'السيرة الذاتية',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال السيرة الذاتية';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 const SizedBox(height: 24),
+
                 // Submit Button
                 SizedBox(
                   width: double.infinity,
@@ -444,6 +502,18 @@ void initState() {
                         print('البلد: $selectedCountry');
                         print('رقم الهاتف: ${phoneController.text}');
                         print('الجنس: $selectedGender');
+                        if (_profileImage != null) {
+                          print('تم اختيار صورة: ${_profileImage!.path}');
+                        }
+                        if (_bachelorDegreeFile != null) {
+                          print('تم اختيار ملف البكالوريوس: ${_bachelorDegreeFile!.path}');
+                        }
+                        if (_ejazaFile != null) {
+                          print('تم اختيار ملف الإجازة: ${_ejazaFile!.path}');
+                        }
+                        print('المستوى المفضل للطلاب: ${_studentLevelOptions.where((element) => _selectedStudentLevels[_studentLevelOptions.indexOf(element)]).toList()}');
+                        print('القراءات المفضلة: ${_qera2atOptions.where((element) => _selectedQera2at[_qera2atOptions.indexOf(element)]).toList()}');
+                        print('السيرة الذاتية: ${bioController.text}');
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -451,13 +521,11 @@ void initState() {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-          
                       ),
                     ),
                     child: const Text(
                       'تسجيل',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)
-                      
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                   ),
                 ),
