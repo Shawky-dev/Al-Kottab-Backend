@@ -59,8 +59,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/img/teacher.png
+    - assets/img/fteacher.png
+    - assets/img/student.png
+    - assets/img/fstudent.png
+    - assets/img/mixstudent.png
+    - assets/img/mixteacher.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

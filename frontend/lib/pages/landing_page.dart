@@ -1,9 +1,9 @@
+import '../pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'teacher_login_page.dart';
-import 'student_login_page.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+
+class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +23,19 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildRoleBox(context, "معلم", Colors.blue, TeacherLoginPage(role: "teacher")),
+                _buildRoleBox(context, "معلم", Colors.black, LoginPage(role: "teacher"), 'assets/img/teacher.png'),
                 SizedBox(width: 40),
-                _buildRoleBox(context, "طالب", Colors.green, StudentLoginPage(role: "student")),
+                _buildRoleBox(context, "طالب", Colors.black, LoginPage(role: "student"), 'assets/img/student.png'),
               ],
             ),
           ],
         ),
       ),
+    
     );
   }
 
-  Widget _buildRoleBox(BuildContext context, String label, Color color, Widget page) {
+  Widget _buildRoleBox(BuildContext context, String label, Color color, Widget page, String imagePath) {
     return Column(
       children: [
         Text(
@@ -63,6 +64,16 @@ class HomeScreen extends StatelessWidget {
                 width: 2,
               ),
               borderRadius: BorderRadius.circular(15),
+            ),
+            child: Center(
+              child: Image.asset(
+                imagePath,
+                width: 120, // Display width
+                height: 120, // Display height
+                fit: BoxFit.contain, // Maintain aspect ratio
+                cacheWidth: 200, // Render at a lower resolution
+                cacheHeight: 200, // Render at a lower resolution
+              ),
             ),
           ),
         ),
