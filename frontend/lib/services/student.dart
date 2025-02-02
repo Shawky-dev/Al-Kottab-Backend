@@ -37,15 +37,15 @@ class Student {
           : null,
       'gender': gender,
       'nationality': nationality != null
-          ? nationalityMap.keys.firstWhere(
-              (key) => nationalityMap[key] == nationality,
+          ? arabicNationalityMap.keys.firstWhere(
+              (key) => arabicNationalityMap[key] == nationality,
               orElse: () => '',
             )
           : null,
       'phoneNumber': phoneNumber,
       'level': level != null
-          ? levelMap.keys.firstWhere(
-              (key) => levelMap[key] == level,
+          ? arabicLevelMap.keys.firstWhere(
+              (key) => arabicLevelMap[key] == level,
               orElse: () => '',
             )
           : null,
