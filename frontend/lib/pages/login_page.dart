@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center, // Keep the overall layout centered
+          crossAxisAlignment: CrossAxisAlignment.center, 
           children: [
             Text(
               'تسجيل دخول',
@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextField(
-                textAlign: TextAlign.right, // Align text in the text field to the right
+                textAlign: TextAlign.right,
                 decoration: InputDecoration(
                   labelText: 'الحساب الإلكتروني',
                   border: OutlineInputBorder(
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
             Directionality(
               textDirection: TextDirection.rtl,
               child: TextField(
-                textAlign: TextAlign.right, // Align text in the text field to the right
+                textAlign: TextAlign.right, 
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'كلمة السر',
@@ -64,7 +64,7 @@ class LoginPage extends StatelessWidget {
               },
               child: Text(
                 'نسيت كلمة السر؟',
-                textAlign: TextAlign.right, // Align text to the right
+                textAlign: TextAlign.right,
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 16,
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
               },
               child: Text(
                 'ليس لديك حساب؟ سجل الآن',
-                textAlign: TextAlign.right, // Align text to the right
+                textAlign: TextAlign.right, 
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 16,

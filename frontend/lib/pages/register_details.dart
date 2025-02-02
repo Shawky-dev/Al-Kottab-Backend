@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page.dart';
 
-class StudentRegisterPage extends StatefulWidget {
-  const StudentRegisterPage({super.key});
+class RegisterDetails extends StatefulWidget {
+  const RegisterDetails({super.key});
 
   @override
-  State<StudentRegisterPage> createState() => _StudentRegisterPageState();
+  State<RegisterDetails> createState() => _RegisterDetailsState();
 }
 
-class _StudentRegisterPageState extends State<StudentRegisterPage> {
-  // List of countries (sorted in ascending order)
+class _RegisterDetailsState extends State<RegisterDetails> {
+  
   final List<String> countries = [
     'أفغانستان',
     'ألبانيا',
@@ -211,16 +211,16 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
     'زيمبابوي'
   ]..sort();
 
-  // List of age options (starting from 5)
+  
   final List<String> ages = ['13-17', '18-25', '26-35', '36-45', '46-55', '56-65', '66+'];
 
-  // List of levels in Arabic
+  
   final List<String> levels = ['مبتدئ', 'متوسط', 'خبير'];
 
-  // Form key for validation
+ 
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers for text fields
+  
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -257,7 +257,7 @@ void initState() {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Image at the top (changes based on gender)
+                
                 Center(
                   child: Image.asset(
                     selectedGender == 'female'

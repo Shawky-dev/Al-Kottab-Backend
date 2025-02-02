@@ -1,4 +1,4 @@
-import '../pages/student/student_register_page.dart';
+import 'register_details.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -142,7 +142,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => StudentRegisterPage()),
+                                builder: (context) => RegisterDetails()),
                           );
                         }
                       },
