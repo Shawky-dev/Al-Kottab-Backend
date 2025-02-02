@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'registration_page.dart';
 
 class LoginPage extends StatelessWidget {
-  final String role;
 
-  const LoginPage({super.key, required this.role});
+
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(role == "student" ? 'تسجيل دخول للطالب' : 'تسجيل دخول للمعلم'),
+        title: Text('تسجيل دخول للطالب'),
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -82,7 +76,7 @@ class LoginPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  RegistrationPage(role: role) ,
+                    builder: (context) =>  RegistrationPage() ,
                   ),
                 );
               },

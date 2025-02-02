@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/landing_page.dart';
+import 'pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey[100],
       ),
-      home: LandingPage(),
+      home: LoginPage(),
     );
   }
 }

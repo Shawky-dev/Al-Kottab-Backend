@@ -1,10 +1,8 @@
 import '../pages/student/student_register_page.dart';
-import '../pages/teacher/teacher_registraion_page.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatefulWidget {
-  final String role;
-  const RegistrationPage({super.key, required this.role});
+  const RegistrationPage({super.key});
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
@@ -22,7 +20,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text(widget.role == "student" ? 'إنشاء حساب للطالب' : 'إنشاء حساب للمعلم'),
+        title: Text('إنشاء حساب للطالب'),
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
@@ -50,18 +48,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 20),
-                if (widget.role == 'teacher')
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'لن يتم قبول الحساب إذا لم تكن خريج أزهر',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 SizedBox(height: 20),
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -173,12 +159,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       onPressed: () {
                         if (_formKey.currentState?.validate() == true) {
                           // Save the values of the fields to store and validate then navigate to the next page
-                          final email = emailController.text;
-                          final password = passwordController.text;
+                         // final email = emailController.text;
+                         // final password = passwordController.text;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => widget.role == "student" ? StudentRegisterPage() : TeacherRegisterPage(),
+                              builder: (context) =>  StudentRegisterPage()
                             ),
                           );
                         }

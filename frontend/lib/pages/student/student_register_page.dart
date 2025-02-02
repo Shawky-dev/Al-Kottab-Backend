@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/home_page.dart';
 
 class StudentRegisterPage extends StatefulWidget {
   const StudentRegisterPage({super.key});
@@ -211,7 +212,7 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
   ]..sort();
 
   // List of age options (starting from 5)
-  final List<String> ages = List.generate(96, (index) => (index + 5).toString());
+  final List<String> ages = ['13-17', '18-25', '26-35', '36-45', '46-55', '56-65', '66+'];
 
   // List of levels in Arabic
   final List<String> levels = ['مبتدئ', 'متوسط', 'خبير'];
@@ -469,6 +470,13 @@ void initState() {
                         print('رقم الهاتف: ${phoneController.text}');
                         print('المستوى: $selectedLevel');
                         print('الجنس: $selectedGender');
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>  HomePage()
+                            ),
+                          );
                       }
                     },
                     style: ElevatedButton.styleFrom(
