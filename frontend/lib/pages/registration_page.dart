@@ -42,7 +42,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       });
       showSnackBar(context, response.message, response.success);
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => StudentRegisterPage()));
+          .push(MaterialPageRoute(builder: (context) => RegisterDetails()));
     } else {
       setState(() {
         isLoading = false;
