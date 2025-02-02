@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page.dart';
+import 'package:frontend/services/student.dart';
+import 'package:frontend/services/studentServices.dart';
+import 'package:frontend/widgets/snack_bar.dart';
 
 class StudentRegisterPage extends StatefulWidget {
   const StudentRegisterPage({super.key});
@@ -212,7 +216,15 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
   ]..sort();
 
   // List of age options (starting from 5)
-  final List<String> ages = ['13-17', '18-25', '26-35', '36-45', '46-55', '56-65', '66+'];
+  final List<String> ages = [
+    '13-17',
+    '18-25',
+    '26-35',
+    '36-45',
+    '46-55',
+    '56-65',
+    '66+'
+  ];
 
   // List of levels in Arabic
   final List<String> levels = ['مبتدئ', 'متوسط', 'خبير'];
@@ -225,21 +237,61 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
 
-String selectedAge = '';
-String selectedCountry = '';
-String selectedLevel = '';
-
+  String selectedAge = '';
+  String selectedCountry = '';
+  String selectedLevel = '';
 
   @override
-void initState() {
-  super.initState();
-  selectedAge = ages[0];        // Initialize in initState
-  selectedCountry = countries[0]; // Initialize in initState
-  selectedLevel = levels[0];      // Initialize in initState
-}
+  void initState() {
+    super.initState();
+    selectedAge = ages[0]; // Initialize in initState
+    selectedCountry = countries[0]; // Initialize in initState
+    selectedLevel = levels[0]; // Initialize in initState
+  }
 
-  
-  String selectedGender = 'male'; 
+  String selectedGender = 'male';
+  final StudentServices studentServices = StudentServices();
+  bool isLoading = false;
+  void handleStudentEdit() async {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      showSnackBar(context, 'لم يتم العثور على مستخدم مسجل', false);
+      return;
+    }
+
+    // Create a Student object from the form data
+    Student student = Student(
+      email: user.email ?? '',
+      uid: user.uid,
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      ageRange: getAgeRangeFromString(selectedAge),
+      gender: selectedGender,
+      nationality: getNationalityFromString(selectedCountry, isArabic: true),
+      phoneNumber: phoneController.text,
+      level: getLevelFromString(selectedLevel, isArabic: true),
+    );
+
+    // Call the editStudent function
+    StudentResponse response = await studentServices.editStudent(student);
+
+    // Handle the response
+    if (response.success) {
+      setState(() {
+        isLoading = true;
+      });
+      showSnackBar(context, response.message, response.success);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => HomePage()));
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(context, response.message, response.success);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,6 +301,7 @@ void initState() {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -268,7 +321,7 @@ void initState() {
                     fit: BoxFit.contain,
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
                 // First Name
                 Directionality(
@@ -340,7 +393,7 @@ void initState() {
                   ),
                 ),
                 const SizedBox(height: 16),
-              
+
                 // Gender Radio Buttons
                 Directionality(
                   textDirection: TextDirection.rtl,
@@ -349,7 +402,8 @@ void initState() {
                     children: [
                       const Text(
                         'الجنس',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Row(
                         children: [
@@ -362,7 +416,9 @@ void initState() {
                               });
                             },
                           ),
-                          const Text('ذكر', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          const Text('ذكر',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
                           Radio(
                             value: 'female',
                             groupValue: selectedGender,
@@ -372,7 +428,9 @@ void initState() {
                               });
                             },
                           ),
-                          const Text('أنثى' ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          const Text('أنثى',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ],
@@ -461,7 +519,7 @@ void initState() {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // handle shit here  
+                        // handle shit here
                         print('تم تسجيل النموذج بنجاح');
                         print('الاسم الأول: ${firstNameController.text}');
                         print('الاسم الأخير: ${lastNameController.text}');
@@ -471,12 +529,7 @@ void initState() {
                         print('المستوى: $selectedLevel');
                         print('الجنس: $selectedGender');
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>  HomePage()
-                            ),
-                          );
+                        handleStudentEdit();
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -484,14 +537,13 @@ void initState() {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-          
                       ),
                     ),
-                    child: const Text(
-                      'تسجيل',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)
-                      
-                    ),
+                    child: const Text('تسجيل',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
                   ),
                 ),
               ],

@@ -1,3 +1,7 @@
+import 'package:frontend/services/authServices.dart';
+import 'package:frontend/services/student.dart';
+import 'package:frontend/widgets/snack_bar.dart';
+
 import '../pages/student/student_register_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +19,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController confirmEmailController = TextEditingController();
+  bool isLoading = false;
+
+  void handleRegister() async {
+    Student student = Student(
+      email: emailController.text,
+      uid: '',
+      password: passwordController.text,
+      firstName: null,
+      lastName: null,
+      ageRange: null,
+      gender: null,
+      nationality: null,
+      phoneNumber: null,
+      level: null,
+    );
+    AuthResponse response =
+        await AuthServices().registerStudent(student: student);
+    if (response.success) {
+      setState(() {
+        isLoading = true;
+      });
+      showSnackBar(context, response.message, response.success);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => StudentRegisterPage()));
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(context, response.message, response.success);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,15 +170,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         right: 8.0, top: 8.0, bottom: 8.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState?.validate() == true) {
-                          // Save the values of the fields to store and validate then navigate to the next page
-                          // final email = emailController.text;
-                          // final password = passwordController.text;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StudentRegisterPage()),
-                          );
+                        if (_formKey.currentState!.validate()) {
+                          handleRegister();
                         }
                       },
                       style: ElevatedButton.styleFrom(
