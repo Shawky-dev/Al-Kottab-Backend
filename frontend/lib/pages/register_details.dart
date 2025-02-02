@@ -1,9 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page.dart';
-import 'package:frontend/services/student.dart';
-import 'package:frontend/services/studentServices.dart';
-import 'package:frontend/widgets/snack_bar.dart';
 
 class StudentRegisterPage extends StatefulWidget {
   const StudentRegisterPage({super.key});
@@ -250,48 +246,6 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
   }
 
   String selectedGender = 'male';
-  final StudentServices studentServices = StudentServices();
-  bool isLoading = false;
-  void handleStudentEdit() async {
-    // Get the current user
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user == null) {
-      showSnackBar(context, 'لم يتم العثور على مستخدم مسجل', false);
-      return;
-    }
-
-    // Create a Student object from the form data
-    Student student = Student(
-      email: user.email ?? '',
-      uid: user.uid,
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      ageRange: getAgeRangeFromString(selectedAge),
-      gender: selectedGender,
-      nationality: getNationalityFromString(selectedCountry, isArabic: true),
-      phoneNumber: phoneController.text,
-      level: getLevelFromString(selectedLevel, isArabic: true),
-    );
-
-    // Call the editStudent function
-    StudentResponse response = await studentServices.editStudent(student);
-
-    // Handle the response
-    if (response.success) {
-      setState(() {
-        isLoading = true;
-      });
-      showSnackBar(context, response.message, response.success);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomePage()));
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      showSnackBar(context, response.message, response.success);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +255,6 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -529,7 +482,10 @@ class _StudentRegisterPageState extends State<StudentRegisterPage> {
                         print('المستوى: $selectedLevel');
                         print('الجنس: $selectedGender');
 
-                        handleStudentEdit();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(

@@ -2,7 +2,7 @@ import 'package:frontend/services/authServices.dart';
 import 'package:frontend/services/student.dart';
 import 'package:frontend/widgets/snack_bar.dart';
 
-import '../pages/student/student_register_page.dart';
+import 'register_details.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatefulWidget {

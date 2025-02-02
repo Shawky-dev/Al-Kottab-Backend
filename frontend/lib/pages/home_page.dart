@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'reservation_page.dart';
+import 'recorded_sessions_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,8 +15,8 @@ class _HomePageState extends State<HomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     Text('Home Page'),
     Text('Teachers Page'),
-    Text('Reservations Page'),
-    Text('Sessions Page'),
+    ReservationsPage(),  
+    RecordedSessionsPage(),
     Text('Chat Page'),
   ];
 
@@ -31,7 +33,7 @@ class _HomePageState extends State<HomePage> {
           title: Text('الصفحة الرئيسية'),
           backgroundColor: Colors.white,
           centerTitle: true,
-          automaticallyImplyLeading: false,  // This removes the back arrow
+          automaticallyImplyLeading: false,  
         ),
         endDrawer: Drawer(
           backgroundColor: Colors.white,
@@ -49,7 +51,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: AssetImage('./assets/img/teacher.png'),  // Replace with actual profile picture
+                        backgroundImage: AssetImage('./assets/img/student.png'),  
                       ),
 
                       TextButton(
