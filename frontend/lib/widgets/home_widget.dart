@@ -4,7 +4,7 @@ import 'package:frontend/services/student.dart';
 class HomeWidget extends StatelessWidget {
   final Student? student;
 
-  const HomeWidget({Key? key, this.student}) : super(key: key);
+  const HomeWidget({super.key, this.student});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class HomeWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Home Page',
+            'الصفحة الرئيسية',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -22,7 +22,7 @@ class HomeWidget extends StatelessWidget {
           if (student != null) ...[
             SizedBox(height: 20),
             Text(
-              'Welcome, ${student!.firstName} ${student!.lastName}!',
+              'مرحبًا، ${student!.firstName} ${student!.lastName}!',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

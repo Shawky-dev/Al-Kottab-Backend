@@ -5,7 +5,7 @@ import 'package:frontend/widgets/snack_bar.dart';
 import 'registration_page.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   _LoginPageState createState() => _LoginPageState();
