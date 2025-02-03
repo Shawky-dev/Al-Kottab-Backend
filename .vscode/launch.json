@@ -9,21 +9,24 @@
             "name": "frontend",
             "cwd": "frontend",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["--no-enable-impeller"]
         },
         {
             "name": "frontend (profile mode)",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": ["--no-enable-impeller"]
         },
         {
             "name": "frontend (release mode)",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": ["--no-enable-impeller"]
         }
     ]
 }

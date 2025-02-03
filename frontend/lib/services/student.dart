@@ -37,23 +37,41 @@ class Student {
           : null,
       'gender': gender,
       'nationality': nationality != null
-          ? arabicNationalityMap.keys.firstWhere(
-              (key) => arabicNationalityMap[key] == nationality,
+          ? englishNationalityMap.keys.firstWhere(
+              (key) => englishNationalityMap[key] == nationality,
               orElse: () => '',
             )
           : null,
       'phoneNumber': phoneNumber,
       'level': level != null
-          ? arabicLevelMap.keys.firstWhere(
-              (key) => arabicLevelMap[key] == level,
+          ? englishLevelMap.keys.firstWhere(
+              (key) => englishLevelMap[key] == level,
               orElse: () => '',
             )
           : null,
     };
   }
 
-  // Convert a Map<String, dynamic> to a Student object
-  static Student fromFirebaseMap(Map<String, dynamic> map,
+  // Convert a Map<String, dynamic> to a Student object in arabic
+  static Student fromFirebaseMapToArabic(Map<String, dynamic> map,
+      {required String uid}) {
+    return Student(
+      email: map['email'],
+      uid: uid,
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      ageRange: map['ageRange'] != null ? ageRangeMap[map['ageRange']] : null,
+      gender: map['gender'],
+      nationality: map['nationality'] != null
+          ? arabicNationalityMap[map['nationality']]
+          : null,
+      phoneNumber: map['phoneNumber'],
+      level: map['level'] != null ? arabicLevelMap[map['level']] : null,
+    );
+  }
+
+  // Convert a Map<String, dynamic> to a Student object in english
+  static Student fromFirebaseMapToEnglish(Map<String, dynamic> map,
       {required String uid}) {
     return Student(
       email: map['email'],
