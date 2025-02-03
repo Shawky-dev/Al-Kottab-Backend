@@ -15,8 +15,6 @@ class AuthServices {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: student.email, password: student.password!);
 
-      // Convert student to map without uid cause cant store uid in firestore
-
       await _firestore
           .collection("students")
           .doc(credential.user!.uid)
@@ -48,6 +46,24 @@ class AuthServices {
       return AuthResponse(
           success: false, message: 'An unknown error occurred.');
     }
+  }
+
+  Future<AuthResponse> loginStudent(
+      {required String email, required String password}) async {
+    if (email.isEmpty || password.isEmpty) {
+      return AuthResponse(
+          success: false, message: "Email and password are required");
+    }
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return AuthResponse(success: true, message: "Login Successful!");
+    } catch (e) {
+      return AuthResponse(success: false, message: "failed to login");
+    }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }
 
