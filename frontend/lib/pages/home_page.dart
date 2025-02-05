@@ -49,8 +49,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('الصفحة الرئيسية'),
+        appBar: AppBar(
+        title: Text(_currentStudent != null ? "مرحبا ${_currentStudent!.firstName}" : "مرحبا"),
         backgroundColor: Colors.white,
         centerTitle: true,
         automaticallyImplyLeading: false,

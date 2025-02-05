@@ -8,7 +8,10 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+
+      body:
+     Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -31,6 +34,6 @@ class HomeWidget extends StatelessWidget {
           ],
         ],
       ),
-    );
+    ));
   }
 }
