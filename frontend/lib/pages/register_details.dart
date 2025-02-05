@@ -99,7 +99,6 @@ class _RegisterDetailsState extends State<RegisterDetails> {
     'إيران',
     'العراق',
     'أيرلندا',
-    'إسرائيل',
     'إيطاليا',
     'ساحل العاج',
     'جامايكا',
