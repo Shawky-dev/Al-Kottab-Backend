@@ -63,6 +63,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
     'قبرص',
     'التشيك',
     'الدنمارك',
+    'فلسطين',
     'جيبوتي',
     'دومينيكا',
     'جمهورية الدومينيكان',
