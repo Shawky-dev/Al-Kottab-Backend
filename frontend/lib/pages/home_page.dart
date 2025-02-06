@@ -71,11 +71,13 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: AssetImage('./assets/img/student.png'),
+                      backgroundImage: _currentStudent?.gender == 'male'? AssetImage('assets/img/student.png') : AssetImage('assets/img/fstudent.png')
                     ),
                     TextButton(
                       onPressed: () {
-                        // Navigate to edit account page
+                        Navigator.push(context, 
+                          MaterialPageRoute(builder: (context) => LoginPage())
+                        );
                       },
                       child: Text(
                         'تعديل الحساب',
