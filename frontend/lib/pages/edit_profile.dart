@@ -5,14 +5,16 @@ import 'package:frontend/services/student.dart';
 import 'package:frontend/services/studentServices.dart';
 import 'package:frontend/widgets/snack_bar.dart';
 
-class RegisterDetails extends StatefulWidget {
-  const RegisterDetails({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({super.key, required this.student});
+
+  final Student? student;
 
   @override
-  State<RegisterDetails> createState() => _RegisterDetailsState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _RegisterDetailsState extends State<RegisterDetails> {
+class _EditProfileState extends State<EditProfile> {
   // List of countries (sorted in ascending order)
   final List<String> countries = [
     'أفغانستان',
@@ -240,18 +242,40 @@ class _RegisterDetailsState extends State<RegisterDetails> {
   String selectedAge = '';
   String selectedCountry = '';
   String selectedLevel = '';
+  String selectedGender = 'male';
+
+  final StudentServices studentServices = StudentServices();
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    selectedAge = ages[0]; // Initialize in initState
-    selectedCountry = countries[0]; // Initialize in initState
-    selectedLevel = levels[0]; // Initialize in initState
+
+    // Initialize form fields with the user's current data
+    if (widget.student != null) {
+      firstNameController.text = widget.student!.firstName ?? '';
+      lastNameController.text = widget.student!.lastName ?? '';
+      phoneController.text = widget.student!.phoneNumber ?? '';
+      selectedAge = ageRangeMap.keys.firstWhere(
+        (key) => ageRangeMap[key] == widget.student!.ageRange,
+        orElse: () => ages[0],
+      );
+      selectedCountry = arabicNationalityMap.keys.firstWhere(
+        (key) => arabicNationalityMap[key] == widget.student!.nationality,
+        orElse: () => countries[0],
+      );
+      selectedLevel = arabicLevelMap.keys.firstWhere(
+        (key) => arabicLevelMap[key] == widget.student!.level,
+        orElse: () => levels[0],
+      );
+      selectedGender = widget.student!.gender ?? 'male';
+    } else {
+      selectedAge = ages[0];
+      selectedCountry = countries[0];
+      selectedLevel = levels[0];
+    }
   }
 
-  String selectedGender = 'male';
-  final StudentServices studentServices = StudentServices();
-  bool isLoading = false;
   void handleStudentEdit() async {
     // Get the current user
     User? user = FirebaseAuth.instance.currentUser;
@@ -297,11 +321,11 @@ class _RegisterDetailsState extends State<RegisterDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تسجيل حساب طالب جديد'),
+        title: const Text('تعديل البيانات'),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -519,16 +543,6 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // handle shit here
-                        print('تم تسجيل النموذج بنجاح');
-                        print('الاسم الأول: ${firstNameController.text}');
-                        print('الاسم الأخير: ${lastNameController.text}');
-                        print('العمر: $selectedAge');
-                        print('البلد: $selectedCountry');
-                        print('رقم الهاتف: ${phoneController.text}');
-                        print('المستوى: $selectedLevel');
-                        print('الجنس: $selectedGender');
-
                         handleStudentEdit();
                       }
                     },
@@ -539,7 +553,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('تسجيل',
+                    child: const Text('حفظ',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
