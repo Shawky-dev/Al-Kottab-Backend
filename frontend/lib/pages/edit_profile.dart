@@ -16,221 +16,12 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   // List of countries (sorted in ascending order)
-  final List<String> countries = [
-    'أفغانستان',
-    'ألبانيا',
-    'الجزائر',
-    'أمريكا',
-    'أندورا',
-    'أنغولا',
-    'أنتيغوا وباربودا',
-    'الأرجنتين',
-    'أرمينيا',
-    'أستراليا',
-    'النمسا',
-    'أذربيجان',
-    'باهاماس',
-    'البحرين',
-    'بنغلاديش',
-    'باربادوس',
-    'بيلاروسيا',
-    'بلجيكا',
-    'بليز',
-    'بنين',
-    'بوتان',
-    'بوليفيا',
-    'البوسنة والهرسك',
-    'بوتسوانا',
-    'البرازيل',
-    'بريطانيا',
-    'بروناي',
-    'بلغاريا',
-    'بوركينا فاسو',
-    'بورما',
-    'بوروندي',
-    'كمبوديا',
-    'الكاميرون',
-    'كندا',
-    'الرأس الأخضر',
-    'جمهورية أفريقيا الوسطى',
-    'تشاد',
-    'تشيلي',
-    'الصين',
-    'كولومبيا',
-    'جزر القمر',
-    'الكونغو',
-    'كوستاريكا',
-    'كرواتيا',
-    'كوبا',
-    'قبرص',
-    'التشيك',
-    'الدنمارك',
-    'فلسطين',
-    'جيبوتي',
-    'دومينيكا',
-    'جمهورية الدومينيكان',
-    'هولندا',
-    'تيمور الشرقية',
-    'الإكوادور',
-    'مصر',
-    'الإمارات العربية المتحدة',
-    'غينيا الاستوائية',
-    'إريتريا',
-    'إستونيا',
-    'إثيوبيا',
-    'فيجي',
-    'الفلبين',
-    'فنلندا',
-    'فرنسا',
-    'الغابون',
-    'غامبيا',
-    'جورجيا',
-    'ألمانيا',
-    'غانا',
-    'اليونان',
-    'غرينادا',
-    'غواتيمالا',
-    'غينيا',
-    'غينيا بيساو',
-    'غيانا',
-    'هايتي',
-    'هندوراس',
-    'هنغاريا',
-    'آيسلندا',
-    'الهند',
-    'إندونيسيا',
-    'إيران',
-    'العراق',
-    'أيرلندا',
-    'إيطاليا',
-    'ساحل العاج',
-    'جامايكا',
-    'اليابان',
-    'الأردن',
-    'كازاخستان',
-    'كينيا',
-    'كيريباتي',
-    'كوريا الشمالية',
-    'كوريا الجنوبية',
-    'الكويت',
-    'قيرغيزستان',
-    'لاوس',
-    'لاتفيا',
-    'لبنان',
-    'ليسوتو',
-    'ليبيريا',
-    'ليبيا',
-    'ليختنشتاين',
-    'ليتوانيا',
-    'لوكسمبورغ',
-    'مقدونيا',
-    'مدغشقر',
-    'مالاوي',
-    'ماليزيا',
-    'جزر المالديف',
-    'مالي',
-    'مالطا',
-    'جزر مارشال',
-    'موريتانيا',
-    'موريشيوس',
-    'المكسيك',
-    'ميكرونيزيا',
-    'مولدوفا',
-    'موناكو',
-    'منغوليا',
-    'الجبل الأسود',
-    'المغرب',
-    'موزمبيق',
-    'ميانمار',
-    'ناميبيا',
-    'ناورو',
-    'نيبال',
-    'هولندا',
-    'نيوزيلندا',
-    'نيكاراغوا',
-    'النيجر',
-    'نيجيريا',
-    'النرويج',
-    'عمان',
-    'باكستان',
-    'بالاو',
-    'بنما',
-    'بابوا غينيا الجديدة',
-    'باراغواي',
-    'بيرو',
-    'الفلبين',
-    'بولندا',
-    'البرتغال',
-    'قطر',
-    'رومانيا',
-    'روسيا',
-    'رواندا',
-    'سانت كيتس ونيفيس',
-    'سانت لوسيا',
-    'سانت فينسنت والغرينادين',
-    'ساموا',
-    'سان مارينو',
-    'ساو تومي وبرينسيبي',
-    'السعودية',
-    'السنغال',
-    'صربيا',
-    'سيشل',
-    'سيراليون',
-    'سنغافورة',
-    'سلوفاكيا',
-    'سلوفينيا',
-    'جزر سليمان',
-    'الصومال',
-    'جنوب أفريقيا',
-    'إسبانيا',
-    'سريلانكا',
-    'السودان',
-    'سورينام',
-    'إسواتيني',
-    'السويد',
-    'سويسرا',
-    'سوريا',
-    'تايوان',
-    'طاجيكستان',
-    'تنزانيا',
-    'تايلاند',
-    'توغو',
-    'تونغا',
-    'ترينيداد وتوباغو',
-    'تونس',
-    'تركيا',
-    'تركمانستان',
-    'توفالو',
-    'أوغندا',
-    'أوكرانيا',
-    'الإمارات العربية المتحدة',
-    'المملكة المتحدة',
-    'الولايات المتحدة',
-    'أوروغواي',
-    'أوزبكستان',
-    'فانواتو',
-    'الفاتيكان',
-    'فنزويلا',
-    'فيتنام',
-    'اليمن',
-    'زامبيا',
-    'زيمبابوي'
-  ]..sort();
+  final List<Nationality> countries = getNationalityList(isArabic: false);
 
   // List of age options (starting from 5)
-  final List<String> ages = [
-    '13-17',
-    '18-25',
-    '26-35',
-    '36-45',
-    '46-55',
-    '56-65',
-    '66+'
-  ];
-
-  // List of levels in Arabic
-  final List<String> levels = ['مبتدئ', 'متوسط', 'متقدم'];
-
+  final List<AgeRange> ages = getAgeRangeList();
+  // List of levels in Arabic()
+  final List<Level> levels = getLevelList(isArabic: false);
   // Form key for validation
   final _formKey = GlobalKey<FormState>();
 
@@ -239,10 +30,10 @@ class _EditProfileState extends State<EditProfile> {
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
 
-  String selectedAge = '';
-  String selectedCountry = '';
-  String selectedLevel = '';
-  String selectedGender = 'male';
+  AgeRange? selectedAge;
+  Nationality? selectedCountry;
+  Level? selectedLevel;
+  String? selectedGender;
 
   final StudentServices studentServices = StudentServices();
   bool isLoading = false;
@@ -256,18 +47,9 @@ class _EditProfileState extends State<EditProfile> {
       firstNameController.text = widget.student!.firstName ?? '';
       lastNameController.text = widget.student!.lastName ?? '';
       phoneController.text = widget.student!.phoneNumber ?? '';
-      selectedAge = ageRangeMap.keys.firstWhere(
-        (key) => ageRangeMap[key] == widget.student!.ageRange,
-        orElse: () => ages[0],
-      );
-      selectedCountry = arabicNationalityMap.keys.firstWhere(
-        (key) => arabicNationalityMap[key] == widget.student!.nationality,
-        orElse: () => countries[0],
-      );
-      selectedLevel = arabicLevelMap.keys.firstWhere(
-        (key) => arabicLevelMap[key] == widget.student!.level,
-        orElse: () => levels[0],
-      );
+      selectedAge = widget.student!.ageRange ?? ages[0];
+      selectedCountry = widget.student!.nationality ?? countries[0];
+      selectedLevel = widget.student!.level ?? levels[0];
       selectedGender = widget.student!.gender ?? 'male';
     } else {
       selectedAge = ages[0];

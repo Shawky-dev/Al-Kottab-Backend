@@ -267,11 +267,12 @@ class _RegisterDetailsState extends State<RegisterDetails> {
       uid: user.uid,
       firstName: firstNameController.text,
       lastName: lastNameController.text,
-      ageRange: getAgeRangeFromString(selectedAge),
-      gender: selectedGender,
-      nationality: getNationalityFromString(selectedCountry, isArabic: true),
+      ageRange: AgeRangeUtils.toEnumValue(selectedAge, isArabic: true),
+      gender: GenderUtils.toEnumValue(selectedGender),
+      nationality:
+          NationalityUtils.toEnumValue(selectedCountry, isArabic: true),
       phoneNumber: phoneController.text,
-      level: getLevelFromString(selectedLevel, isArabic: true),
+      level: LevelUtils.toEnumValue(selectedLevel, isArabic: true),
     );
 
     // Call the editStudent function

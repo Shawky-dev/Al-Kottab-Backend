@@ -5,7 +5,7 @@ class Student {
   String? firstName;
   String? lastName;
   AgeRange? ageRange;
-  String? gender;
+  Gender? gender;
   Nationality? nationality;
   String? phoneNumber;
   Level? level;
@@ -29,30 +29,18 @@ class Student {
       'email': email,
       'firstName': firstName,
       'lastName': lastName,
-      'ageRange': ageRange != null
-          ? ageRangeMap.keys.firstWhere(
-              (key) => ageRangeMap[key] == ageRange,
-              orElse: () => '',
-            )
-          : null,
-      'gender': gender,
+      'ageRange':
+          ageRange != null ? AgeRangeUtils.toStringValue(ageRange!) : null,
+      'gender': gender != null ? GenderUtils.toStringValue(gender!) : null,
       'nationality': nationality != null
-          ? englishNationalityMap.keys.firstWhere(
-              (key) => englishNationalityMap[key] == nationality,
-              orElse: () => '',
-            )
+          ? NationalityUtils.toStringValue(nationality!)
           : null,
       'phoneNumber': phoneNumber,
-      'level': level != null
-          ? englishLevelMap.keys.firstWhere(
-              (key) => englishLevelMap[key] == level,
-              orElse: () => '',
-            )
-          : null,
+      'level': level != null ? LevelUtils.toStringValue(level!) : null,
     };
   }
 
-  // Convert a Map<String, dynamic> to a Student object in arabic
+  // Convert a Map<String, dynamic> to a Student object in Arabic
   static Student fromFirebaseMapToArabic(Map<String, dynamic> map,
       {required String uid}) {
     return Student(
@@ -60,17 +48,23 @@ class Student {
       uid: uid,
       firstName: map['firstName'],
       lastName: map['lastName'],
-      ageRange: map['ageRange'] != null ? ageRangeMap[map['ageRange']] : null,
-      gender: map['gender'],
+      ageRange: map['ageRange'] != null
+          ? AgeRangeUtils.toEnumValue(map['ageRange'], isArabic: true)
+          : null,
+      gender: map['gender'] != null
+          ? GenderUtils.toEnumValue(map['gender'], isArabic: true)
+          : null,
       nationality: map['nationality'] != null
-          ? arabicNationalityMap[map['nationality']]
+          ? NationalityUtils.toEnumValue(map['nationality'], isArabic: true)
           : null,
       phoneNumber: map['phoneNumber'],
-      level: map['level'] != null ? arabicLevelMap[map['level']] : null,
+      level: map['level'] != null
+          ? LevelUtils.toEnumValue(map['level'], isArabic: true)
+          : null,
     );
   }
 
-  // Convert a Map<String, dynamic> to a Student object in english
+  // Convert a Map<String, dynamic> to a Student object in English
   static Student fromFirebaseMapToEnglish(Map<String, dynamic> map,
       {required String uid}) {
     return Student(
@@ -78,17 +72,24 @@ class Student {
       uid: uid,
       firstName: map['firstName'],
       lastName: map['lastName'],
-      ageRange: map['ageRange'] != null ? ageRangeMap[map['ageRange']] : null,
-      gender: map['gender'],
+      ageRange: map['ageRange'] != null
+          ? AgeRangeUtils.toEnumValue(map['ageRange'], isArabic: false)
+          : null,
+      gender: map['gender'] != null
+          ? GenderUtils.toEnumValue(map['gender'], isArabic: false)
+          : null,
       nationality: map['nationality'] != null
-          ? englishNationalityMap[map['nationality']]
+          ? NationalityUtils.toEnumValue(map['nationality'], isArabic: false)
           : null,
       phoneNumber: map['phoneNumber'],
-      level: map['level'] != null ? englishLevelMap[map['level']] : null,
+      level: map['level'] != null
+          ? LevelUtils.toEnumValue(map['level'], isArabic: false)
+          : null,
     );
   }
 }
 
+// Enums
 enum Level { beginner, intermediate, advanced }
 
 enum AgeRange {
@@ -300,342 +301,466 @@ enum Nationality {
   Zimbabwe
 }
 
-final Map<String, AgeRange> ageRangeMap = {
-  '13-17': AgeRange.age13_17,
-  '18-25': AgeRange.age18_25,
-  '26-35': AgeRange.age26_35,
-  '36-45': AgeRange.age36_45,
-  '46-55': AgeRange.age46_55,
-  '56-65': AgeRange.age56_65,
-  '66+': AgeRange.age66Plus,
-};
+enum Gender { male, female }
 
-AgeRange? getAgeRangeFromString(String age) {
-  return ageRangeMap[age];
+// Utility Classes for Bidirectional Mapping
+class AgeRangeUtils {
+  static final Map<String, AgeRange> englishMap = {
+    '13-17': AgeRange.age13_17,
+    '18-25': AgeRange.age18_25,
+    '26-35': AgeRange.age26_35,
+    '36-45': AgeRange.age36_45,
+    '46-55': AgeRange.age46_55,
+    '56-65': AgeRange.age56_65,
+    '66+': AgeRange.age66Plus,
+  };
+
+  static final Map<AgeRange, String> arabicMap = {
+    AgeRange.age13_17: '13-17',
+    AgeRange.age18_25: '18-25',
+    AgeRange.age26_35: '26-35',
+    AgeRange.age36_45: '36-45',
+    AgeRange.age46_55: '46-55',
+    AgeRange.age56_65: '56-65',
+    AgeRange.age66Plus: '66+',
+  };
+
+  static String toStringValue(AgeRange ageRange, {bool isArabic = false}) {
+    return isArabic
+        ? arabicMap[ageRange]!
+        : englishMap.keys.firstWhere((key) => englishMap[key] == ageRange);
+  }
+
+  static AgeRange? toEnumValue(String ageRange, {bool isArabic = false}) {
+    try {
+      return isArabic
+          ? arabicMap.keys.firstWhere((key) => arabicMap[key] == ageRange)
+          : englishMap[ageRange];
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
-// Arabic Nationality Map
-final Map<String, Nationality> arabicNationalityMap = {
-  'أفغانستان': Nationality.Afghanistan,
-  'ألبانيا': Nationality.Albania,
-  'الجزائر': Nationality.Algeria,
-  'أندورا': Nationality.Andorra,
-  'أنغولا': Nationality.Angola,
-  'أنتيغوا وباربودا': Nationality.AntiguaAndDeps,
-  'الأرجنتين': Nationality.Argentina,
-  'أرمينيا': Nationality.Armenia,
-  'أستراليا': Nationality.Australia,
-  'النمسا': Nationality.Austria,
-  'أذربيجان': Nationality.Azerbaijan,
-  'باهاماس': Nationality.Bahamas,
-  'البحرين': Nationality.Bahrain,
-  'بنغلاديش': Nationality.Bangladesh,
-  'باربادوس': Nationality.Barbados,
-  'بيلاروسيا': Nationality.Belarus,
-  'بلجيكا': Nationality.Belgium,
-  'بليز': Nationality.Belize,
-  'بنين': Nationality.Benin,
-  'بوتان': Nationality.Bhutan,
-  'بوليفيا': Nationality.Bolivia,
-  'البوسنة والهرسك': Nationality.BosniaHerzegovina,
-  'بوتسوانا': Nationality.Botswana,
-  'البرازيل': Nationality.Brazil,
-  'بروناي': Nationality.Brunei,
-  'بلغاريا': Nationality.Bulgaria,
-  'بوركينا فاسو': Nationality.Burkina,
-  'بوروندي': Nationality.Burundi,
-  'كمبوديا': Nationality.Cambodia,
-  'الكاميرون': Nationality.Cameroon,
-  'كندا': Nationality.Canada,
-  'الرأس الأخضر': Nationality.CapeVerde,
-  'جمهورية أفريقيا الوسطى': Nationality.CentralAfricanRep,
-  'تشاد': Nationality.Chad,
-  'تشيلي': Nationality.Chile,
-  'الصين': Nationality.China,
-  'كولومبيا': Nationality.Colombia,
-  'جزر القمر': Nationality.Comoros,
-  'الكونغو': Nationality.Congo,
-  'جمهورية الكونغو الديمقراطية': Nationality.CongoDemocraticRep,
-  'كوستاريكا': Nationality.CostaRica,
-  'كرواتيا': Nationality.Croatia,
-  'كوبا': Nationality.Cuba,
-  'قبرص': Nationality.Cyprus,
-  'التشيك': Nationality.CzechRepublic,
-  'الدنمارك': Nationality.Denmark,
-  'جيبوتي': Nationality.Djibouti,
-  'دومينيكا': Nationality.Dominica,
-  'جمهورية الدومينيكان': Nationality.DominicanRepublic,
-  'الإكوادور': Nationality.Ecuador,
-  'مصر': Nationality.Egypt,
-  'السلفادور': Nationality.ElSalvador,
-  'غينيا الاستوائية': Nationality.EquatorialGuinea,
-  'إريتريا': Nationality.Eritrea,
-  'إستونيا': Nationality.Estonia,
-  'إثيوبيا': Nationality.Ethiopia,
-  'فيجي': Nationality.Fiji,
-  'فنلندا': Nationality.Finland,
-  'فرنسا': Nationality.France,
-  'الغابون': Nationality.Gabon,
-  'غامبيا': Nationality.Gambia,
-  'جورجيا': Nationality.Georgia,
-  'ألمانيا': Nationality.Germany,
-  'غانا': Nationality.Ghana,
-  'اليونان': Nationality.Greece,
-  'غرينادا': Nationality.Grenada,
-  'غواتيمالا': Nationality.Guatemala,
-  'غينيا': Nationality.Guinea,
-  'غينيا بيساو': Nationality.GuineaBissau,
-  'غيانا': Nationality.Guyana,
-  'هايتي': Nationality.Haiti,
-  'هندوراس': Nationality.Honduras,
-  'هنغاريا': Nationality.Hungary,
-  'آيسلندا': Nationality.Iceland,
-  'الهند': Nationality.India,
-  'إندونيسيا': Nationality.Indonesia,
-  'إيران': Nationality.Iran,
-  'العراق': Nationality.Iraq,
-  'أيرلندا': Nationality.IrelandRepublic,
-  'إيطاليا': Nationality.Italy,
-  'ساحل العاج': Nationality.IvoryCoast,
-  'جامايكا': Nationality.Jamaica,
-  'اليابان': Nationality.Japan,
-  'الأردن': Nationality.Jordan,
-  'كازاخستان': Nationality.Kazakhstan,
-  'كينيا': Nationality.Kenya,
-  'كيريباتي': Nationality.Kiribati,
-  'كوريا الشمالية': Nationality.KoreaNorth,
-  'كوريا الجنوبية': Nationality.KoreaSouth,
-  'الكويت': Nationality.Kuwait,
-  'قيرغيزستان': Nationality.Kyrgyzstan,
-  'لاوس': Nationality.Laos,
-  'لاتفيا': Nationality.Latvia,
-  'لبنان': Nationality.Lebanon,
-  'ليسوتو': Nationality.Lesotho,
-  'ليبيريا': Nationality.Liberia,
-  'ليبيا': Nationality.Libya,
-  'ليختنشتاين': Nationality.Liechtenstein,
-  'ليتوانيا': Nationality.Lithuania,
-  'لوكسمبورغ': Nationality.Luxembourg,
-  'مدغشقر': Nationality.Madagascar,
-  'مالاوي': Nationality.Malawi,
-  'ماليزيا': Nationality.Malaysia,
-  'جزر المالديف': Nationality.Maldives,
-  'مالي': Nationality.Mali,
-  'مالطا': Nationality.Malta,
-  'جزر مارشال': Nationality.MarshallIslands,
-  'موريتانيا': Nationality.Mauritania,
-  'موريشيوس': Nationality.Mauritius,
-  'المكسيك': Nationality.Mexico,
-  'مولدوفا': Nationality.Moldova,
-  'موناكو': Nationality.Monaco,
-  'منغوليا': Nationality.Mongolia,
-  'الجبل الأسود': Nationality.Montenegro,
-  'المغرب': Nationality.Morocco,
-  'موزمبيق': Nationality.Mozambique,
-  'ميانمار': Nationality.MyanmarBurma,
-  'ناميبيا': Nationality.Namibia,
-  'نيبال': Nationality.Nepal,
-  'هولندا': Nationality.Netherlands,
-  'نيوزيلندا': Nationality.NewZealand,
-  'نيكاراغوا': Nationality.Nicaragua,
-  'النيجر': Nationality.Niger,
-  'نيجيريا': Nationality.Nigeria,
-  'النرويج': Nationality.Norway,
-  'عمان': Nationality.Oman,
-  'باكستان': Nationality.Pakistan,
-  'فلسطين': Nationality.Palestine,
-  'بنما': Nationality.Panama,
-  'باراغواي': Nationality.Paraguay,
-  'بيرو': Nationality.Peru,
-  'الفلبين': Nationality.Philippines,
-  'بولندا': Nationality.Poland,
-  'البرتغال': Nationality.Portugal,
-  'قطر': Nationality.Qatar,
-  'رومانيا': Nationality.Romania,
-  'روسيا': Nationality.RussianFederation,
-  'السعودية': Nationality.SaudiArabia,
-  'السنغال': Nationality.Senegal,
-  'سوريا': Nationality.Syria,
-  'السودان': Nationality.Sudan,
-  'الإمارات العربية المتحدة': Nationality.UnitedArabEmirates,
-  'المملكة المتحدة': Nationality.UnitedKingdom,
-  'الولايات المتحدة': Nationality.UnitedStates,
-  'اليمن': Nationality.Yemen,
-  'زامبيا': Nationality.Zambia,
-  'زيمبابوي': Nationality.Zimbabwe,
-};
+class NationalityUtils {
+  static final Map<String, Nationality> englishMap = {
+    'Afghanistan': Nationality.Afghanistan,
+    'Albania': Nationality.Albania,
+    'Algeria': Nationality.Algeria,
+    'Andorra': Nationality.Andorra,
+    'Angola': Nationality.Angola,
+    'Antigua and Barbuda': Nationality.AntiguaAndDeps,
+    'Argentina': Nationality.Argentina,
+    'Armenia': Nationality.Armenia,
+    'Australia': Nationality.Australia,
+    'Austria': Nationality.Austria,
+    'Azerbaijan': Nationality.Azerbaijan,
+    'Bahamas': Nationality.Bahamas,
+    'Bahrain': Nationality.Bahrain,
+    'Bangladesh': Nationality.Bangladesh,
+    'Barbados': Nationality.Barbados,
+    'Belarus': Nationality.Belarus,
+    'Belgium': Nationality.Belgium,
+    'Belize': Nationality.Belize,
+    'Benin': Nationality.Benin,
+    'Bhutan': Nationality.Bhutan,
+    'Bolivia': Nationality.Bolivia,
+    'Bosnia and Herzegovina': Nationality.BosniaHerzegovina,
+    'Botswana': Nationality.Botswana,
+    'Brazil': Nationality.Brazil,
+    'Brunei': Nationality.Brunei,
+    'Bulgaria': Nationality.Bulgaria,
+    'Burkina Faso': Nationality.Burkina,
+    'Burundi': Nationality.Burundi,
+    'Cambodia': Nationality.Cambodia,
+    'Cameroon': Nationality.Cameroon,
+    'Canada': Nationality.Canada,
+    'Cape Verde': Nationality.CapeVerde,
+    'Central African Republic': Nationality.CentralAfricanRep,
+    'Chad': Nationality.Chad,
+    'Chile': Nationality.Chile,
+    'China': Nationality.China,
+    'Colombia': Nationality.Colombia,
+    'Comoros': Nationality.Comoros,
+    'Congo': Nationality.Congo,
+    'Democratic Republic of the Congo': Nationality.CongoDemocraticRep,
+    'Costa Rica': Nationality.CostaRica,
+    'Croatia': Nationality.Croatia,
+    'Cuba': Nationality.Cuba,
+    'Cyprus': Nationality.Cyprus,
+    'Czech Republic': Nationality.CzechRepublic,
+    'Denmark': Nationality.Denmark,
+    'Djibouti': Nationality.Djibouti,
+    'Dominica': Nationality.Dominica,
+    'Dominican Republic': Nationality.DominicanRepublic,
+    'Ecuador': Nationality.Ecuador,
+    'Egypt': Nationality.Egypt,
+    'El Salvador': Nationality.ElSalvador,
+    'Equatorial Guinea': Nationality.EquatorialGuinea,
+    'Eritrea': Nationality.Eritrea,
+    'Estonia': Nationality.Estonia,
+    'Ethiopia': Nationality.Ethiopia,
+    'Fiji': Nationality.Fiji,
+    'Finland': Nationality.Finland,
+    'France': Nationality.France,
+    'Gabon': Nationality.Gabon,
+    'Gambia': Nationality.Gambia,
+    'Georgia': Nationality.Georgia,
+    'Germany': Nationality.Germany,
+    'Ghana': Nationality.Ghana,
+    'Greece': Nationality.Greece,
+    'Grenada': Nationality.Grenada,
+    'Guatemala': Nationality.Guatemala,
+    'Guinea': Nationality.Guinea,
+    'Guinea-Bissau': Nationality.GuineaBissau,
+    'Guyana': Nationality.Guyana,
+    'Haiti': Nationality.Haiti,
+    'Honduras': Nationality.Honduras,
+    'Hungary': Nationality.Hungary,
+    'Iceland': Nationality.Iceland,
+    'India': Nationality.India,
+    'Indonesia': Nationality.Indonesia,
+    'Iran': Nationality.Iran,
+    'Iraq': Nationality.Iraq,
+    'Ireland': Nationality.IrelandRepublic,
+    'Italy': Nationality.Italy,
+    'Ivory Coast': Nationality.IvoryCoast,
+    'Jamaica': Nationality.Jamaica,
+    'Japan': Nationality.Japan,
+    'Jordan': Nationality.Jordan,
+    'Kazakhstan': Nationality.Kazakhstan,
+    'Kenya': Nationality.Kenya,
+    'Kiribati': Nationality.Kiribati,
+    'North Korea': Nationality.KoreaNorth,
+    'South Korea': Nationality.KoreaSouth,
+    'Kuwait': Nationality.Kuwait,
+    'Kyrgyzstan': Nationality.Kyrgyzstan,
+    'Laos': Nationality.Laos,
+    'Latvia': Nationality.Latvia,
+    'Lebanon': Nationality.Lebanon,
+    'Lesotho': Nationality.Lesotho,
+    'Liberia': Nationality.Liberia,
+    'Libya': Nationality.Libya,
+    'Liechtenstein': Nationality.Liechtenstein,
+    'Lithuania': Nationality.Lithuania,
+    'Luxembourg': Nationality.Luxembourg,
+    'Madagascar': Nationality.Madagascar,
+    'Malawi': Nationality.Malawi,
+    'Malaysia': Nationality.Malaysia,
+    'Maldives': Nationality.Maldives,
+    'Mali': Nationality.Mali,
+    'Malta': Nationality.Malta,
+    'Marshall Islands': Nationality.MarshallIslands,
+    'Mauritania': Nationality.Mauritania,
+    'Mauritius': Nationality.Mauritius,
+    'Mexico': Nationality.Mexico,
+    'Moldova': Nationality.Moldova,
+    'Monaco': Nationality.Monaco,
+    'Mongolia': Nationality.Mongolia,
+    'Montenegro': Nationality.Montenegro,
+    'Morocco': Nationality.Morocco,
+    'Mozambique': Nationality.Mozambique,
+    'Myanmar': Nationality.MyanmarBurma,
+    'Namibia': Nationality.Namibia,
+    'Nepal': Nationality.Nepal,
+    'Netherlands': Nationality.Netherlands,
+    'New Zealand': Nationality.NewZealand,
+    'Nicaragua': Nationality.Nicaragua,
+    'Niger': Nationality.Niger,
+    'Nigeria': Nationality.Nigeria,
+    'Norway': Nationality.Norway,
+    'Oman': Nationality.Oman,
+    'Pakistan': Nationality.Pakistan,
+    'Palestine': Nationality.Palestine,
+    'Panama': Nationality.Panama,
+    'Paraguay': Nationality.Paraguay,
+    'Peru': Nationality.Peru,
+    'Philippines': Nationality.Philippines,
+    'Poland': Nationality.Poland,
+    'Portugal': Nationality.Portugal,
+    'Qatar': Nationality.Qatar,
+    'Romania': Nationality.Romania,
+    'Russia': Nationality.RussianFederation,
+    'Saudi Arabia': Nationality.SaudiArabia,
+    'Senegal': Nationality.Senegal,
+    'Syria': Nationality.Syria,
+    'Sudan': Nationality.Sudan,
+    'United Arab Emirates': Nationality.UnitedArabEmirates,
+    'United Kingdom': Nationality.UnitedKingdom,
+    'United States': Nationality.UnitedStates,
+    'Yemen': Nationality.Yemen,
+    'Zambia': Nationality.Zambia,
+    'Zimbabwe': Nationality.Zimbabwe,
+  };
 
-// English Nationality Map
-final Map<String, Nationality> englishNationalityMap = {
-  'Afghanistan': Nationality.Afghanistan,
-  'Albania': Nationality.Albania,
-  'Algeria': Nationality.Algeria,
-  'Andorra': Nationality.Andorra,
-  'Angola': Nationality.Angola,
-  'Antigua and Barbuda': Nationality.AntiguaAndDeps,
-  'Argentina': Nationality.Argentina,
-  'Armenia': Nationality.Armenia,
-  'Australia': Nationality.Australia,
-  'Austria': Nationality.Austria,
-  'Azerbaijan': Nationality.Azerbaijan,
-  'Bahamas': Nationality.Bahamas,
-  'Bahrain': Nationality.Bahrain,
-  'Bangladesh': Nationality.Bangladesh,
-  'Barbados': Nationality.Barbados,
-  'Belarus': Nationality.Belarus,
-  'Belgium': Nationality.Belgium,
-  'Belize': Nationality.Belize,
-  'Benin': Nationality.Benin,
-  'Bhutan': Nationality.Bhutan,
-  'Bolivia': Nationality.Bolivia,
-  'Bosnia and Herzegovina': Nationality.BosniaHerzegovina,
-  'Botswana': Nationality.Botswana,
-  'Brazil': Nationality.Brazil,
-  'Brunei': Nationality.Brunei,
-  'Bulgaria': Nationality.Bulgaria,
-  'Burkina Faso': Nationality.Burkina,
-  'Burundi': Nationality.Burundi,
-  'Cambodia': Nationality.Cambodia,
-  'Cameroon': Nationality.Cameroon,
-  'Canada': Nationality.Canada,
-  'Cape Verde': Nationality.CapeVerde,
-  'Central African Republic': Nationality.CentralAfricanRep,
-  'Chad': Nationality.Chad,
-  'Chile': Nationality.Chile,
-  'China': Nationality.China,
-  'Colombia': Nationality.Colombia,
-  'Comoros': Nationality.Comoros,
-  'Congo': Nationality.Congo,
-  'Democratic Republic of the Congo': Nationality.CongoDemocraticRep,
-  'Costa Rica': Nationality.CostaRica,
-  'Croatia': Nationality.Croatia,
-  'Cuba': Nationality.Cuba,
-  'Cyprus': Nationality.Cyprus,
-  'Czech Republic': Nationality.CzechRepublic,
-  'Denmark': Nationality.Denmark,
-  'Djibouti': Nationality.Djibouti,
-  'Dominica': Nationality.Dominica,
-  'Dominican Republic': Nationality.DominicanRepublic,
-  'Ecuador': Nationality.Ecuador,
-  'Egypt': Nationality.Egypt,
-  'El Salvador': Nationality.ElSalvador,
-  'Equatorial Guinea': Nationality.EquatorialGuinea,
-  'Eritrea': Nationality.Eritrea,
-  'Estonia': Nationality.Estonia,
-  'Ethiopia': Nationality.Ethiopia,
-  'Fiji': Nationality.Fiji,
-  'Finland': Nationality.Finland,
-  'France': Nationality.France,
-  'Gabon': Nationality.Gabon,
-  'Gambia': Nationality.Gambia,
-  'Georgia': Nationality.Georgia,
-  'Germany': Nationality.Germany,
-  'Ghana': Nationality.Ghana,
-  'Greece': Nationality.Greece,
-  'Grenada': Nationality.Grenada,
-  'Guatemala': Nationality.Guatemala,
-  'Guinea': Nationality.Guinea,
-  'Guinea-Bissau': Nationality.GuineaBissau,
-  'Guyana': Nationality.Guyana,
-  'Haiti': Nationality.Haiti,
-  'Honduras': Nationality.Honduras,
-  'Hungary': Nationality.Hungary,
-  'Iceland': Nationality.Iceland,
-  'India': Nationality.India,
-  'Indonesia': Nationality.Indonesia,
-  'Iran': Nationality.Iran,
-  'Iraq': Nationality.Iraq,
-  'Ireland': Nationality.IrelandRepublic,
-  'Italy': Nationality.Italy,
-  'Ivory Coast': Nationality.IvoryCoast,
-  'Jamaica': Nationality.Jamaica,
-  'Japan': Nationality.Japan,
-  'Jordan': Nationality.Jordan,
-  'Kazakhstan': Nationality.Kazakhstan,
-  'Kenya': Nationality.Kenya,
-  'Kiribati': Nationality.Kiribati,
-  'North Korea': Nationality.KoreaNorth,
-  'South Korea': Nationality.KoreaSouth,
-  'Kuwait': Nationality.Kuwait,
-  'Kyrgyzstan': Nationality.Kyrgyzstan,
-  'Laos': Nationality.Laos,
-  'Latvia': Nationality.Latvia,
-  'Lebanon': Nationality.Lebanon,
-  'Lesotho': Nationality.Lesotho,
-  'Liberia': Nationality.Liberia,
-  'Libya': Nationality.Libya,
-  'Liechtenstein': Nationality.Liechtenstein,
-  'Lithuania': Nationality.Lithuania,
-  'Luxembourg': Nationality.Luxembourg,
-  'Madagascar': Nationality.Madagascar,
-  'Malawi': Nationality.Malawi,
-  'Malaysia': Nationality.Malaysia,
-  'Maldives': Nationality.Maldives,
-  'Mali': Nationality.Mali,
-  'Malta': Nationality.Malta,
-  'Marshall Islands': Nationality.MarshallIslands,
-  'Mauritania': Nationality.Mauritania,
-  'Mauritius': Nationality.Mauritius,
-  'Mexico': Nationality.Mexico,
-  'Moldova': Nationality.Moldova,
-  'Monaco': Nationality.Monaco,
-  'Mongolia': Nationality.Mongolia,
-  'Montenegro': Nationality.Montenegro,
-  'Morocco': Nationality.Morocco,
-  'Mozambique': Nationality.Mozambique,
-  'Myanmar': Nationality.MyanmarBurma,
-  'Namibia': Nationality.Namibia,
-  'Nepal': Nationality.Nepal,
-  'Netherlands': Nationality.Netherlands,
-  'New Zealand': Nationality.NewZealand,
-  'Nicaragua': Nationality.Nicaragua,
-  'Niger': Nationality.Niger,
-  'Nigeria': Nationality.Nigeria,
-  'Norway': Nationality.Norway,
-  'Oman': Nationality.Oman,
-  'Pakistan': Nationality.Pakistan,
-  'Palestine': Nationality.Palestine,
-  'Panama': Nationality.Panama,
-  'Paraguay': Nationality.Paraguay,
-  'Peru': Nationality.Peru,
-  'Philippines': Nationality.Philippines,
-  'Poland': Nationality.Poland,
-  'Portugal': Nationality.Portugal,
-  'Qatar': Nationality.Qatar,
-  'Romania': Nationality.Romania,
-  'Russia': Nationality.RussianFederation,
-  'Saudi Arabia': Nationality.SaudiArabia,
-  'Senegal': Nationality.Senegal,
-  'Syria': Nationality.Syria,
-  'Sudan': Nationality.Sudan,
-  'United Arab Emirates': Nationality.UnitedArabEmirates,
-  'United Kingdom': Nationality.UnitedKingdom,
-  'United States': Nationality.UnitedStates,
-  'Yemen': Nationality.Yemen,
-  'Zambia': Nationality.Zambia,
-  'Zimbabwe': Nationality.Zimbabwe,
-};
+  static final Map<Nationality, String> arabicMap = {
+    Nationality.Afghanistan: 'أفغانستان',
+    Nationality.Albania: 'ألبانيا',
+    Nationality.Algeria: 'الجزائر',
+    Nationality.Andorra: 'أندورا',
+    Nationality.Angola: 'أنغولا',
+    Nationality.AntiguaAndDeps: 'أنتيغوا وباربودا',
+    Nationality.Argentina: 'الأرجنتين',
+    Nationality.Armenia: 'أرمينيا',
+    Nationality.Australia: 'أستراليا',
+    Nationality.Austria: 'النمسا',
+    Nationality.Azerbaijan: 'أذربيجان',
+    Nationality.Bahamas: 'باهاماس',
+    Nationality.Bahrain: 'البحرين',
+    Nationality.Bangladesh: 'بنغلاديش',
+    Nationality.Barbados: 'باربادوس',
+    Nationality.Belarus: 'بيلاروسيا',
+    Nationality.Belgium: 'بلجيكا',
+    Nationality.Belize: 'بليز',
+    Nationality.Benin: 'بنين',
+    Nationality.Bhutan: 'بوتان',
+    Nationality.Bolivia: 'بوليفيا',
+    Nationality.BosniaHerzegovina: 'البوسنة والهرسك',
+    Nationality.Botswana: 'بوتسوانا',
+    Nationality.Brazil: 'البرازيل',
+    Nationality.Brunei: 'بروناي',
+    Nationality.Bulgaria: 'بلغاريا',
+    Nationality.Burkina: 'بوركينا فاسو',
+    Nationality.Burundi: 'بوروندي',
+    Nationality.Cambodia: 'كمبوديا',
+    Nationality.Cameroon: 'الكاميرون',
+    Nationality.Canada: 'كندا',
+    Nationality.CapeVerde: 'الرأس الأخضر',
+    Nationality.CentralAfricanRep: 'جمهورية أفريقيا الوسطى',
+    Nationality.Chad: 'تشاد',
+    Nationality.Chile: 'تشيلي',
+    Nationality.China: 'الصين',
+    Nationality.Colombia: 'كولومبيا',
+    Nationality.Comoros: 'جزر القمر',
+    Nationality.Congo: 'الكونغو',
+    Nationality.CongoDemocraticRep: 'جمهورية الكونغو الديمقراطية',
+    Nationality.CostaRica: 'كوستاريكا',
+    Nationality.Croatia: 'كرواتيا',
+    Nationality.Cuba: 'كوبا',
+    Nationality.Cyprus: 'قبرص',
+    Nationality.CzechRepublic: 'التشيك',
+    Nationality.Denmark: 'الدنمارك',
+    Nationality.Djibouti: 'جيبوتي',
+    Nationality.Dominica: 'دومينيكا',
+    Nationality.DominicanRepublic: 'جمهورية الدومينيكان',
+    Nationality.Ecuador: 'الإكوادور',
+    Nationality.Egypt: 'مصر',
+    Nationality.ElSalvador: 'السلفادور',
+    Nationality.EquatorialGuinea: 'غينيا الاستوائية',
+    Nationality.Eritrea: 'إريتريا',
+    Nationality.Estonia: 'إستونيا',
+    Nationality.Ethiopia: 'إثيوبيا',
+    Nationality.Fiji: 'فيجي',
+    Nationality.Finland: 'فنلندا',
+    Nationality.France: 'فرنسا',
+    Nationality.Gabon: 'الغابون',
+    Nationality.Gambia: 'غامبيا',
+    Nationality.Georgia: 'جورجيا',
+    Nationality.Germany: 'ألمانيا',
+    Nationality.Ghana: 'غانا',
+    Nationality.Greece: 'اليونان',
+    Nationality.Grenada: 'غرينادا',
+    Nationality.Guatemala: 'غواتيمالا',
+    Nationality.Guinea: 'غينيا',
+    Nationality.GuineaBissau: 'غينيا بيساو',
+    Nationality.Guyana: 'غيانا',
+    Nationality.Haiti: 'هايتي',
+    Nationality.Honduras: 'هندوراس',
+    Nationality.Hungary: 'هنغاريا',
+    Nationality.Iceland: 'آيسلندا',
+    Nationality.India: 'الهند',
+    Nationality.Indonesia: 'إندونيسيا',
+    Nationality.Iran: 'إيران',
+    Nationality.Iraq: 'العراق',
+    Nationality.IrelandRepublic: 'أيرلندا',
+    Nationality.Italy: 'إيطاليا',
+    Nationality.IvoryCoast: 'ساحل العاج',
+    Nationality.Jamaica: 'جامايكا',
+    Nationality.Japan: 'اليابان',
+    Nationality.Jordan: 'الأردن',
+    Nationality.Kazakhstan: 'كازاخستان',
+    Nationality.Kenya: 'كينيا',
+    Nationality.Kiribati: 'كيريباتي',
+    Nationality.KoreaNorth: 'كوريا الشمالية',
+    Nationality.KoreaSouth: 'كوريا الجنوبية',
+    Nationality.Kuwait: 'الكويت',
+    Nationality.Kyrgyzstan: 'قيرغيزستان',
+    Nationality.Laos: 'لاوس',
+    Nationality.Latvia: 'لاتفيا',
+    Nationality.Lebanon: 'لبنان',
+    Nationality.Lesotho: 'ليسوتو',
+    Nationality.Liberia: 'ليبيريا',
+    Nationality.Libya: 'ليبيا',
+    Nationality.Liechtenstein: 'ليختنشتاين',
+    Nationality.Lithuania: 'ليتوانيا',
+    Nationality.Luxembourg: 'لوكسمبورغ',
+    Nationality.Madagascar: 'مدغشقر',
+    Nationality.Malawi: 'مالاوي',
+    Nationality.Malaysia: 'ماليزيا',
+    Nationality.Maldives: 'جزر المالديف',
+    Nationality.Mali: 'مالي',
+    Nationality.Malta: 'مالطا',
+    Nationality.MarshallIslands: 'جزر مارشال',
+    Nationality.Mauritania: 'موريتانيا',
+    Nationality.Mauritius: 'موريشيوس',
+    Nationality.Mexico: 'المكسيك',
+    Nationality.Micronesia: 'ميكرونيزيا',
+    Nationality.Moldova: 'مولدوفا',
+    Nationality.Monaco: 'موناكو',
+    Nationality.Mongolia: 'منغوليا',
+    Nationality.Montenegro: 'الجبل الأسود',
+    Nationality.Morocco: 'المغرب',
+    Nationality.Mozambique: 'موزمبيق',
+    Nationality.MyanmarBurma: 'ميانمار',
+    Nationality.Namibia: 'ناميبيا',
+    Nationality.Nepal: 'نيبال',
+    Nationality.Netherlands: 'هولندا',
+    Nationality.NewZealand: 'نيوزيلندا',
+    Nationality.Nicaragua: 'نيكاراغوا',
+    Nationality.Niger: 'النيجر',
+    Nationality.Nigeria: 'نيجيريا',
+    Nationality.Norway: 'النرويج',
+    Nationality.Oman: 'عمان',
+    Nationality.Pakistan: 'باكستان',
+    Nationality.Palestine: 'فلسطين',
+    Nationality.Panama: 'بنما',
+    Nationality.PapuaNewGuinea: 'بابوا غينيا الجديدة',
+    Nationality.Paraguay: 'باراغواي',
+    Nationality.Peru: 'بيرو',
+    Nationality.Philippines: 'الفلبين',
+    Nationality.Poland: 'بولندا',
+    Nationality.Portugal: 'البرتغال',
+    Nationality.Qatar: 'قطر',
+    Nationality.Romania: 'رومانيا',
+    Nationality.RussianFederation: 'روسيا',
+    Nationality.Rwanda: 'رواندا',
+    Nationality.StKittsAndNevis: 'سانت كيتس ونيفيس',
+    Nationality.StLucia: 'سانت لوسيا',
+    Nationality.SaintVincentAndTheGrenadines: 'سانت فنسنت وجزر غرينادين',
+    Nationality.Samoa: 'ساموا',
+    Nationality.SanMarino: 'سان مارينو',
+    Nationality.SaoTomeAndPrincipe: 'ساو تومي وبرينسيبي',
+    Nationality.SaudiArabia: 'السعودية',
+    Nationality.Senegal: 'السنغال',
+    Nationality.Serbia: 'صربيا',
+    Nationality.Seychelles: 'سيشيل',
+    Nationality.SierraLeone: 'سيراليون',
+    Nationality.Singapore: 'سنغافورة',
+    Nationality.Slovakia: 'سلوفاكيا',
+    Nationality.Slovenia: 'سلوفينيا',
+    Nationality.SolomonIslands: 'جزر سليمان',
+    Nationality.Somalia: 'الصومال',
+    Nationality.SouthAfrica: 'جنوب أفريقيا',
+    Nationality.SouthSudan: 'جنوب السودان',
+    Nationality.Spain: 'إسبانيا',
+    Nationality.SriLanka: 'سريلانكا',
+    Nationality.Sudan: 'السودان',
+    Nationality.Suriname: 'سورينام',
+    Nationality.Swaziland: 'سوازيلاند',
+    Nationality.Sweden: 'السويد',
+    Nationality.Switzerland: 'سويسرا',
+    Nationality.Syria: 'سوريا',
+    Nationality.Taiwan: 'تايوان',
+    Nationality.Tajikistan: 'طاجيكستان',
+    Nationality.Tanzania: 'تنزانيا',
+    Nationality.Thailand: 'تايلاند',
+    Nationality.Togo: 'توغو',
+    Nationality.Tonga: 'تونغا',
+    Nationality.TrinidadAndTobago: 'ترينيداد وتوباغو',
+    Nationality.Tunisia: 'تونس',
+    Nationality.Turkey: 'تركيا',
+    Nationality.Turkmenistan: 'تركمانستان',
+    Nationality.Tuvalu: 'توفالو',
+    Nationality.Uganda: 'أوغندا',
+    Nationality.Ukraine: 'أوكرانيا',
+    Nationality.UnitedArabEmirates: 'الإمارات العربية المتحدة',
+    Nationality.UnitedKingdom: 'المملكة المتحدة',
+    Nationality.UnitedStates: 'الولايات المتحدة',
+    Nationality.Uruguay: 'أوروغواي',
+    Nationality.Uzbekistan: 'أوزبكستان',
+    Nationality.Vanuatu: 'فانواتو',
+    Nationality.VaticanCity: 'الفاتيكان',
+    Nationality.Venezuela: 'فنزويلا',
+    Nationality.Vietnam: 'فيتنام',
+    Nationality.Yemen: 'اليمن',
+    Nationality.Zambia: 'زامبيا',
+    Nationality.Zimbabwe: 'زيمبابوي',
+  };
 
-// Arabic Level Map
-final Map<String, Level> arabicLevelMap = {
-  'مبتدئ': Level.beginner,
-  'متوسط': Level.intermediate,
-  'خبير': Level.advanced,
-};
+  static String toStringValue(Nationality nationality,
+      {bool isArabic = false}) {
+    return isArabic
+        ? arabicMap[nationality]!
+        : englishMap.keys.firstWhere((key) => englishMap[key] == nationality);
+  }
 
-// English Level Map
-final Map<String, Level> englishLevelMap = {
-  'Beginner': Level.beginner,
-  'Intermediate': Level.intermediate,
-  'Advanced': Level.advanced,
-};
-
-Nationality? getNationalityFromString(String country, {bool isArabic = true}) {
-  return isArabic
-      ? arabicNationalityMap[country]
-      : englishNationalityMap[country];
+  static Nationality? toEnumValue(String nationality, {bool isArabic = false}) {
+    try {
+      return isArabic
+          ? arabicMap.keys.firstWhere((key) => arabicMap[key] == nationality)
+          : englishMap[nationality];
+    } catch (e) {
+      print(nationality);
+      print(e);
+      return null;
+    }
+  }
 }
 
-Level? getLevelFromString(String level, {bool isArabic = true}) {
-  return isArabic ? arabicLevelMap[level] : englishLevelMap[level];
+class LevelUtils {
+  static final Map<String, Level> englishMap = {
+    'Beginner': Level.beginner,
+    'Intermediate': Level.intermediate,
+    'Advanced': Level.advanced,
+  };
+
+  static final Map<Level, String> arabicMap = {
+    Level.beginner: 'مبتدئ',
+    Level.intermediate: 'متوسط',
+    Level.advanced: 'خبير',
+  };
+
+  static String toStringValue(Level level, {bool isArabic = false}) {
+    return isArabic
+        ? arabicMap[level]!
+        : englishMap.keys.firstWhere((key) => englishMap[key] == level);
+  }
+
+  static Level? toEnumValue(String level, {bool isArabic = false}) {
+    try {
+      return isArabic
+          ? arabicMap.keys.firstWhere((key) => arabicMap[key] == level)
+          : englishMap[level];
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+class GenderUtils {
+  static final Map<String, Gender> englishMap = {
+    'Male': Gender.male,
+    'Female': Gender.female,
+  };
+
+  static final Map<Gender, String> arabicMap = {
+    Gender.male: 'ذكر',
+    Gender.female: 'أنثى',
+  };
+
+  static String toStringValue(Gender gender, {bool isArabic = false}) {
+    return isArabic
+        ? arabicMap[gender]!
+        : englishMap.keys.firstWhere((key) => englishMap[key] == gender);
+  }
+
+  static Gender? toEnumValue(String gender, {bool isArabic = false}) {
+    try {
+      return isArabic
+          ? arabicMap.keys.firstWhere((key) => arabicMap[key] == gender)
+          : englishMap[gender];
+    } catch (e) {
+      return null;
+    }
+  }
 }
