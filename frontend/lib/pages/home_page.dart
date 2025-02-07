@@ -50,8 +50,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-        title: Text(_currentStudent != null ? "مرحبا ${_currentStudent!.firstName}" : "مرحبا"),
+      appBar: AppBar(
+        title: Text(_currentStudent != null
+            ? "مرحبا ${_currentStudent!.firstName}"
+            : "مرحبا"),
         backgroundColor: Colors.white,
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -71,15 +73,16 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 40,
-                      backgroundImage: _currentStudent?.gender == 'male'? AssetImage('assets/img/student.png') : AssetImage('assets/img/fstudent.png')
-                    ),
+                        radius: 40,
+                        backgroundImage: _currentStudent?.gender == 'male'
+                            ? AssetImage('assets/img/student.png')
+                            : AssetImage('assets/img/fstudent.png')),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(context, 
-                          MaterialPageRoute(builder: (context) => EditProfile(student: _currentStudent))
-                        );
+                        // Navigator.pop(context);
+                        // Navigator.push(context,
+                        //   MaterialPageRoute(builder: (context) => EditProfile(student: _currentStudent))
+                        // );
                       },
                       child: Text(
                         'تعديل الحساب',

@@ -13,272 +13,41 @@ class RegisterDetails extends StatefulWidget {
 }
 
 class _RegisterDetailsState extends State<RegisterDetails> {
-  // List of countries (sorted in ascending order)
-  final List<String> countries = [
-    'أفغانستان',
-    'ألبانيا',
-    'الجزائر',
-    'أمريكا',
-    'أندورا',
-    'أنغولا',
-    'أنتيغوا وباربودا',
-    'الأرجنتين',
-    'أرمينيا',
-    'أستراليا',
-    'النمسا',
-    'أذربيجان',
-    'باهاماس',
-    'البحرين',
-    'بنغلاديش',
-    'باربادوس',
-    'بيلاروسيا',
-    'بلجيكا',
-    'بليز',
-    'بنين',
-    'بوتان',
-    'بوليفيا',
-    'البوسنة والهرسك',
-    'بوتسوانا',
-    'البرازيل',
-    'بريطانيا',
-    'بروناي',
-    'بلغاريا',
-    'بوركينا فاسو',
-    'بورما',
-    'بوروندي',
-    'كمبوديا',
-    'الكاميرون',
-    'كندا',
-    'الرأس الأخضر',
-    'جمهورية أفريقيا الوسطى',
-    'تشاد',
-    'تشيلي',
-    'الصين',
-    'كولومبيا',
-    'جزر القمر',
-    'الكونغو',
-    'كوستاريكا',
-    'كرواتيا',
-    'كوبا',
-    'قبرص',
-    'التشيك',
-    'الدنمارك',
-    'فلسطين',
-    'جيبوتي',
-    'دومينيكا',
-    'جمهورية الدومينيكان',
-    'هولندا',
-    'تيمور الشرقية',
-    'الإكوادور',
-    'مصر',
-    'الإمارات العربية المتحدة',
-    'غينيا الاستوائية',
-    'إريتريا',
-    'إستونيا',
-    'إثيوبيا',
-    'فيجي',
-    'الفلبين',
-    'فنلندا',
-    'فرنسا',
-    'الغابون',
-    'غامبيا',
-    'جورجيا',
-    'ألمانيا',
-    'غانا',
-    'اليونان',
-    'غرينادا',
-    'غواتيمالا',
-    'غينيا',
-    'غينيا بيساو',
-    'غيانا',
-    'هايتي',
-    'هندوراس',
-    'هنغاريا',
-    'آيسلندا',
-    'الهند',
-    'إندونيسيا',
-    'إيران',
-    'العراق',
-    'أيرلندا',
-    'إيطاليا',
-    'ساحل العاج',
-    'جامايكا',
-    'اليابان',
-    'الأردن',
-    'كازاخستان',
-    'كينيا',
-    'كيريباتي',
-    'كوريا الشمالية',
-    'كوريا الجنوبية',
-    'الكويت',
-    'قيرغيزستان',
-    'لاوس',
-    'لاتفيا',
-    'لبنان',
-    'ليسوتو',
-    'ليبيريا',
-    'ليبيا',
-    'ليختنشتاين',
-    'ليتوانيا',
-    'لوكسمبورغ',
-    'مقدونيا',
-    'مدغشقر',
-    'مالاوي',
-    'ماليزيا',
-    'جزر المالديف',
-    'مالي',
-    'مالطا',
-    'جزر مارشال',
-    'موريتانيا',
-    'موريشيوس',
-    'المكسيك',
-    'ميكرونيزيا',
-    'مولدوفا',
-    'موناكو',
-    'منغوليا',
-    'الجبل الأسود',
-    'المغرب',
-    'موزمبيق',
-    'ميانمار',
-    'ناميبيا',
-    'ناورو',
-    'نيبال',
-    'هولندا',
-    'نيوزيلندا',
-    'نيكاراغوا',
-    'النيجر',
-    'نيجيريا',
-    'النرويج',
-    'عمان',
-    'باكستان',
-    'بالاو',
-    'بنما',
-    'بابوا غينيا الجديدة',
-    'باراغواي',
-    'بيرو',
-    'الفلبين',
-    'بولندا',
-    'البرتغال',
-    'قطر',
-    'رومانيا',
-    'روسيا',
-    'رواندا',
-    'سانت كيتس ونيفيس',
-    'سانت لوسيا',
-    'سانت فينسنت والغرينادين',
-    'ساموا',
-    'سان مارينو',
-    'ساو تومي وبرينسيبي',
-    'السعودية',
-    'السنغال',
-    'صربيا',
-    'سيشل',
-    'سيراليون',
-    'سنغافورة',
-    'سلوفاكيا',
-    'سلوفينيا',
-    'جزر سليمان',
-    'الصومال',
-    'جنوب أفريقيا',
-    'إسبانيا',
-    'سريلانكا',
-    'السودان',
-    'سورينام',
-    'إسواتيني',
-    'السويد',
-    'سويسرا',
-    'سوريا',
-    'تايوان',
-    'طاجيكستان',
-    'تنزانيا',
-    'تايلاند',
-    'توغو',
-    'تونغا',
-    'ترينيداد وتوباغو',
-    'تونس',
-    'تركيا',
-    'تركمانستان',
-    'توفالو',
-    'أوغندا',
-    'أوكرانيا',
-    'الإمارات العربية المتحدة',
-    'المملكة المتحدة',
-    'الولايات المتحدة',
-    'أوروغواي',
-    'أوزبكستان',
-    'فانواتو',
-    'الفاتيكان',
-    'فنزويلا',
-    'فيتنام',
-    'اليمن',
-    'زامبيا',
-    'زيمبابوي'
-  ]..sort();
-
-  // List of age options (starting from 5)
-  final List<String> ages = [
-    '13-17',
-    '18-25',
-    '26-35',
-    '36-45',
-    '46-55',
-    '56-65',
-    '66+'
-  ];
-
-  // List of levels in Arabic
-  final List<String> levels = ['مبتدئ', 'متوسط', 'متقدم'];
-
-  // Form key for validation
   final _formKey = GlobalKey<FormState>();
-
-  // Controllers for text fields
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneController = TextEditingController();
 
-  String selectedAge = '';
-  String selectedCountry = '';
-  String selectedLevel = '';
+  bool isArabic = true; // Toggle language
 
-  @override
-  void initState() {
-    super.initState();
-    selectedAge = ages[0]; // Initialize in initState
-    selectedCountry = countries[0]; // Initialize in initState
-    selectedLevel = levels[0]; // Initialize in initState
-  }
+  AgeRange selectedAge = AgeRange.age13_17;
+  Nationality selectedNationality = Nationality.A;
+  Level selectedLevel = Level.beginner;
+  Gender selectedGender = Gender.male;
 
-  String selectedGender = 'male';
   final StudentServices studentServices = StudentServices();
   bool isLoading = false;
-  void handleStudentEdit() async {
-    // Get the current user
-    User? user = FirebaseAuth.instance.currentUser;
 
+  void handleStudentEdit() async {
+    User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       showSnackBar(context, 'لم يتم العثور على مستخدم مسجل', false);
       return;
     }
 
-    // Create a Student object from the form data
     Student student = Student(
       email: user.email ?? '',
       uid: user.uid,
       firstName: firstNameController.text,
       lastName: lastNameController.text,
-      ageRange: AgeRangeUtils.toEnumValue(selectedAge, isArabic: true),
-      gender: GenderUtils.toEnumValue(selectedGender),
-      nationality:
-          NationalityUtils.toEnumValue(selectedCountry, isArabic: true),
+      ageRange: selectedAge,
+      gender: selectedGender,
+      nationality: selectedNationality,
       phoneNumber: phoneController.text,
-      level: LevelUtils.toEnumValue(selectedLevel, isArabic: true),
+      level: selectedLevel,
     );
 
-    // Call the editStudent function
     StudentResponse response = await studentServices.editStudent(student);
-
-    // Handle the response
     if (response.success) {
       setState(() {
         isLoading = true;
@@ -298,11 +67,21 @@ class _RegisterDetailsState extends State<RegisterDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تسجيل حساب طالب جديد'),
+        title: Text(isArabic ? 'تسجيل حساب طالب جديد' : 'Register New Student'),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.language),
+            onPressed: () {
+              setState(() {
+                isArabic = !isArabic;
+              });
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -311,10 +90,9 @@ class _RegisterDetailsState extends State<RegisterDetails> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Image at the top (changes based on gender)
                 Center(
                   child: Image.asset(
-                    selectedGender == 'female'
+                    selectedGender == Gender.female
                         ? 'assets/img/fstudent.png'
                         : 'assets/img/student.png',
                     height: 150,
@@ -322,214 +100,50 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                     fit: BoxFit.contain,
                   ),
                 ),
-
                 const SizedBox(height: 16),
-                // First Name
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: firstNameController,
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      labelText: 'الاسم الأول',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'الرجاء إدخال الاسم الأول';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                buildTextField(isArabic ? 'الاسم الأول' : 'First Name',
+                    firstNameController, Icons.person),
                 const SizedBox(height: 16),
-                // Last Name
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: lastNameController,
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      labelText: 'الاسم الأخير',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.person),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'الرجاء إدخال الاسم الأخير';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                buildTextField(isArabic ? 'الاسم الأخير' : 'Last Name',
+                    lastNameController, Icons.person),
                 const SizedBox(height: 16),
-                // Age Dropdown
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: DropdownButtonFormField<String>(
-                    value: selectedAge,
-                    items: ages.map((age) {
-                      return DropdownMenuItem(
-                        value: age,
-                        child: Text(age),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedAge = value!;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'العمر',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.calendar_view_day),
-                    ),
-                  ),
-                ),
+                buildDropdown<AgeRange>(
+                    isArabic ? 'العمر' : 'Age',
+                    selectedAge,
+                    AgeRange.values,
+                    Student.ageRangeToArabic,
+                    Student.ageRangeToEnglish),
                 const SizedBox(height: 16),
-
-                // Gender Radio Buttons
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'الجنس',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        children: [
-                          Radio(
-                            value: 'male',
-                            groupValue: selectedGender,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedGender = value!;
-                              });
-                            },
-                          ),
-                          const Text('ذكر',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                          Radio(
-                            value: 'female',
-                            groupValue: selectedGender,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedGender = value!;
-                              });
-                            },
-                          ),
-                          const Text('أنثى',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                buildDropdown<Gender>(
+                    isArabic ? 'الجنس' : 'Gender',
+                    selectedGender,
+                    Gender.values,
+                    Student.genderToArabic,
+                    Student.genderToEnglish),
                 const SizedBox(height: 16),
-                // Country Dropdown
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: DropdownButtonFormField<String>(
-                    value: selectedCountry,
-                    items: countries.map((country) {
-                      return DropdownMenuItem(
-                        value: country,
-                        child: Text(country),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedCountry = value!;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'البلد',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.flag),
-                    ),
-                  ),
-                ),
+                buildDropdown<Nationality>(
+                    isArabic ? 'الجنسية' : 'Nationality',
+                    selectedNationality,
+                    Nationality.values,
+                    Student.nationalityToArabic,
+                    Student.nationalityToEnglish),
                 const SizedBox(height: 16),
-                // Phone Number
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TextFormField(
-                    controller: phoneController,
-                    textAlign: TextAlign.right,
-                    decoration: InputDecoration(
-                      labelText: 'رقم الهاتف',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.phone),
-                    ),
-                    keyboardType: TextInputType.phone,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'الرجاء إدخال رقم الهاتف';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
+                buildTextField(isArabic ? 'رقم الهاتف' : 'Phone Number',
+                    phoneController, Icons.phone,
+                    isPhone: true),
                 const SizedBox(height: 16),
-
-                // Level Dropdown
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: DropdownButtonFormField<String>(
-                    value: selectedLevel,
-                    items: levels.map((level) {
-                      return DropdownMenuItem(
-                        value: level,
-                        child: Text(level),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedLevel = value!;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      labelText: 'المستوى',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      prefixIcon: const Icon(Icons.school),
-                    ),
-                  ),
-                ),
+                buildDropdown<Level>(
+                    isArabic ? 'المستوى' : 'Level',
+                    selectedLevel,
+                    Level.values,
+                    Student.levelToArabic,
+                    Student.levelToEnglish),
                 const SizedBox(height: 24),
-                // Submit Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // handle shit here
-                        print('تم تسجيل النموذج بنجاح');
-                        print('الاسم الأول: ${firstNameController.text}');
-                        print('الاسم الأخير: ${lastNameController.text}');
-                        print('العمر: $selectedAge');
-                        print('البلد: $selectedCountry');
-                        print('رقم الهاتف: ${phoneController.text}');
-                        print('المستوى: $selectedLevel');
-                        print('الجنس: $selectedGender');
-
                         handleStudentEdit();
                       }
                     },
@@ -540,7 +154,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('تسجيل',
+                    child: Text(isArabic ? 'تسجيل' : 'Register',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -551,6 +165,60 @@ class _RegisterDetailsState extends State<RegisterDetails> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildDropdown<T>(String label, T value, List<T> items,
+      Map<T, String> arabicMap, Map<T, String> englishMap) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: DropdownButtonFormField<T>(
+        value: value,
+        items: items.map((item) {
+          return DropdownMenuItem(
+            value: item,
+            child: Text(isArabic ? arabicMap[item]! : englishMap[item]!),
+          );
+        }).toList(),
+        onChanged: (val) {
+          setState(() {
+            value = val!;
+          });
+        },
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          prefixIcon: const Icon(Icons.list),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField(
+      String label, TextEditingController controller, IconData icon,
+      {bool isPhone = false}) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: TextFormField(
+        controller: controller,
+        textAlign: TextAlign.right,
+        keyboardType: isPhone ? TextInputType.phone : TextInputType.text,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          prefixIcon: Icon(icon),
+        ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'الرجاء إدخال $label';
+          }
+          return null;
+        },
       ),
     );
   }
