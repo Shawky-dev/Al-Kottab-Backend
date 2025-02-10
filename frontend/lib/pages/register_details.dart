@@ -183,7 +183,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
         }).toList(),
         onChanged: (val) {
           setState(() {
-            value = val!;
+            value = val as T;
           });
         },
         decoration: InputDecoration(

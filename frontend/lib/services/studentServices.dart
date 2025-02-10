@@ -45,7 +45,6 @@ class StudentServices {
       if (user != null && user.uid == student.uid) {
         // Convert the Student object to a map
         Map<String, dynamic> studentMap = student.toFirebaseMap();
-        print("xs");
         // Update the student document in Firestore
         await _firestore
             .collection('students')

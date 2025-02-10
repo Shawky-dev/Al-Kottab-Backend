@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/edit_profile.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/services/authServices.dart';
 import 'package:frontend/services/student.dart';

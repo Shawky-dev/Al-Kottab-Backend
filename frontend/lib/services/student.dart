@@ -27,8 +27,6 @@ class Student {
   Map<String, dynamic> toFirebaseMap() {
     return {
       'email': email,
-      'uid': uid,
-      'password': password,
       'firstName': firstName,
       'lastName': lastName,
       'ageRange': ageRange?.index,
