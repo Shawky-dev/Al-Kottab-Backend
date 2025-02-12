@@ -1,10 +1,10 @@
-enum Level {
+export enum Level {
   beginner = 'beginner',
   intermediate = 'intermediate',
   advanced = 'advanced',
 }
 
-enum AgeRange {
+export enum AgeRange {
   age13_17 = '13-17',
   age18_25 = '18-25',
   age26_35 = '26-35',
@@ -14,19 +14,19 @@ enum AgeRange {
   age66Plus = '66+',
 }
 
-enum Nationality {
+export enum Nationality {
   A = 'A',
   B = 'B',
   C = 'C',
   D = 'D',
 }
 
-enum Gender {
+export enum Gender {
   male = 'male',
   female = 'female',
 }
 
-class Student {
+export class Student {
   email: string
   uid: string
   password?: string

@@ -1,0 +1,24 @@
+meta {
+  name: edit studnet profile
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/api/student/editStudent/p4J7HbOcBve786SmcXHxketrBpC2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "email@gmail.com",
+    "firstName": "firstName",
+    "lastName":"yoo",
+    "ageRange": 0,
+    "gender": 0,
+    "nationality": 0,
+    "phoneNumber": 0,
+    "level": 0
+  }
+}
