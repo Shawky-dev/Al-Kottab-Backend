@@ -2,12 +2,15 @@ import http from 'http'
 import express from 'express'
 import './config/logging'
 import { Request, Response, NextFunction } from 'express'
+import { StatusCodes } from 'http-status-codes'
 import { corsHandler } from './middleware/corsHandler'
+
+//custom imports
 import { loggingHandler } from './middleware/loggingHandler'
 import { routeNotFound } from './middleware/routeNotFound'
-import { log } from 'console'
 import { SERVER } from './config/config'
-import { StatusCodes } from 'http-status-codes'
+import studentRouter from './routes/student.routes'
+import db from './config/firebase.config'
 
 export const app: express.Application = express()
 
@@ -26,6 +29,15 @@ export const Main = () => {
   //middleware and stuff
   app.use(loggingHandler)
   app.use(corsHandler)
+  logging.info('-----------------')
+  logging.info('Intialize Firebase')
+  try {
+    db
+    logging.info('✅ Firebase Initialized')
+  } catch (err) {
+    logging.error(err)
+  }
+  logging.info('-----------------')
 
   logging.info('-----------------')
   logging.info('Controller Routing')
@@ -33,6 +45,7 @@ export const Main = () => {
   app.get('/api/healthCheck', (req, res, next) => {
     res.status(StatusCodes.OK).json({ message: 'ok' })
   })
+  app.use('/api/student', studentRouter)
 
   logging.info('-----------------')
   logging.info('404 route')
@@ -44,7 +57,9 @@ export const Main = () => {
   logging.info('-----------------')
   httpServer = http.createServer(app)
   httpServer.listen(SERVER.PORT, () => {
-    logging.info('Server running on ' + SERVER.HOSTNAME + ':' + SERVER.PORT)
+    logging.info(
+      'Server running on http://' + SERVER.HOSTNAME + ':' + SERVER.PORT
+    )
   })
 }
 
