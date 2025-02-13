@@ -4,6 +4,7 @@ import 'package:frontend/services/authServices.dart';
 import 'package:frontend/services/student/student.dart';
 import 'package:frontend/services/student/studentServices.dart';
 import 'package:frontend/widgets/home_widget.dart';
+import 'edit_profile.dart';
 import 'reservation_page.dart';
 import 'recorded_sessions_page.dart';
 
@@ -78,10 +79,12 @@ class _HomePageState extends State<HomePage> {
                             : AssetImage('assets/img/fstudent.png')),
                     TextButton(
                       onPressed: () {
-                        // Navigator.pop(context);
-                        // Navigator.push(context,
-                        //   MaterialPageRoute(builder: (context) => EditProfile(student: _currentStudent))
-                        // );
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfile(student: _currentStudent)));
                       },
                       child: Text(
                         'تعديل الحساب',

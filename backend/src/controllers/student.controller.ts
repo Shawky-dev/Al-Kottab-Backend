@@ -61,6 +61,7 @@ const editStudentProfile = async (req: Request, res: Response) => {
       res.status(StatusCodes.NOT_FOUND).json(response)
     } else {
       const data = req.body
+      logging.info(data)
       await studentRef.update(data)
       const response: studentResponse = {
         message: 'Student updated',
