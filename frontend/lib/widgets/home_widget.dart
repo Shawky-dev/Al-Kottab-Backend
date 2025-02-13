@@ -23,7 +23,7 @@ class HomeWidget extends StatelessWidget {
           if (student != null) ...[
             SizedBox(height: 20),
             Text(
-              'مرحبًا، ${student!.firstName} ${student!.toFirebaseMap()} ',
+              'مرحبًا، ${student!.firstName} ',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

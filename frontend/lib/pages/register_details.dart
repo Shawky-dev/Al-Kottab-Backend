@@ -47,7 +47,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
       level: selectedLevel,
     );
 
-    StudentResponse response = await studentServices.editStudent(student);
+    StudentSnackBar response = await studentServices.editStudent(student);
     if (response.success) {
       setState(() {
         isLoading = true;
