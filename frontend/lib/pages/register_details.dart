@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home_page.dart';
-import 'package:frontend/services/student.dart';
-import 'package:frontend/services/studentServices.dart';
+import 'package:frontend/services/student/student.dart';
+import 'package:frontend/services/student/studentServices.dart';
 import 'package:frontend/widgets/snack_bar.dart';
 
 class RegisterDetails extends StatefulWidget {

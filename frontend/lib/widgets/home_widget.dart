@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/student.dart';
+import 'package:frontend/services/student/student.dart';
 
 class HomeWidget extends StatelessWidget {
   final Student? student;

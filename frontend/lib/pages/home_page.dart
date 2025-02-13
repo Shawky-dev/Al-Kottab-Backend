@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/services/authServices.dart';
-import 'package:frontend/services/student.dart';
-import 'package:frontend/services/studentServices.dart';
+import 'package:frontend/services/student/student.dart';
+import 'package:frontend/services/student/studentServices.dart';
 import 'package:frontend/widgets/home_widget.dart';
 import 'reservation_page.dart';
 import 'recorded_sessions_page.dart';

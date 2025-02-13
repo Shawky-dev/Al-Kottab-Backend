@@ -1,23 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/services/student.dart';
+import 'package:frontend/services/student/student.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'studentApi.dart';
 
 class StudentServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<StudentResponse> getStudentFromUid(String uid) async {
-    final response = await http.get(
-      Uri.parse('http://10.0.2.2:8080/api/student/getStudent/$uid'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    return StudentResponse.fromJson(
-        jsonDecode(response.body), response.statusCode);
-  }
+  final StudentApi _studentApi = StudentApi();
 
   // Get the current logged-in user's data from Firestore
   Future<Student?> getCurrentStudent() async {
@@ -28,9 +19,10 @@ class StudentServices {
       if (user != null) {
         // Fetched the student document from Firestore using the user's UID
 
-        // DocumentSnapshot studentDoc =
-        //     await _firestore.collection('students').doc(user.uid).get();
-        StudentResponse studentResponse = await getStudentFromUid(user.uid);
+        http.Response response = await _studentApi.getStudentFromUid(user.uid);
+
+        StudentResponse studentResponse = StudentResponse.fromJson(
+            jsonDecode(response.body), response.statusCode);
 
         if (studentResponse.student != null) {
           // Convert the Firestore document to a Student object
