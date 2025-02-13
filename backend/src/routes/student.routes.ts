@@ -5,11 +5,11 @@ import { studentSchema } from '../schemas/student.schema'
 
 const router: Router = express.Router()
 
-router.post(
-  '/editStudent/:uuid',
+router.put(
+  '/editStudent/:uid',
   validateData(studentSchema),
   studentController.editStudentProfile
 )
-router.get('/getStudent/:uuid', studentController.getStudentFromUUID)
+router.get('/getStudent/:uid', studentController.getStudentFromUid)
 
 export default router

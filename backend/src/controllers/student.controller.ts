@@ -11,10 +11,10 @@ type studentResponse = {
 }
 
 //TODO: need to add permissions for this
-const getStudentFromUUID = async (req: Request, res: Response) => {
+const getStudentFromUid = async (req: Request, res: Response) => {
   try {
-    const { uuid } = req.params
-    const studentRef = db.firestore().collection('students').doc(uuid)
+    const { uid } = req.params
+    const studentRef = db.firestore().collection('students').doc(uid)
     const student = await studentRef.get()
 
     if (!student.exists) {
@@ -48,8 +48,8 @@ const getStudentFromUUID = async (req: Request, res: Response) => {
 
 const editStudentProfile = async (req: Request, res: Response) => {
   try {
-    const { uuid } = req.params
-    const studentRef = db.firestore().collection('students').doc(uuid)
+    const { uid } = req.params
+    const studentRef = db.firestore().collection('students').doc(uid)
     const student = await studentRef.get()
     if (!student.exists) {
       const response: studentResponse = {
@@ -73,7 +73,7 @@ const editStudentProfile = async (req: Request, res: Response) => {
   } catch (error: any) {
     logging.error(error)
     const response: studentResponse = {
-      message: 'Error occurred',
+      message: 'Internal Server Error occurred',
       details: error,
       student: null,
       studentList: null,
@@ -83,6 +83,6 @@ const editStudentProfile = async (req: Request, res: Response) => {
 }
 
 export default {
-  getStudentFromUUID,
+  getStudentFromUid,
   editStudentProfile,
 }

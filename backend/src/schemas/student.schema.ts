@@ -7,6 +7,6 @@ export const studentSchema = z.object({
   ageRange: z.number().optional(),
   gender: z.number().optional(),
   nationality: z.number().optional(),
-  phoneNumber: z.number().optional(),
+  phoneNumber: z.string().optional(),
   level: z.number().optional(),
 })

@@ -51,18 +51,26 @@ class StudentServices {
 
       if (user != null && user.uid == student.uid) {
         // Convert the Student object to a map
-        Map<String, dynamic> studentMap = student.toFirebaseMap();
-        // Update the student document in Firestore
-        await _firestore
-            .collection('students')
-            .doc(student.uid)
-            .update(studentMap);
+        http.Response response = await _studentApi.editStudent(
+            student.toFirebaseMap(), student.uid); // Pass the uid explicitly
 
-        print('Student data updated successfully');
-        return StudentSnackBar(
-            success: true, message: 'Student data updated successfully');
+        StudentResponse studentResponse = StudentResponse.fromJson(
+            jsonDecode(response.body), response.statusCode);
+
+        if (studentResponse.statusCode == 200) {
+          return StudentSnackBar(
+              success: true, message: studentResponse.message);
+        } else if (studentResponse.statusCode == 404) {
+          return StudentSnackBar(
+              success: false, message: studentResponse.message);
+        } else if (studentResponse.statusCode == 500) {
+          return StudentSnackBar(
+              success: false, message: studentResponse.message);
+        } else {
+          return StudentSnackBar(
+              success: false, message: studentResponse.message);
+        }
       } else {
-        print('User is not logged in or UID does not match');
         return StudentSnackBar(
             success: false,
             message: 'User is not logged in or UID does not match');
