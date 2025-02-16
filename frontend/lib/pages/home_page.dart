@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/services/authServices.dart';
-import 'package:frontend/services/student.dart';
-import 'package:frontend/services/studentServices.dart';
+import 'package:frontend/services/student/student.dart';
+import 'package:frontend/services/student/studentServices.dart';
 import 'package:frontend/widgets/home_widget.dart';
+import 'edit_profile.dart';
 import 'reservation_page.dart';
 import 'recorded_sessions_page.dart';
 
@@ -50,7 +51,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('الصفحة الرئيسية'),
+        title: Text(_currentStudent != null
+            ? "مرحبا ${_currentStudent!.firstName}"
+            : "مرحبا"),
         backgroundColor: Colors.white,
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -70,12 +73,18 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 40,
-                      backgroundImage: AssetImage('./assets/img/student.png'),
-                    ),
+                        radius: 40,
+                        backgroundImage: _currentStudent?.gender == 'male'
+                            ? AssetImage('assets/img/student.png')
+                            : AssetImage('assets/img/fstudent.png')),
                     TextButton(
                       onPressed: () {
-                        // Navigate to edit account page
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfile(student: _currentStudent)));
                       },
                       child: Text(
                         'تعديل الحساب',

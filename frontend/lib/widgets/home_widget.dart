@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/student.dart';
+import 'package:frontend/services/student/student.dart';
 
 class HomeWidget extends StatelessWidget {
   final Student? student;
@@ -8,7 +8,8 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold(
+        body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -22,7 +23,7 @@ class HomeWidget extends StatelessWidget {
           if (student != null) ...[
             SizedBox(height: 20),
             Text(
-              'مرحبًا، ${student!.firstName} ${student!.lastName}!',
+              'مرحبًا، ${student!.firstName} ',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -31,6 +32,6 @@ class HomeWidget extends StatelessWidget {
           ],
         ],
       ),
-    );
+    ));
   }
 }

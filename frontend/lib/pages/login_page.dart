@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
         title: Text('تسجيل دخول للطالب'),
         backgroundColor: Colors.white,
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
