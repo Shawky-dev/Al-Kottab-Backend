@@ -42,6 +42,7 @@ class StudentServices {
       print('Error fetching current student data: $e');
       return null;
     }
+    return null;
   }
 
   Future<StudentSnackBar> editStudent(Student student) async {

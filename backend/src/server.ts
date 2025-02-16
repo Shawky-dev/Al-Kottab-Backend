@@ -1,6 +1,6 @@
 import http from 'http'
 import express from 'express'
-import './config/logging'
+import './config/logging.config'
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { corsHandler } from './middleware/corsHandler'
