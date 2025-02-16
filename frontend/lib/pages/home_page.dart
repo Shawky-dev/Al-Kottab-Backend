@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/edit_profile.dart';
 import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/teachers_page.dart';
 import 'package:frontend/services/authServices.dart';
 import 'package:frontend/services/student.dart';
 import 'package:frontend/services/studentServices.dart';
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   static List<Widget> _widgetOptions(Student? student) => <Widget>[
         HomeWidget(student: student),
-        Text('Teachers Page'),
+        TeachersPage(),
         ReservationsPage(),
         RecordedSessionsPage(),
         Text('Chat Page'),
