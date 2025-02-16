@@ -1,5 +1,5 @@
 import 'package:frontend/services/authServices.dart';
-import 'package:frontend/services/student.dart';
+import 'package:frontend/services/student/student.dart';
 import 'package:frontend/widgets/snack_bar.dart';
 
 import 'register_details.dart';
