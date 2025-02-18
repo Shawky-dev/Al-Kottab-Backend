@@ -26,7 +26,7 @@ class StudentServices {
 
         if (studentResponse.student != null) {
           // Convert the Firestore document to a Student object
-          return Student.fromFirebaseMapToArabic(
+          return Student.fromFirebaseMap(
             studentResponse.student as Map<String, dynamic>,
             uid: user.uid, // Pass the uid explicitly
           );

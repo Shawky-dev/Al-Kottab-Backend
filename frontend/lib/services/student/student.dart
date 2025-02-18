@@ -38,24 +38,7 @@ class Student {
   }
 
   // Convert a Map<String, dynamic> to a Student object in Arabic
-  static Student fromFirebaseMapToArabic(Map<String, dynamic> map,
-      {required String uid}) {
-    return Student(
-      email: map['email'],
-      uid: uid,
-      password: map['password'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      ageRange: _getAgeRangeFromIndex(map['ageRange']),
-      gender: _getGenderFromIndex(map['gender']),
-      nationality: _getNationalityFromIndex(map['nationality']),
-      phoneNumber: map['phoneNumber'],
-      level: _getLevelFromIndex(map['level']),
-    );
-  }
-
-  // Convert a Map<String, dynamic> to a Student object in English
-  static Student fromFirebaseMapToEnglish(Map<String, dynamic> map,
+  static Student fromFirebaseMap(Map<String, dynamic> map,
       {required String uid}) {
     return Student(
       email: map['email'],
