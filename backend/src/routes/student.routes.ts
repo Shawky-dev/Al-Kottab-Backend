@@ -6,12 +6,13 @@ import { verifyToken } from '../middleware/verifyToken'
 
 const router: Router = express.Router()
 
+router.get('/getStudent/:uid', studentController.getStudentFromUid)
+
 router.put(
   '/editStudent/:uid',
   validateData(studentSchema),
   studentController.editStudentProfile
 )
-router.get('/getStudent/:uid', studentController.getStudentFromUid)
 
 router.get(
   '/getCurrentStudent',
