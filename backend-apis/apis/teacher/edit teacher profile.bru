@@ -1,0 +1,28 @@
+meta {
+  name: edit teacher profile
+  type: http
+  seq: 2
+}
+
+put {
+  url: http://localhost:8080/api/teacher/editTeacher/YfNpmZP6KZZ0TsCYKQqZ88JwLFq2
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "ggq2g@gggg.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthYear": 1985,
+    "birthMonth": "June",
+    "birthDay": "15",
+    "phoneNumber": "+1234567890",
+    "description": "Experienced teacher with a passion for education.",
+    "nationality": 1,
+    "gender": 1,
+    "preferredStudentAgeRange": 2,
+    "preferredStudentLevel": 3
+  }
+}

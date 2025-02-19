@@ -111,24 +111,30 @@ export class Student {
 }
 
 // Helper functions to get enum values from index
-function getAgeRangeFromIndex(index: number | undefined): AgeRange | undefined {
+export function getAgeRangeFromIndex(
+  index: number | undefined
+): AgeRange | undefined {
   if (index === undefined) return undefined
   return Object.values(AgeRange)[index] as AgeRange
 }
 
-function getGenderFromIndex(index: number | undefined): Gender | undefined {
+export function getGenderFromIndex(
+  index: number | undefined
+): Gender | undefined {
   if (index === undefined) return undefined
   return Object.values(Gender)[index] as Gender
 }
 
-function getNationalityFromIndex(
+export function getNationalityFromIndex(
   index: number | undefined
 ): Nationality | undefined {
   if (index === undefined) return undefined
   return Object.values(Nationality)[index] as Nationality
 }
 
-function getLevelFromIndex(index: number | undefined): Level | undefined {
+export function getLevelFromIndex(
+  index: number | undefined
+): Level | undefined {
   if (index === undefined) return undefined
   return Object.values(Level)[index] as Level
 }

@@ -1,0 +1,2 @@
+[] if you edit an email in firestore it doesn't change in the auth
+[] need to stop both app from logging in with the same account in student app and teacher app
