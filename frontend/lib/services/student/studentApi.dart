@@ -12,7 +12,7 @@ class StudentApi {
     return null;
   }
 
-  Future<http.Response> getStudentFromUid(String uid) async {
+  Future<http.Response> getCurrentStudent(String uid) async {
     String? token = await getIdToken(); // Await the future
     return http.get(
       Uri.parse('http://10.0.2.2:8080/api/student/getCurrentStudent'),

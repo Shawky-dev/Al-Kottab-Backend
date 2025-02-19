@@ -19,7 +19,7 @@ class StudentServices {
       if (user != null) {
         // Fetched the student document from Firestore using the user's UID
 
-        http.Response response = await _studentApi.getStudentFromUid(user.uid);
+        http.Response response = await _studentApi.getCurrentStudent(user.uid);
 
         StudentResponse studentResponse = StudentResponse.fromJson(
             jsonDecode(response.body), response.statusCode);
