@@ -47,6 +47,44 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
   }
 }
 
+const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
+  try {
+    const { uid } = req.params
+    const teacherRef = db.firestore().collection('teachers').doc(uid)
+    const teacher = await teacherRef.get()
+    if (!teacher.exists) {
+      const response: teacherResponse = {
+        message: 'Teacher not found',
+        details: null,
+        teacher: null,
+        teacherList: null,
+      }
+      res.status(StatusCodes.NOT_FOUND).json(response)
+    } else {
+      const data = req.body
+      logging.info(data)
+      await teacherRef.update(data)
+      const response: teacherResponse = {
+        message: 'Teacher updated',
+        details: null,
+        teacher: data,
+        teacherList: null,
+      }
+      res.status(StatusCodes.OK).json(response)
+    }
+  } catch (error: any) {
+    logging.error(error)
+    const response: teacherResponse = {
+      message: 'Internal Server Error occurred',
+      details: error,
+      teacher: null,
+      teacherList: null,
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+  }
+}
+
 export default {
   getTeacherFromUid,
+  editTeacherProfile,
 }
