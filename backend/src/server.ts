@@ -9,7 +9,10 @@ import { corsHandler } from './middleware/corsHandler'
 import { loggingHandler } from './middleware/loggingHandler'
 import { routeNotFound } from './middleware/routeNotFound'
 import { SERVER } from './config/config'
+//router imports
 import studentRouter from './routes/student.routes'
+import teacherRouter from './routes/teacher.routes'
+
 import db from './config/firebase.config'
 
 export const app: express.Application = express()
@@ -46,6 +49,7 @@ export const Main = () => {
     res.status(StatusCodes.OK).json({ message: 'ok' })
   })
   app.use('/api/student', studentRouter)
+  app.use('/api/teacher', teacherRouter)
 
   logging.info('-----------------')
   logging.info('404 route')
