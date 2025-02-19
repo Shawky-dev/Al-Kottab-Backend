@@ -8,9 +8,7 @@ const router: Router = express.Router()
 
 router.get('/getTeacher/:uid', teacherController.getTeacherFromUid)
 
-router.get('/getCurrentTeacher', (req, res) => {
-  res.send('yo')
-})
+router.get('/getCurrentTeacher', teacherController.getCurrentTeacher)
 
 router.put(
   '/editTeacher/:uid',
