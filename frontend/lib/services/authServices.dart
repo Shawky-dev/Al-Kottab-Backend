@@ -6,6 +6,10 @@ class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  String? getCurrentUserUid() {
+    User? user = _auth.currentUser;
+    return user?.uid;
+  }
   Future<AuthResponse> registerStudent({required Student student}) async {
     if (student.email.isEmpty || student.password!.isEmpty) {
       return AuthResponse(
