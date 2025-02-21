@@ -29,9 +29,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> _fetchCurrentStudent() async {
     StudentServices studentServices = StudentServices();
     Student? student = await studentServices.getCurrentStudent();
+    if (student != null){
     setState(() {
       _currentStudent = student;
     });
+  }
   }
 
   static List<Widget> _widgetOptions(Student? student) => <Widget>[
@@ -54,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(_currentStudent != null
             ? "مرحبا ${_currentStudent!.firstName}"
-            : "مرحبا"),
+            : "not found"),
         backgroundColor: Colors.white,
         centerTitle: true,
         automaticallyImplyLeading: false,
