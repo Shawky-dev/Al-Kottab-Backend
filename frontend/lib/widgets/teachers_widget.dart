@@ -63,7 +63,7 @@ class TeacherCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color:  Color(0xFF162379),
                         ),
                         textAlign: TextAlign.right, 
                       ),
@@ -128,7 +128,7 @@ class TeacherCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.call,
                   label: 'اتصل الآن', 
-                  color: Colors.indigo.shade700,
+                  color:  Color(0xFF162379),
                   onPressed: () {
                     // Implement Call functionality
                   },
@@ -136,7 +136,7 @@ class TeacherCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.chat,
                   label: 'محادثة', 
-                  color: Colors.indigo.shade700,
+                  color:  Color(0xFF162379),
                   onPressed: () {
                     // Implement Chat functionality
                   },
@@ -144,7 +144,7 @@ class TeacherCard extends StatelessWidget {
                 _buildActionButton(
                   icon: Icons.calendar_today,
                   label: 'حجز',
-                  color: Colors.indigo.shade700,
+                  color:  Color(0xFF162379),
                   onPressed: () {
                     // Implement Reserve functionality
                   },

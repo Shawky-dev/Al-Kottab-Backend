@@ -176,8 +176,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey[700],
+        selectedItemColor: Color(0xFF162379),
+        unselectedItemColor: Color.fromARGB(255, 91, 93, 107),
         onTap: _onItemTapped,
       ),
     );
