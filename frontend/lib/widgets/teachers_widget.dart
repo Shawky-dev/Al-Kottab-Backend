@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_screen.dart'; 
+import '../pages/personal_profile.dart';
 
 class TeacherCard extends StatelessWidget {
   final String name;
@@ -29,10 +30,12 @@ class TeacherCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatScreen(
-                teacherName: name,
-                teacherImage: imagePath,
-              ),
+              builder: (context) => PersonalProfile(
+                name: name,
+                imagePath: imagePath,
+                rating: rating,
+                bio: bio,
+              )
             ),
           );
         },
