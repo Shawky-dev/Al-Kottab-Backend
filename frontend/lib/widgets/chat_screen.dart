@@ -17,13 +17,13 @@ class ChatScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            // Teacher's Image on the very left
+            
             CircleAvatar(
               backgroundImage: AssetImage(teacherImage),
               radius: 20,
             ),
-            const SizedBox(width: 10), // Spacing between image and name
-            // Teacher's Name to the right of the image
+            const SizedBox(width: 10), //space between name and img
+            
             Text(teacherName),
           ],
         ),
@@ -34,25 +34,20 @@ class ChatScreen extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.all(16.0),
               children: const [
-                // Sample messages
                 ChatBubble(
-                  message: "مرحبًا! كيف يمكنني مساعدتك؟",
-                  isMe: false,
-                ),
-                ChatBubble(
-                  message: "أريد حجز جلسة لتعليم اللغة العربية.",
+                  message: "أريد حجز جلسة لتعليم التجويد",
                   isMe: true,
                 ),
                 ChatBubble(
                   message: "بالطبع! ما هو الوقت المناسب لك؟",
                   isMe: false,
-                ),
+                ), 
                 ChatBubble(
                   message: "هل يوم الخميس الساعة 10 صباحًا مناسب؟",
                   isMe: true,
                 ),
                 ChatBubble(
-                  message: "نعم، هذا الوقت مناسب. سأرسل لك تفاصيل الحجز.",
+                  message: "نعم، هذا الوقت مناسب.",
                   isMe: false,
                 ),
               ],
