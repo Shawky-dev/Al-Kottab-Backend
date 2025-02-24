@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
 
 class TeacherPersonalProfile extends StatelessWidget {
   final String name;
