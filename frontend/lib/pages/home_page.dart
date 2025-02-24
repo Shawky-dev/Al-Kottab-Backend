@@ -159,6 +159,8 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'الدردشة'),
         ],
         currentIndex: _selectedIndex,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold), 
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
         selectedItemColor: Color(0xFF162379),
         unselectedItemColor: Color.fromARGB(255, 91, 93, 107),
         onTap: (index) => setState(() => _selectedIndex = index),
