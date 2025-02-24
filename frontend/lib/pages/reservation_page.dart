@@ -26,7 +26,7 @@ class ReservationsPage extends StatelessWidget {
               time: '02:00 PM',
               duration: '1.5 hours',
             ),
-            // Add more ReservationCard widgets as needed
+           
           ],
         ),
       ),

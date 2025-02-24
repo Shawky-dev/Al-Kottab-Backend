@@ -30,19 +30,19 @@ class RecordedSessionsPage extends StatelessWidget {
             const RecordedSessionCard(
               teacherName: 'أحمد محمد',
               teacherImage: './assets/img/teacher.png', 
-              sessionLink: 'https://www.youtube.com/watch?v=xvFZjo5PgG0',
+              sessionLink: 'https://www.youtube.com/watch?v=SJtSbkKVyr0',
               sessionDate: '2023-10-15',
             ),
             const RecordedSessionCard(
               teacherName: 'فاطمة علي',
               teacherImage: './assets/img/teacher.png', 
-              sessionLink: 'https://www.youtube.com/watch?v=xvFZjo5PgG0',
+              sessionLink: 'https://www.youtube.com/watch?v=SJtSbkKVyr0',
               sessionDate: '2023-10-16',
             ),
             const RecordedSessionCard(
               teacherName: 'محمد علي',
               teacherImage: './assets/img/teacher.png',
-              sessionLink: 'https://www.youtube.com/watch?v=xvFZjo5PgG0',
+              sessionLink: 'https://www.youtube.com/watch?v=SJtSbkKVyr0',
               sessionDate: '2023-10-17',
             ),
           ],
