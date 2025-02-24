@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart'; 
+import 'package:url_launcher/url_launcher.dart';
 
 class RecordedSessionCard extends StatelessWidget {
   final String teacherName;
-  final String teacherImage; 
+  final String teacherImage;
   final String sessionLink;
   final String sessionDate;
 
@@ -27,57 +27,91 @@ class RecordedSessionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              // Teacher's Picture
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: AssetImage(teacherImage), 
-              ),
-              const SizedBox(width: 16), 
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Teacher's Name
-                    Text(
-                      teacherName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+    return Card(
+      elevation: 8,
+      margin: const EdgeInsets.all(16.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: InkWell(
+        onTap: _launchSessionLink,
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Top Row: Image and Name
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                textDirection: TextDirection.rtl,
+                children: [
+                  // Profile Image
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 2.0,
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage(teacherImage),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(height: 8),
-
-                    // Session Date
-                    Text(
-                      'تاريخ الجلسة: $sessionDate', 
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    
-                    InkWell(
-                      onTap: _launchSessionLink, 
-                      child: Text(
-                        'رابط الجلسة المسجلة', 
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.blue[700],
-                          decoration: TextDecoration.underline,
+                  ),
+                  const SizedBox(width: 16),
+                  // Name and Date
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          teacherName,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF16226F),
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'تاريخ الجلسة: $sessionDate',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.shade700,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              // Divider
+              Divider(
+                color: Colors.grey.shade300,
+                thickness: 1,
+              ),
+              const SizedBox(height: 16),
+              // Link to Session
+              Center(
+                child: Text(
+                  'رابط الجلسة المسجلة',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.blue[700],
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textDirection: TextDirection.rtl,
                 ),
               ),
             ],
