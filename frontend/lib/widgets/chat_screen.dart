@@ -70,7 +70,7 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.send),
+                  icon: const Icon(Icons.send), color: Color(0xFF16226F),
                   onPressed: () {
                     // Implement send message functionality
                   },
