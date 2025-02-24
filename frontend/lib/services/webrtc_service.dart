@@ -1,9 +1,10 @@
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'rtc_signaling_service.dart';
+import 'rtc_CalleeIncomingCallHandler.dart';
 
 class WebRTCService {
   late RTCPeerConnection _peerConnection;
-  late SignalingService _signalingService;
+  final SignalingService _signalingService = SignalingService();
   final String _callerUid;
   final String _calleeUid;
 
@@ -11,10 +12,43 @@ class WebRTCService {
     required String callerUid,
     required String calleeUid,
   })  : _callerUid = callerUid,
-        _calleeUid = calleeUid;
+        _calleeUid = calleeUid {
+    _initializePeerConnection();
+  }
+
+  Future<void> _initializePeerConnection() async {
+    // Configuration for the peer connection
+    final configuration = {
+      'iceServers': [
+        {'urls': 'stun:stun.l.google.com:19302'},
+      ]
+    };
+
+    // Create the peer connection
+    _peerConnection = await createPeerConnection(configuration);
+
+    // every time a new ice candidate is found, 
+    //it is immediately sent to the remote peer.
+    _peerConnection.onIceCandidate = (RTCIceCandidate candidate) {
+      _signalingService.sendIceCandidate(_callerUid, _calleeUid, candidate.toMap());
+    };
+
+    _peerConnection.onIceConnectionState = (RTCIceConnectionState state) {
+      print('ICE connection state: $state');
+    };
+
+    _peerConnection.onAddStream = (MediaStream stream) {
+      print('Add stream: ${stream.id}');
+    };
+
+    _peerConnection.onRemoveStream = (MediaStream stream) {
+      print('Remove stream: ${stream.id}');
+    };
+  }
 
   // Create an offer and send it to the callee
   Future<void> createOffer() async {
+    
     final offer = await _peerConnection.createOffer();
     await _peerConnection.setLocalDescription(offer);
     _signalingService.sendOffer(_callerUid, _calleeUid, offer.toMap());
@@ -22,7 +56,7 @@ class WebRTCService {
 
   // Create an answer and send it to the caller
   Future<void> createAnswer() async {
-    final answer = await _peerConnection.createAnswer(); 
+    final answer = await _peerConnection.createAnswer();
     await _peerConnection.setLocalDescription(answer);
     _signalingService.sendAnswer(_callerUid, _calleeUid, answer.toMap());
   }
@@ -30,6 +64,7 @@ class WebRTCService {
   // Listen for remote offer
   void listenForOffer(Function(RTCSessionDescription) onOfferReceived) {
     _signalingService.listenForOffers(_calleeUid).listen((data) {
+      //converts the recieved map into an RTCSessionDescription object.
       final offer = RTCSessionDescription.fromMap(data);
       onOfferReceived(offer);
     });
@@ -39,6 +74,10 @@ class WebRTCService {
   void listenForAnswer(Function(RTCSessionDescription) onAnswerReceived) {
     _signalingService.listenForAnswers(_callerUid, _calleeUid).listen((data) {
       final answer = RTCSessionDescription.fromMap(data);
+      //this is a callback function that allows the caller 
+      //of the listenForAnswer method to define custom behavior
+      //for handling the recieved answer. 
+      //(see rtc_CallinPage.dart _listenForAnswers method) 
       onAnswerReceived(answer);
     });
   }
@@ -51,14 +90,12 @@ class WebRTCService {
     });
   }
 
-  // Send ICE candidates
-  void sendIceCandidate(RTCIceCandidate candidate) {
-    _signalingService.sendIceCandidate(_callerUid, _calleeUid, candidate.toMap());
+  //Public method to set the remote description
+  Future<void> setRemoteDescription(RTCSessionDescription description) async {
+    await _peerConnection.setRemoteDescription(description);
   }
 
-  // Clean up
-  void cleanup() {
-    _signalingService.cleanup(_callerUid, _calleeUid);
-    _peerConnection.close();
+  Future<void> addIceCandidate(RTCIceCandidate candidate) async {
+    await _peerConnection.addCandidate(candidate);
   }
 }

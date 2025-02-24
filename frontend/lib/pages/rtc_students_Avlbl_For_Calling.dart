@@ -3,7 +3,8 @@ import 'package:frontend/services/student/rtc_student_service.dart';
 import 'package:frontend/widgets/rtc_studentcard_widget.dart';
 import 'package:frontend/models/rtc_student_model.dart';
 import 'package:frontend/services/authServices.dart';
-import 'package:frontend/services/webrtc_service.dart';
+import 'package:frontend/pages/rtc_CallingPage.dart';
+
 
 class StudentsPage extends StatelessWidget {
   final StudentService _studentService = StudentService();
@@ -40,17 +41,22 @@ class StudentsPage extends StatelessWidget {
             //widget being built in the widget tree. It can also be used for
             // accessing theme data and navigating to other screens.
             itemBuilder: (context, index) {
-              final student = students[index];
+              final callee = students[index];
               return StudentCard(
-                firstName: student.firstName,
-                lastName: student.lastName,
+                firstName: callee.firstName,
+                lastName: callee.lastName,
                 onCallPressed: () {
                   final calleruid = _authServices.getCurrentUserUid();
-                  final calleeuid = student.id;
-                  final webRTCService = WebRTCService(callerUid: calleruid!, calleeUid: calleeuid);
-                  webRTCService.createOffer();
-                  //create call handler class to handle setting up listener for offer and sending answer.
-                  print('Calling ${student.firstName} ${student.lastName}');
+                  final calleeuid = callee.id;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CallingPage(
+                      calleeUid: calleeuid, 
+                      callerUid: calleruid!,
+                      calleeName:callee.firstName,
+                      )
+                    ),
+                  );
                 },
               );
             },
