@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     CircleAvatar(
                         radius: 40,
-                        backgroundImage: _currentStudent?.gender == 'male'
+                        backgroundImage: _currentStudent?.gender == Gender.male
                             ? AssetImage('assets/img/student.png')
                             : AssetImage('assets/img/fstudent.png')),
                     TextButton(
