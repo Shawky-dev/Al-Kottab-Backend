@@ -23,11 +23,10 @@ class TeacherPersonalProfile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          name,
-          style: const TextStyle(color: Colors.white),
+          name
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF16226F),
+
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),

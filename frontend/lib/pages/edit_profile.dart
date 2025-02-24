@@ -82,7 +82,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         title: Text(isArabic ? 'تعديل الملف الشخصي' : 'Edit Profile'),
         centerTitle: true,
-        backgroundColor: Colors.white,
+
         elevation: 0,
       ),
       body: Padding(
@@ -174,7 +174,7 @@ class _EditProfileState extends State<EditProfile> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[300],
+                      backgroundColor: Color(0xFF16226F),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -184,7 +184,7 @@ class _EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black)),
+                            color: Colors.white)),
                   ),
                 ),
               ],

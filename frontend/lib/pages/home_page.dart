@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         title: Text(_currentStudent != null
             ? "مرحبا ${_currentStudent!.firstName}"
             : "not found"),
-        backgroundColor: Colors.white,
+        
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(color: Colors.white),
+                decoration: BoxDecoration(color: Color(0xFF16226F)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -99,7 +99,8 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Text(
                         'تعديل الحساب',
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: Colors.white),
+                      
                       ),
                     ),
                   ],

@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('تسجيل دخول للطالب'),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

@@ -57,7 +57,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('إنشاء حساب للطالب'),
-        backgroundColor: Colors.white,
+
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

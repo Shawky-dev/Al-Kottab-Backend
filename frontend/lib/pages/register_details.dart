@@ -69,7 +69,6 @@ class _RegisterDetailsState extends State<RegisterDetails> {
       appBar: AppBar(
         title: Text(isArabic ? 'تسجيل حساب طالب جديد' : 'Register New Student'),
         centerTitle: true,
-        backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
