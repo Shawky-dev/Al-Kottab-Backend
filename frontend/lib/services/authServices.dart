@@ -55,16 +55,18 @@ class AuthServices {
           success: false, message: "Email and password are required");
     }
     try {
-      DocumentSnapshot studentDoc =
-          await _firestore.collection("students").doc(email).get();
-      if (!studentDoc.exists) {
-        return AuthResponse(
-            success: false, message: "No account found for this email.");
+      final QuerySnapshot student = await _firestore
+          .collection('students')
+          .where('email', isEqualTo: email)
+          .get();
+
+      if (student.docs.isEmpty) {
+        return AuthResponse(success: false, message: "Failed to login");
       }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return AuthResponse(success: true, message: "Login Successful!");
     } catch (e) {
-      return AuthResponse(success: false, message: "failed to login");
+      return AuthResponse(success: false, message: "Failed to login");
     }
   }
 
