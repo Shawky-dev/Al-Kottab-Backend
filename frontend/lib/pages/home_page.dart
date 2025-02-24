@@ -151,6 +151,7 @@ class _HomePageState extends State<HomePage> {
         child: _widgetOptions(_currentStudent).elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'الرئيسية'),
