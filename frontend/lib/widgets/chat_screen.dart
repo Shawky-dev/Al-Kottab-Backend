@@ -15,6 +15,8 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFF16226F),
+        iconTheme: IconThemeData(color: Colors.white),
         title: Row(
           children: [
             
@@ -24,7 +26,7 @@ class ChatScreen extends StatelessWidget {
             ),
             const SizedBox(width: 10), //space between name and img
             
-            Text(teacherName),
+            Text(teacherName, style: const TextStyle(color: Colors.white)),
           ],
         ),
       ),
