@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TeacherPersonalProfile extends StatelessWidget {
   final String name;
@@ -14,6 +15,10 @@ class TeacherPersonalProfile extends StatelessWidget {
     this.rating = 0.0,
   });
 
+  void _shareProfile(BuildContext context) {
+    //logic will be here
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,20 +33,23 @@ class TeacherPersonalProfile extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share, color: Colors.white),
+            onPressed: () => _shareProfile(context),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Profile Picture
             CircleAvatar(
               radius: 60,
               backgroundImage: AssetImage(imagePath),
             ),
             const SizedBox(height: 16),
-            
-            // Name
             Text(
               name,
               style: const TextStyle(
@@ -51,8 +59,6 @@ class TeacherPersonalProfile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            
-            // Rating
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(5, (index) {
@@ -76,8 +82,6 @@ class TeacherPersonalProfile extends StatelessWidget {
               }),
             ),
             const SizedBox(height: 12),
-            
-            // Bio
             Text(
               bio,
               style: TextStyle(

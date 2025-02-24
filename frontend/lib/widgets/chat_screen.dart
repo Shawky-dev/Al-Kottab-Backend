@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'chat_bubble.dart'; // Ensure this import points to your ChatBubble widget
+import 'chat_bubble.dart'; 
 
 class ChatScreen extends StatelessWidget {
   final String teacherName;
