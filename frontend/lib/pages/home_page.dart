@@ -19,23 +19,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   Student? _currentStudent;
+  bool _loading = true; 
 
   @override
   void initState() {
     super.initState();
     _fetchCurrentStudent();
   }
-
-  Future<void> _fetchCurrentStudent() async {
-    StudentServices studentServices = StudentServices();
-    Student? student = await studentServices.getCurrentStudent();
-    if (student != null){
-    setState(() {
-      _currentStudent = student;
-    });
-  }
-  }
-
   static List<Widget> _widgetOptions(Student? student) => <Widget>[
         HomeWidget(student: student),
         TeachersPage(),
@@ -44,14 +34,32 @@ class _HomePageState extends State<HomePage> {
         Text('Chat Page'),
       ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  Future<void> _fetchCurrentStudent() async {
+    StudentServices studentServices = StudentServices();
+    Student? student = await studentServices.getCurrentStudent();
+
+    if (!mounted) return; // Ensure the widget is still in the tree
+
+    if (student?.firstName == null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => EditProfile(student: student)),
+      );
+    } else {
+      setState(() {
+        _currentStudent = student;
+        _loading = false; // Stop loading when data is fetched
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()), // Show loading indicator
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_currentStudent != null
@@ -69,31 +77,29 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
+                decoration: BoxDecoration(color: Colors.white),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                        radius: 40,
-                        backgroundImage: _currentStudent?.gender == Gender.male
-                            ? AssetImage('assets/img/student.png')
-                            : AssetImage('assets/img/fstudent.png')),
+                      radius: 40,
+                      backgroundImage: _currentStudent?.gender == Gender.male
+                          ? AssetImage('assets/img/student.png')
+                          : AssetImage('assets/img/fstudent.png'),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EditProfile(student: _currentStudent)));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditProfile(student: _currentStudent)),
+                        );
                       },
                       child: Text(
                         'تعديل الحساب',
-                        style: TextStyle(
-                          color: Colors.blue,
-                        ),
+                        style: TextStyle(color: Colors.blue),
                       ),
                     ),
                   ],
@@ -105,9 +111,7 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.centerRight,
                   child: Text('الرصيد'),
                 ),
-                onTap: () {
-                  // Handle Balance tap
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: Icon(Icons.settings),
@@ -115,9 +119,7 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.centerRight,
                   child: Text('الإعدادات'),
                 ),
-                onTap: () {
-                  // Handle Settings tap
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: Icon(Icons.info),
@@ -125,9 +127,7 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment.centerRight,
                   child: Text('عن التطبيق'),
                 ),
-                onTap: () {
-                  // Handle About App tap
-                },
+                onTap: () {},
               ),
               ListTile(
                 leading: Icon(Icons.logout),
@@ -138,9 +138,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () async {
                   await AuthServices().signOut();
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
+                    MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 },
               ),
@@ -154,32 +152,18 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'المعلمون',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: 'الحجوزات',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.schedule),
-            label: 'الجلسات',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'الدردشة',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'الرئيسية'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'المعلمون'),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'الحجوزات'),
+          BottomNavigationBarItem(icon: Icon(Icons.schedule), label: 'الجلسات'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'الدردشة'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFF162379),
         unselectedItemColor: Color.fromARGB(255, 91, 93, 107),
-        onTap: _onItemTapped,
+        onTap: (index) => setState(() => _selectedIndex = index),
       ),
     );
   }
 }
+
