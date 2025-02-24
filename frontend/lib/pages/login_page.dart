@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                 handleLogin();
               },
               style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF16226F),
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -138,7 +139,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: Text(
                 'تسجيل الدخول',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18 , color: Colors.white),
+              
               ),
             ),
           ],

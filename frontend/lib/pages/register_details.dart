@@ -148,7 +148,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[300],
+                      backgroundColor: Color(0xFF16226F),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -158,7 +158,7 @@ class _RegisterDetailsState extends State<RegisterDetails> {
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black)),
+                            color: Colors.white)),
                   ),
                 ),
               ],

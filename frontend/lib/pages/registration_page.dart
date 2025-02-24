@@ -175,6 +175,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF16226F),
                         padding:
                             EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                         shape: RoundedRectangleBorder(
@@ -183,7 +184,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       child: Text(
                         'التالي',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ),
                   ),
