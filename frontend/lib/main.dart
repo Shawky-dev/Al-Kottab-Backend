@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/home_page.dart';
-import 'pages/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:frontend/pages/home_page.dart';
+import 'package:frontend/pages/login_page.dart';
+import './config/theme.dart'; // Import the theme file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,18 +13,17 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[100],
-      ),
+      theme: AppTheme.themeData, 
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
