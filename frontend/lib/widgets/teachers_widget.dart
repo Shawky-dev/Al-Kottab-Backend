@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_screen.dart'; 
-import '../pages/personal_profile.dart';
+import '../pages/teacher_personal_profile.dart';
 
 class TeacherCard extends StatelessWidget {
   final String name;
@@ -30,7 +30,7 @@ class TeacherCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PersonalProfile(
+              builder: (context) => TeacherPersonalProfile(
                 name: name,
                 imagePath: imagePath,
                 rating: rating,

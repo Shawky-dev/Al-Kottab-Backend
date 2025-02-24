@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class PersonalProfile extends StatelessWidget {
+class TeacherPersonalProfile extends StatelessWidget {
   final String name;
   final String imagePath;
   final double rating;
   final String bio;
 
-  const PersonalProfile({
+  const TeacherPersonalProfile({
     super.key,
     required this.name,
     required this.imagePath,
