@@ -18,4 +18,6 @@ router.put(
   teacherController.editTeacherProfile
 )
 
+router.get('/getAllTeacher', teacherController.getAllTeachers)
+
 export default router

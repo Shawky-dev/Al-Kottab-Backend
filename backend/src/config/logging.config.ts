@@ -1,6 +1,6 @@
 import { TEST } from './config'
 
-const colours = {
+export const colours = {
   reset: '\x1b[0m',
   bright: '\x1b[1m',
   dim: '\x1b[2m',
@@ -75,8 +75,8 @@ export function info(message?: any, ...optionalParams: any[]) {
       colours.bg.green,
       `[${getCallingFunction(new Error())}]`,
       colours.reset,
-      message,
-      ...optionalParams
+      message
+      // ...optionalParams
     )
 }
 

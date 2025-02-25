@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express'
 import { AuthorizationRequest } from '../types/express'
 import { StatusCodes } from 'http-status-codes'
-import db from '../config/firebase.config'
+import admin from '../config/firebase.config'
 import { DecodedIdToken } from 'firebase-admin/auth'
 import { Teacher } from '../types/teacher.type'
 
@@ -15,7 +15,7 @@ type teacherResponse = {
 const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
   try {
     const { uid } = req.params
-    const teacherRef = db.firestore().collection('teachers').doc(uid)
+    const teacherRef = admin.firestore().collection('teachers').doc(uid)
     const teacher = await teacherRef.get()
 
     if (!teacher.exists) {
@@ -50,7 +50,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
 const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
   try {
     const uid: string = req.user?.uid as string
-    const teacherRef = db.firestore().collection('teachers').doc(uid)
+    const teacherRef = admin.firestore().collection('teachers').doc(uid)
     const teacher = await teacherRef.get()
     if (!teacher.exists) {
       const response: teacherResponse = {
@@ -87,7 +87,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
 const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
   try {
     const uid: string = req.user?.uid as string
-    const teacherRef = db.firestore().collection('teachers').doc(uid)
+    const teacherRef = admin.firestore().collection('teachers').doc(uid)
     const teacher = await teacherRef.get()
 
     if (!teacher.exists) {
@@ -119,8 +119,38 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
   }
 }
 
+const getAllTeachers = async (req: AuthorizationRequest, res: Response) => {
+  try {
+    const teachersRef = admin.firestore().collection('teachers')
+    const snapshot = await teachersRef.get()
+    const teachers: Teacher[] = []
+    snapshot.forEach((doc) => {
+      teachers.push(Teacher.fromFirebaseMap(doc.data(), doc.id))
+      logging.log(typeof doc.data())
+    })
+    const response: teacherResponse = {
+      message: 'Teachers retrieved successfully',
+      details: null,
+      teacher: null,
+      teacherList: teachers,
+    }
+
+    res.status(StatusCodes.OK).json(response)
+  } catch (error: any) {
+    logging.error(error)
+    const response: teacherResponse = {
+      message: 'Error occurred',
+      details: error,
+      teacher: null,
+      teacherList: null,
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+  }
+}
+
 export default {
   getTeacherFromUid,
   editTeacherProfile,
   getCurrentTeacher,
+  getAllTeachers,
 }

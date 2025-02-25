@@ -13,7 +13,7 @@ import { SERVER } from './config/config'
 import studentRouter from './routes/student.routes'
 import teacherRouter from './routes/teacher.routes'
 
-import db from './config/firebase.config'
+import db, { DeleteAllUsers } from './config/firebase.config'
 
 export const app: express.Application = express()
 

@@ -11,6 +11,7 @@ import {
 
 export class Teacher {
   email: string
+
   uid: string
   firstName?: string
   lastName?: string
