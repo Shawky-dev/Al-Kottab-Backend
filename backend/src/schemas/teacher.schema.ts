@@ -4,7 +4,7 @@ export const teacherSchema = z.object({
   email: z.string().email(),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  birthYear: z.number().optional(),
+  birthYear: z.string().optional(),
   birthMonth: z.string().optional(),
   birthDay: z.string().optional(),
   phoneNumber: z.string().optional(),
@@ -13,4 +13,5 @@ export const teacherSchema = z.object({
   gender: z.number().optional(),
   preferredStudentAgeRange: z.number().optional(),
   preferredStudentLevel: z.number().optional(),
+  qiraah: z.array(z.number()).optional(),
 })
