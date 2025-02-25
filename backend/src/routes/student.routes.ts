@@ -9,7 +9,8 @@ const router: Router = express.Router()
 router.get('/getStudent/:uid', studentController.getStudentFromUid)
 
 router.put(
-  '/editStudent/:uid',
+  '/editStudent',
+  verifyToken,
   validateData(studentSchema),
   studentController.editStudentProfile
 )

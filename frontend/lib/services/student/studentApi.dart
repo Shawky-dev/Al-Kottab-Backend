@@ -23,11 +23,11 @@ class StudentApi {
     );
   }
 
-  Future<http.Response> editStudent(
-      Map<String, dynamic> studentMap, String uid) async {
+  Future<http.Response> editStudent(Map<String, dynamic> studentMap) async {
     String? token = await getIdToken(); // Await the future
+
     return http.put(
-      Uri.parse('http://10.0.2.2:8080/api/student/editStudent/$uid'),
+      Uri.parse('http://10.0.2.2:8080/api/student/editStudent'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token',

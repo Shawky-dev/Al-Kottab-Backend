@@ -6,7 +6,7 @@ export const loggingHandler = (
   next: NextFunction
 ): void => {
   logging.log(
-    `Incoming - METHOD: [${req.method}] \n -URL:[${req.url}] \n -IP: [${req.socket.remoteAddress}]`
+    `Incoming - METHOD: [${req.method}] \n -URL:[${req.url}] \n -IP: [${req.socket.remoteAddress}] \n`
   )
   res.on('finish', () => {
     logging.log(

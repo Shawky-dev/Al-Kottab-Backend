@@ -5,9 +5,13 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/api/student/editStudent/p4J7HbOcBve786SmcXHxketrBpC2
+  url: http://localhost:8080/api/student/editStudent
   body: json
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: 111
 }
 
 body:json {

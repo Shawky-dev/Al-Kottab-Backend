@@ -50,10 +50,10 @@ class StudentServices {
       // Get the current user
       User? user = _auth.currentUser;
 
-      if (user != null && user.uid == student.uid) {
+      if (user != null) {
         // Convert the Student object to a map
-        http.Response response = await _studentApi.editStudent(
-            student.toFirebaseMap(), student.uid); // Pass the uid explicitly
+        http.Response response = await _studentApi
+            .editStudent(student.toFirebaseMap()); // Pass the uid explicitly
 
         StudentResponse studentResponse = StudentResponse.fromJson(
             jsonDecode(response.body), response.statusCode);

@@ -50,7 +50,8 @@ const getStudentFromUid = async (req: AuthorizationRequest, res: Response) => {
 
 const editStudentProfile = async (req: AuthorizationRequest, res: Response) => {
   try {
-    const { uid } = req.params
+    const uid: string = req.user?.uid as string
+    console.log(req.user?.uid)
     const studentRef = db.firestore().collection('students').doc(uid)
     const student = await studentRef.get()
     if (!student.exists) {
