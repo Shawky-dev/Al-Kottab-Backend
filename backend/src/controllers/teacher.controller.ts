@@ -49,7 +49,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
 
 const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
   try {
-    const { uid } = req.params
+    const uid: string = req.user?.uid as string
     const teacherRef = db.firestore().collection('teachers').doc(uid)
     const teacher = await teacherRef.get()
     if (!teacher.exists) {
