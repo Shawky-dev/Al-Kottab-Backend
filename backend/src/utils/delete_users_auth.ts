@@ -35,3 +35,4 @@ const listAllUsers = (nextPageToken?: string): void => {
       console.log('Error listing users:', error)
     })
 }
+listAllUsers()

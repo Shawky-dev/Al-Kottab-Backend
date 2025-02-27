@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { Gender, Level, Nationality } from '../../types/student.type'
+import { AgeRange, Gender, Level, Nationality } from '../../types/student.type'
 import { Qiraah } from '../../types/teacher.type'
 
 export const editProfileTeacherSchema = z.object({
@@ -13,5 +13,6 @@ export const editProfileTeacherSchema = z.object({
   nationality: z.number().max(Object.keys(Nationality).length), //gets the length of the possible enums and put them as the max number so that invalid numbers cannot happen
   gender: z.number().max(Object.keys(Gender).length),
   preferredStudentLevel: z.number().max(Object.keys(Level).length),
+  preferredStudentAgeRange: z.number().max(Object.keys(AgeRange).length),
   qiraah: z.array(z.number().max(Object.keys(Qiraah).length)),
 })
