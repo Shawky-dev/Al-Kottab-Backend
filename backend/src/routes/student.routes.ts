@@ -3,6 +3,7 @@ import { validateData } from '../middleware/validateData'
 import studentController from '../controllers/student.controller'
 import { studentSchema } from '../schemas/student.schema'
 import { verifyToken } from '../middleware/verifyToken'
+import { editProfileStudentSchema } from '../schemas/student/editProfile.student.schema'
 
 const router: Router = express.Router()
 
@@ -11,7 +12,7 @@ router.get('/getStudent/:uid', studentController.getStudentFromUid)
 router.put(
   '/editStudent',
   verifyToken,
-  validateData(studentSchema),
+  validateData(editProfileStudentSchema),
   studentController.editStudentProfile
 )
 

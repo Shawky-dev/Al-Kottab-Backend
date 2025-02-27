@@ -5,7 +5,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "devdrop": "ts-node src/utils/delete_users_auth.ts"
   },
   "keywords": [],
   "author": "",
