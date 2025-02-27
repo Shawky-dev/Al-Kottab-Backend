@@ -4,6 +4,7 @@ import teacherController from '../controllers/teacher.controller'
 import { validateData } from '../middleware/validateData'
 import { teacherSchema } from '../schemas/teacher.schema'
 import { verifyToken } from '../middleware/verifyToken'
+import { editProfileTeacherSchema } from '../schemas/teacher/editProfile.teacher.schema'
 
 const router: Router = express.Router()
 
@@ -14,7 +15,7 @@ router.get('/getCurrentTeacher', teacherController.getCurrentTeacher)
 router.put(
   '/editTeacher',
   verifyToken,
-  validateData(teacherSchema),
+  validateData(editProfileTeacherSchema),
   teacherController.editTeacherProfile
 )
 
