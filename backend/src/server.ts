@@ -45,6 +45,10 @@ export const Main = () => {
   logging.info('-----------------')
   logging.info('Controller Routing')
   logging.info('-----------------')
+  app.get('/', (req, res, next) => {
+    res.send('yoooo!')
+  })
+
   app.get('/api/healthCheck', (req, res, next) => {
     res.status(StatusCodes.OK).json({ message: 'ok' })
   })
