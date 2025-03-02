@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/server.js",
+    "start": "nodemon dist/server.js",
     "dev": "nodemon src/server.ts",
     "devdrop": "ts-node src/utils/delete_users_auth.ts"
   },
