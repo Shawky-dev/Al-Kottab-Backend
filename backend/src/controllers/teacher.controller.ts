@@ -27,6 +27,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: null,
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
       return
@@ -36,6 +37,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: teacher.data(),
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.OK).json(response)
       return
@@ -47,6 +49,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
       details: error,
       teacher: null,
       teacherList: null,
+      customToken: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
     return
@@ -64,6 +67,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: null,
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
       return
@@ -76,6 +80,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: data,
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.OK).json(response)
       return
@@ -87,6 +92,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
       details: error,
       teacher: null,
       teacherList: null,
+      customToken: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
     return
@@ -105,6 +111,7 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: null,
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
     } else {
@@ -113,6 +120,7 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
         details: null,
         teacher: teacher.data(),
         teacherList: null,
+        customToken: null,
       }
       res.status(StatusCodes.OK).json(response)
       return
@@ -124,6 +132,7 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
       details: error,
       teacher: null,
       teacherList: null,
+      customToken: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
     return
@@ -155,6 +164,7 @@ const getAllTeachers = async (req: AuthorizationRequest, res: Response) => {
       details: error,
       teacher: null,
       teacherList: null,
+      customToken: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
     return
@@ -179,6 +189,7 @@ const registerTeacher = async (req: Request, res: Response) => {
         details: null,
         teacher: null,
         teacherList: null,
+        customToken: null,
       })
       return
     }
@@ -195,6 +206,7 @@ const registerTeacher = async (req: Request, res: Response) => {
         details: null,
         teacher: null,
         teacherList: null,
+        customToken: null,
       })
       return
     }
@@ -209,6 +221,7 @@ const registerTeacher = async (req: Request, res: Response) => {
     const teacher = new Teacher({
       email: userRecord.email as string,
       uid: userRecord.uid,
+      //other essential attributes below
       rating: 0,
     })
 
@@ -224,7 +237,9 @@ const registerTeacher = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.CREATED).json({
       message: 'Created Account Successfully',
+      details: null,
       teacher: teacherData,
+      teacherList: null,
       customToken,
     })
     return
@@ -249,6 +264,7 @@ const registerTeacher = async (req: Request, res: Response) => {
       details: error,
       teacher: null,
       teacherList: null,
+      customToken: null,
     })
     return
   }

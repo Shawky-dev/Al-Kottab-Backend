@@ -6,6 +6,13 @@ meta {
 
 post {
   url: http://localhost:8080/api/teacher/registerTeacher
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "email":"tetooo@gmail.com",
+    "password":"Pass12345"
+  }
 }

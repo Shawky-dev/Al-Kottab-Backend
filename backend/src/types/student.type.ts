@@ -75,22 +75,26 @@ export class Student {
 
   // Convert Student object to a Map<string, any> for Firebase
   toFirebaseMap(): Record<string, any> {
-    return {
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      ageRange: this.ageRange
-        ? Object.values(AgeRange).indexOf(this.ageRange)
-        : undefined,
-      gender: this.gender
-        ? Object.values(Gender).indexOf(this.gender)
-        : undefined,
-      nationality: this.nationality
-        ? Object.values(Nationality).indexOf(this.nationality)
-        : undefined,
-      phoneNumber: this.phoneNumber,
-      level: this.level ? Object.values(Level).indexOf(this.level) : undefined,
-    }
+    return Object.fromEntries(
+      Object.entries({
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        ageRange: this.ageRange
+          ? Object.values(AgeRange).indexOf(this.ageRange)
+          : undefined,
+        gender: this.gender
+          ? Object.values(Gender).indexOf(this.gender)
+          : undefined,
+        nationality: this.nationality
+          ? Object.values(Nationality).indexOf(this.nationality)
+          : undefined,
+        phoneNumber: this.phoneNumber,
+        level: this.level
+          ? Object.values(Level).indexOf(this.level)
+          : undefined,
+      }).map(([key, value]) => [key, value ?? null]) // Replace undefined with null
+    )
   }
 
   // Convert a Map<string, any> to a Student object
