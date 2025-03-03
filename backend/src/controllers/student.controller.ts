@@ -27,6 +27,7 @@ const getStudentFromUid = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
+      return
     } else {
       const response: studentResponse = {
         message: 'Student found',
@@ -35,6 +36,7 @@ const getStudentFromUid = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -45,6 +47,7 @@ const getStudentFromUid = async (req: AuthorizationRequest, res: Response) => {
       studentList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 
@@ -62,6 +65,7 @@ const editStudentProfile = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
+      return
     } else {
       const data = req.body
       logging.info(data)
@@ -73,6 +77,7 @@ const editStudentProfile = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -83,6 +88,7 @@ const editStudentProfile = async (req: AuthorizationRequest, res: Response) => {
       studentList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 
@@ -100,6 +106,7 @@ const getCurrentStudent = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
+      return
     } else {
       const response: studentResponse = {
         message: 'Student found',
@@ -108,6 +115,7 @@ const getCurrentStudent = async (req: AuthorizationRequest, res: Response) => {
         studentList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -118,6 +126,7 @@ const getCurrentStudent = async (req: AuthorizationRequest, res: Response) => {
       studentList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 

@@ -1,0 +1,23 @@
+meta {
+  name: generate token
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCKN66ke4Beqy_gL7aOlrfpTnZdv32zfkA
+  body: json
+  auth: none
+}
+
+params:query {
+  key: AIzaSyCKN66ke4Beqy_gL7aOlrfpTnZdv32zfkA
+}
+
+body:json {
+  {
+      "email": "test@t.com",
+      "password": "Pass12345",
+      "returnSecureToken": true
+  }
+}

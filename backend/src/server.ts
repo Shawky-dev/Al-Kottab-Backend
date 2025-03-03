@@ -54,7 +54,6 @@ export const Main = () => {
   })
   app.use('/api/student', studentRouter)
   app.use('/api/teacher', teacherRouter)
-
   logging.info('-----------------')
   logging.info('404 route')
   logging.info('-----------------')

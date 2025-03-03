@@ -1,15 +1,18 @@
-import { Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { AuthorizationRequest } from '../types/express'
 import { StatusCodes } from 'http-status-codes'
 import admin from '../config/firebase.config'
-import { DecodedIdToken } from 'firebase-admin/auth'
+import { DecodedIdToken, getAuth } from 'firebase-admin/auth'
 import { Teacher } from '../types/teacher.type'
+import { registerSchema, RegisterSchema } from '../schemas/register.schema'
+import { auth } from 'firebase-admin'
 
 type teacherResponse = {
   message: string
   details?: string | null
   teacher?: object | null
   teacherList?: object[] | null
+  customToken?: string | null
 }
 
 const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
@@ -26,6 +29,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
         teacherList: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
+      return
     } else {
       const response: teacherResponse = {
         message: 'Teacher found',
@@ -34,6 +38,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
         teacherList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -44,6 +49,7 @@ const getTeacherFromUid = async (req: AuthorizationRequest, res: Response) => {
       teacherList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 
@@ -60,6 +66,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
         teacherList: null,
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
+      return
     } else {
       const data = req.body
       logging.info(data)
@@ -71,6 +78,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
         teacherList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -81,6 +89,7 @@ const editTeacherProfile = async (req: AuthorizationRequest, res: Response) => {
       teacherList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 
@@ -106,6 +115,7 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
         teacherList: null,
       }
       res.status(StatusCodes.OK).json(response)
+      return
     }
   } catch (error: any) {
     logging.error(error)
@@ -116,6 +126,7 @@ const getCurrentTeacher = async (req: AuthorizationRequest, res: Response) => {
       teacherList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
   }
 }
 
@@ -136,6 +147,7 @@ const getAllTeachers = async (req: AuthorizationRequest, res: Response) => {
     }
 
     res.status(StatusCodes.OK).json(response)
+    return
   } catch (error: any) {
     logging.error(error)
     const response: teacherResponse = {
@@ -145,6 +157,100 @@ const getAllTeachers = async (req: AuthorizationRequest, res: Response) => {
       teacherList: null,
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
+  }
+}
+
+const registerTeacher = async (req: Request, res: Response) => {
+  let userRecord: admin.auth.UserRecord | null = null
+
+  try {
+    const parsedBody: RegisterSchema = registerSchema.parse(req.body)
+
+    // Check if teacher already exists
+    const teacherRef = admin
+      .firestore()
+      .collection('teachers')
+      .where('email', '==', parsedBody.email)
+    const teacherSnapshot = await teacherRef.get()
+    if (!teacherSnapshot.empty) {
+      res.status(StatusCodes.CONFLICT).json({
+        message: 'User already exists',
+        details: null,
+        teacher: null,
+        teacherList: null,
+      })
+      return
+    }
+
+    // Check if student already exists
+    const studentRef = admin
+      .firestore()
+      .collection('students')
+      .where('email', '==', parsedBody.email)
+    const studentSnapshot = await studentRef.get()
+    if (!studentSnapshot.empty) {
+      res.status(StatusCodes.CONFLICT).json({
+        message: 'User already exists',
+        details: null,
+        teacher: null,
+        teacherList: null,
+      })
+      return
+    }
+
+    // Create a new user in Firebase Auth
+    userRecord = await admin.auth().createUser({
+      email: parsedBody.email,
+      password: parsedBody.password,
+    })
+
+    // Create a new teacher entry
+    const teacher = new Teacher({
+      email: userRecord.email as string,
+      uid: userRecord.uid,
+      rating: 0,
+    })
+
+    const teacherData = teacher.toFirebaseMap()
+    await admin
+      .firestore()
+      .collection('teachers')
+      .doc(userRecord.uid)
+      .set(teacherData)
+
+    // Generate custom auth token
+    const customToken = await auth().createCustomToken(userRecord.uid)
+
+    res.status(StatusCodes.CREATED).json({
+      message: 'Created Account Successfully',
+      teacher: teacherData,
+      customToken,
+    })
+    return
+  } catch (error: any) {
+    logging.error(error)
+
+    if (userRecord) {
+      try {
+        await admin.auth().deleteUser(userRecord.uid)
+        await admin
+          .firestore()
+          .collection('teachers')
+          .doc(userRecord.uid)
+          .delete()
+      } catch (cleanupError) {
+        logging.error('Cleanup error:', cleanupError)
+      }
+    }
+
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: 'Error occurred',
+      details: error,
+      teacher: null,
+      teacherList: null,
+    })
+    return
   }
 }
 
@@ -153,4 +259,5 @@ export default {
   editTeacherProfile,
   getCurrentTeacher,
   getAllTeachers,
+  registerTeacher,
 }

@@ -23,7 +23,7 @@ export const verifyToken = async (
     logging.info(`User decoded:`, JSON.stringify(decodedToken, null, 2))
     next()
   } catch (error) {
-    logging.warn('Invalid or Expired token')
+    logging.warn(`Invalid or Expired token: \n ${error}`)
     res
       .status(StatusCodes.FORBIDDEN)
       .json({ message: 'Invalid or Expired token' })

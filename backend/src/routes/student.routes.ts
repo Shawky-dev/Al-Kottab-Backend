@@ -1,7 +1,6 @@
 import express, { Request, Response, Router } from 'express'
 import { validateData } from '../middleware/validateData'
 import studentController from '../controllers/student.controller'
-import { studentSchema } from '../schemas/student.schema'
 import { verifyToken } from '../middleware/verifyToken'
 import { editProfileStudentSchema } from '../schemas/student/editProfile.student.schema'
 

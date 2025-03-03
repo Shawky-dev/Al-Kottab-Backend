@@ -16,3 +16,5 @@ export const editProfileTeacherSchema = z.object({
   preferredStudentAgeRange: z.number().max(Object.keys(AgeRange).length),
   qiraah: z.array(z.number().max(Object.keys(Qiraah).length)),
 })
+
+export type RegisterSchema = z.infer<typeof editProfileTeacherSchema>

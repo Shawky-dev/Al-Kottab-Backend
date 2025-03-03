@@ -10,3 +10,5 @@ export const editProfileStudentSchema = z.object({
   nationality: z.number().max(Object.keys(Nationality).length),
   level: z.number().max(Object.keys(Level).length),
 })
+
+export type RegisterSchema = z.infer<typeof editProfileStudentSchema>
