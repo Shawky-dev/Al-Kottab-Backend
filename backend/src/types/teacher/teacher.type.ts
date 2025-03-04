@@ -7,7 +7,8 @@ import {
   getNationalityFromIndex,
   Level,
   Nationality,
-} from './student.type'
+} from '../student.type'
+import { TimeSlot } from './timeSlot.type'
 
 export enum Qiraah {
   Qiraah1,
@@ -20,6 +21,7 @@ export class Teacher {
   email: string
   uid: string
   rating: number
+  timeSlots: TimeSlot[]
   firstName?: string
   lastName?: string
   birthYear?: string
@@ -31,12 +33,14 @@ export class Teacher {
   gender?: Gender
   preferredStudentAgeRange?: AgeRange
   preferredStudentLevel?: Level
-  qiraah: Qiraah[] // Changed to an array of Qiraah
+  qiraah: Qiraah[]
+  // Changed to an array of Qiraah
 
   constructor({
     email,
     uid,
     rating,
+    timeSlots = [],
     firstName,
     lastName,
     birthYear,
@@ -53,6 +57,7 @@ export class Teacher {
     email: string
     uid: string
     rating: number
+    timeSlots: TimeSlot[]
     firstName?: string
     lastName?: string
     birthYear?: string
@@ -69,6 +74,7 @@ export class Teacher {
     this.email = email
     this.uid = uid
     this.rating = rating
+    this.timeSlots = timeSlots
     this.firstName = firstName
     this.lastName = lastName
     this.birthYear = birthYear
@@ -90,6 +96,10 @@ export class Teacher {
       Object.entries({
         email: this.email,
         rating: this.rating,
+        timeSlots:
+          this.timeSlots.length > 0
+            ? this.timeSlots.map((slot) => slot.toMap())
+            : null,
         firstName: this.firstName,
         lastName: this.lastName,
         birthYear: this.birthYear,
@@ -127,6 +137,7 @@ export class Teacher {
       email: map.email,
       rating: map.email,
       uid: uid,
+      timeSlots: TimeSlot.getTimeSlotsFromIndices(map.timeSlots), // Convert array of indices to array of Qiraah
       firstName: map.firstName,
       lastName: map.lastName,
       birthYear: map.birthYear,
@@ -140,7 +151,7 @@ export class Teacher {
         map.preferredStudentAgeRange
       ),
       preferredStudentLevel: getLevelFromIndex(map.preferredStudentLevel),
-      qiraah: getQiraahListFromIndices(map.qiraah), // Convert array of indices to array of Qiraah
+      qiraah: getQiraahListFromIndices(map.qiraah),
     })
   }
 }

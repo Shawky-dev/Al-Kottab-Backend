@@ -13,7 +13,7 @@ import { SERVER } from './config/config'
 import studentRouter from './routes/student.routes'
 import teacherRouter from './routes/teacher.routes'
 
-import db, { DeleteAllUsers } from './config/firebase.config'
+import db from './config/firebase.config'
 
 export const app: express.Application = express()
 
@@ -41,7 +41,6 @@ export const Main = () => {
     logging.error(err)
   }
   logging.info('-----------------')
-
   logging.info('-----------------')
   logging.info('Controller Routing')
   logging.info('-----------------')

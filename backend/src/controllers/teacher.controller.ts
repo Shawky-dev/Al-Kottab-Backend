@@ -3,9 +3,15 @@ import { AuthorizationRequest } from '../types/express'
 import { StatusCodes } from 'http-status-codes'
 import admin from '../config/firebase.config'
 import { DecodedIdToken, getAuth } from 'firebase-admin/auth'
-import { Teacher } from '../types/teacher.type'
+import { Teacher } from '../types/teacher/teacher.type'
 import { registerSchema, RegisterSchema } from '../schemas/register.schema'
 import { auth } from 'firebase-admin'
+import {
+  selectTimeSLot,
+  selectTimeSlotTeacherSchema,
+} from '../schemas/teacher/selectTimeSLot.teacher.schema'
+import { string } from 'zod'
+import { TimeSlot } from '../types/teacher/timeSlot.type'
 
 type teacherResponse = {
   message: string
@@ -223,6 +229,7 @@ const registerTeacher = async (req: Request, res: Response) => {
       uid: userRecord.uid,
       //other essential attributes below
       rating: 0,
+      timeSlots: [],
     })
 
     const teacherData = teacher.toFirebaseMap()
@@ -269,11 +276,44 @@ const registerTeacher = async (req: Request, res: Response) => {
     return
   }
 }
-
+const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
+  try {
+    const parsedBody: selectTimeSLot = selectTimeSlotTeacherSchema.parse(
+      req.body
+    )
+    const uid: string = req.user?.uid as string
+    const teacherRef = admin.firestore().collection('teachers').doc(uid)
+    const teacher = await teacherRef.get()
+    if (!teacher.exists) {
+      const response: teacherResponse = {
+        message: 'Teacher not found',
+        details: null,
+        teacher: null,
+        teacherList: null,
+        customToken: null,
+      }
+      res.status(StatusCodes.NOT_FOUND).json(response)
+    } else {
+      const teacherData = teacher.data()
+      if (teacherData) {
+        const newteacher = Teacher.fromFirebaseMap(teacherData, teacher.id)
+        const response: teacherResponse = {
+          message: 'Teacher not found',
+          details: null,
+          teacher: newteacher,
+          teacherList: null,
+          customToken: null,
+        }
+        res.status(StatusCodes.OK).json(response)
+      }
+    }
+  } catch (error) {}
+}
 export default {
   getTeacherFromUid,
   editTeacherProfile,
   getCurrentTeacher,
   getAllTeachers,
   registerTeacher,
+  selectTimeSlot,
 }
