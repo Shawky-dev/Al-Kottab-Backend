@@ -44,4 +44,20 @@ export class TimeSlot {
         })
     )
   }
+
+  static doTimeSlotsConflict(slot1: TimeSlot, slot2: TimeSlot): boolean {
+    if (slot1.day !== slot2.day) {
+      return false
+    }
+
+    const parseTime = (time: string): Date => {
+      const [hours, minutes, seconds] = time.split(':').map(Number)
+      return new Date(1970, 0, 1, hours, minutes, seconds || 0)
+    }
+
+    const [start1, end1] = [slot1.hourRangeA, slot1.hourRangeB].map(parseTime)
+    const [start2, end2] = [slot2.hourRangeA, slot2.hourRangeB].map(parseTime)
+
+    return start1 < end2 && start2 < end1
+  }
 }

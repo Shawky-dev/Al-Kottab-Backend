@@ -158,21 +158,20 @@ export class Teacher {
   static addNewTimeSlot(
     newTimeSlot: TimeSlot,
     timeSlots: TimeSlot[]
-  ): teacherResponse {
+  ): TimeSlot | null {
+    let conflictedTimeSlot = null
     //range cannot be within the same range as an existing timeslot
     let existingTimeSlotDays = timeSlots.filter(
       (ts) => ts.day == newTimeSlot.day
     )
 
-    const response: teacherResponse = {
-      message: 'added new time slot to teacher',
-      details: null,
-      teacher: null,
-      teacherList: null,
-      customToken: null,
+    for (let i = 0; i < existingTimeSlotDays.length; i++) {
+      if (TimeSlot.doTimeSlotsConflict(existingTimeSlotDays[i], newTimeSlot)) {
+        return existingTimeSlotDays[i]
+      }
     }
 
-    return response
+    return conflictedTimeSlot
   }
 }
 

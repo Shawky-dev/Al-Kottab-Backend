@@ -298,19 +298,30 @@ const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
       if (teacherData) {
         const teacher = Teacher.fromFirebaseMap(teacherData, teacherDoc.id)
         const newTimeSlot = new TimeSlot(parsedBody)
-        teacher.timeSlots.push(newTimeSlot)
 
-        await teacherRef.update(teacher.toFirebaseMap())
-
-        const response: teacherResponse = {
-          message: 'added new time slot to teacher',
-          details: null,
-          teacher: teacher,
-          teacherList: null,
-          customToken: null,
+        const conflictedTimeSlot: TimeSlot | null = Teacher.addNewTimeSlot(
+          newTimeSlot,
+          teacher.timeSlots
+        )
+        if (conflictedTimeSlot == null) {
+          const response: teacherResponse = {
+            message: 'added new time slot to teacher',
+            details: null,
+            teacher: teacher,
+            teacherList: null,
+            customToken: null,
+          }
+          res.status(StatusCodes.OK).json(response)
+        } else {
+          const response: teacherResponse = {
+            message: 'Conflicts with existing TimeSlot',
+            details: conflictedTimeSlot.toMap() as any,
+            teacher: null,
+            teacherList: null,
+            customToken: null,
+          }
+          res.status(StatusCodes.CONFLICT).json(response)
         }
-        const response2 = Teacher.addNewTimeSlot(newTimeSlot, teacher.timeSlots)
-        res.status(StatusCodes.OK).json(response2)
       }
     }
   } catch (error: any) {
