@@ -1,3 +1,4 @@
+import { teacherResponse } from '../../controllers/teacher.controller'
 import {
   AgeRange,
   Gender,
@@ -99,7 +100,7 @@ export class Teacher {
         timeSlots:
           this.timeSlots.length > 0
             ? this.timeSlots.map((slot) => slot.toMap())
-            : null,
+            : [],
         firstName: this.firstName,
         lastName: this.lastName,
         birthYear: this.birthYear,
@@ -135,7 +136,7 @@ export class Teacher {
   static fromFirebaseMap(map: Record<string, any>, uid: string): Teacher {
     return new Teacher({
       email: map.email,
-      rating: map.email,
+      rating: map.rating,
       uid: uid,
       timeSlots: TimeSlot.getTimeSlotsFromIndices(map.timeSlots), // Convert array of indices to array of Qiraah
       firstName: map.firstName,
@@ -153,6 +154,25 @@ export class Teacher {
       preferredStudentLevel: getLevelFromIndex(map.preferredStudentLevel),
       qiraah: getQiraahListFromIndices(map.qiraah),
     })
+  }
+  static addNewTimeSlot(
+    newTimeSlot: TimeSlot,
+    timeSlots: TimeSlot[]
+  ): teacherResponse {
+    //range cannot be within the same range as an existing timeslot
+    let existingTimeSlotDays = timeSlots.filter(
+      (ts) => ts.day == newTimeSlot.day
+    )
+
+    const response: teacherResponse = {
+      message: 'added new time slot to teacher',
+      details: null,
+      teacher: null,
+      teacherList: null,
+      customToken: null,
+    }
+
+    return response
   }
 }
 

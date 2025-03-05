@@ -5,7 +5,7 @@ import { validateData } from '../middleware/validateData'
 import { verifyToken } from '../middleware/verifyToken'
 import { editProfileTeacherSchema } from '../schemas/teacher/editProfile.teacher.schema'
 import { registerSchema } from '../schemas/register.schema'
-import { selectTimeSlotTeacherSchema } from '../schemas/teacher/selectTimeSLot.teacher.schema'
+import { selectTimeSlotTeacherSchema } from '../schemas/teacher/selectTimeSlot.teacher.schema'
 
 const router: Router = express.Router()
 

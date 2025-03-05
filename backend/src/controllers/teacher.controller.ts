@@ -9,11 +9,11 @@ import { auth } from 'firebase-admin'
 import {
   selectTimeSLot,
   selectTimeSlotTeacherSchema,
-} from '../schemas/teacher/selectTimeSLot.teacher.schema'
+} from '../schemas/teacher/selectTimeSlot.teacher.schema'
 import { string } from 'zod'
 import { TimeSlot } from '../types/teacher/timeSlot.type'
 
-type teacherResponse = {
+export type teacherResponse = {
   message: string
   details?: string | null
   teacher?: object | null
@@ -283,8 +283,8 @@ const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
     )
     const uid: string = req.user?.uid as string
     const teacherRef = admin.firestore().collection('teachers').doc(uid)
-    const teacher = await teacherRef.get()
-    if (!teacher.exists) {
+    const teacherDoc = await teacherRef.get()
+    if (!teacherDoc.exists) {
       const response: teacherResponse = {
         message: 'Teacher not found',
         details: null,
@@ -294,20 +294,37 @@ const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
       }
       res.status(StatusCodes.NOT_FOUND).json(response)
     } else {
-      const teacherData = teacher.data()
+      const teacherData = teacherDoc.data()
       if (teacherData) {
-        const newteacher = Teacher.fromFirebaseMap(teacherData, teacher.id)
+        const teacher = Teacher.fromFirebaseMap(teacherData, teacherDoc.id)
+        const newTimeSlot = new TimeSlot(parsedBody)
+        teacher.timeSlots.push(newTimeSlot)
+
+        await teacherRef.update(teacher.toFirebaseMap())
+
         const response: teacherResponse = {
-          message: 'Teacher not found',
+          message: 'added new time slot to teacher',
           details: null,
-          teacher: newteacher,
+          teacher: teacher,
           teacherList: null,
           customToken: null,
         }
-        res.status(StatusCodes.OK).json(response)
+        const response2 = Teacher.addNewTimeSlot(newTimeSlot, teacher.timeSlots)
+        res.status(StatusCodes.OK).json(response2)
       }
     }
-  } catch (error) {}
+  } catch (error: any) {
+    logging.error(error)
+    const response: teacherResponse = {
+      message: 'Error occurred',
+      details: error,
+      teacher: null,
+      teacherList: null,
+      customToken: null,
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
+  }
 }
 export default {
   getTeacherFromUid,
