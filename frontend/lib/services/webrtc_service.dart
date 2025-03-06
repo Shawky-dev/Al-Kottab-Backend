@@ -101,8 +101,22 @@ class WebRTCService {
     await _peerConnection.addCandidate(candidate);
   }
 
-Future<List<MediaDeviceInfo>> getConnectedDevices(String type) async {
-    final allDevices = await navigator.mediaDevices.enumerateDevices();
-    return allDevices.where((device) => device.kind == type).toList();
+  Future<MediaStream> openMediaDevices(constraints) async {
+    return await navigator.mediaDevices.getUserMedia(constraints);
   }
+  
+Future<List<MediaDeviceInfo>> getConnectedMicrophones() async {
+    final allMics = await navigator.mediaDevices.enumerateDevices();
+    return allMics.where((mic) => mic.kind == 'audioinput').toList();
+  }
+
+  Future<List<MediaDeviceInfo>?> updateMicsList() async{
+    List<MediaDeviceInfo> allMics = await getConnectedMicrophones();
+    navigator.mediaDevices.ondevicechange = (event) async {
+      allMics = await getConnectedMicrophones();
+    };
+      return allMics;
+  }
+
+  //Playing video from camera method left
 }
