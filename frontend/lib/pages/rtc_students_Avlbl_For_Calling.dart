@@ -6,7 +6,7 @@ import 'package:frontend/services/authServices.dart';
 import 'package:frontend/pages/rtc_CallingPage.dart';
 
 
-class StudentsPage extends StatelessWidget {
+class StudentsToCallPage extends StatelessWidget {
   final StudentService _studentService = StudentService();
   final AuthServices _authServices = AuthServices();
 
@@ -52,7 +52,7 @@ class StudentsPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => CallingPage(
                       calleeUid: calleeuid, 
-                      callerUid: calleruid!,
+                      callerUid: calleruid,
                       calleeName:callee.firstName,
                       )
                     ),

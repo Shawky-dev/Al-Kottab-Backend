@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/rtc_students_Avlbl_For_Calling.dart';
 import 'package:frontend/services/authServices.dart';
 import 'package:frontend/services/student/student.dart';
 import 'package:frontend/services/student/studentServices.dart';
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
         ReservationsPage(),
         RecordedSessionsPage(),
         Text('Chat Page'),
+        StudentsToCallPage()
       ];
 
   void _onItemTapped(int index) {
@@ -171,6 +173,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.chat),
             label: 'الدردشة',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.call),
+            label:'Trn Trn'
+            )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,

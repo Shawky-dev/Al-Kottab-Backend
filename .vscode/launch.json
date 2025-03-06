@@ -28,6 +28,26 @@
             "type": "dart",
             "flutterMode": "release",
             "args": ["--no-enable-impeller"]
+        },
+        {
+            "name": "pixel",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "Pixel_7_Pro_API_33",
+        },
+        {
+            "name": "flutter_emulatorr",
+            "request":"launch",
+            "type": "dart",
+            "deviceId": "flutter_emulator"
+
+        }
+
+    ],
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": ["pixel","flutter_emulatorr"]
         }
     ]
 }

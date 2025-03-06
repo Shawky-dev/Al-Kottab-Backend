@@ -10,7 +10,7 @@ import { loggingHandler } from './middleware/loggingHandler'
 import { routeNotFound } from './middleware/routeNotFound'
 import { SERVER } from './config/config'
 import studentRouter from './routes/student.routes'
-import db from './config/firebase.config'
+import { db } from "./firebase"  
 
 export const app: express.Application = express()
 

@@ -2,6 +2,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'rtc_signaling_service.dart';
 import 'rtc_CalleeIncomingCallHandler.dart';
 
+//implement getUserMedia here 
 class WebRTCService {
   late RTCPeerConnection _peerConnection;
   final SignalingService _signalingService = SignalingService();
@@ -48,11 +49,12 @@ class WebRTCService {
 
   // Create an offer and send it to the callee
   Future<void> createOffer() async {
-    
     final offer = await _peerConnection.createOffer();
     await _peerConnection.setLocalDescription(offer);
     _signalingService.sendOffer(_callerUid, _calleeUid, offer.toMap());
   }
+
+
 
   // Create an answer and send it to the caller
   Future<void> createAnswer() async {
@@ -97,5 +99,10 @@ class WebRTCService {
 
   Future<void> addIceCandidate(RTCIceCandidate candidate) async {
     await _peerConnection.addCandidate(candidate);
+  }
+
+Future<List<MediaDeviceInfo>> getConnectedDevices(String type) async {
+    final allDevices = await navigator.mediaDevices.enumerateDevices();
+    return allDevices.where((device) => device.kind == type).toList();
   }
 }
