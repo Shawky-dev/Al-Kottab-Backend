@@ -52,7 +52,7 @@ export class TimeSlot {
 
     const parseTime = (time: string): Date => {
       const [hours, minutes, seconds] = time.split(':').map(Number)
-      return new Date(1970, 0, 1, hours, minutes, seconds || 0)
+      return new Date(1970, 0, 1, hours, minutes, seconds)
     }
 
     const [start1, end1] = [slot1.hourRangeA, slot1.hourRangeB].map(parseTime)

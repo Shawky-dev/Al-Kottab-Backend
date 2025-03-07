@@ -73,31 +73,25 @@ export class Student {
     this.level = level
   }
 
-  // Convert Student object to a Map<string, any> for Firebase
+  // Convert Student object to a Record<string, any> for Firebase
   toFirebaseMap(): Record<string, any> {
-    return Object.fromEntries(
-      Object.entries({
-        email: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        ageRange: this.ageRange
-          ? Object.values(AgeRange).indexOf(this.ageRange)
-          : undefined,
-        gender: this.gender
-          ? Object.values(Gender).indexOf(this.gender)
-          : undefined,
-        nationality: this.nationality
-          ? Object.values(Nationality).indexOf(this.nationality)
-          : undefined,
-        phoneNumber: this.phoneNumber,
-        level: this.level
-          ? Object.values(Level).indexOf(this.level)
-          : undefined,
-      }).map(([key, value]) => [key, value ?? null]) // Replace undefined with null
-    )
+    return {
+      email: this.email,
+      firstName: this.firstName ?? null,
+      lastName: this.lastName ?? null,
+      ageRange: this.ageRange
+        ? Object.values(AgeRange).indexOf(this.ageRange)
+        : null,
+      gender: this.gender ? Object.values(Gender).indexOf(this.gender) : null,
+      nationality: this.nationality
+        ? Object.values(Nationality).indexOf(this.nationality)
+        : null,
+      phoneNumber: this.phoneNumber ?? null,
+      level: this.level ? Object.values(Level).indexOf(this.level) : null,
+    }
   }
 
-  // Convert a Map<string, any> to a Student object
+  // Convert a Record<string, any> to a Student object
   static fromFirebaseMap(map: Record<string, any>, uid: string): Student {
     return new Student({
       email: map.email,
@@ -105,40 +99,18 @@ export class Student {
       password: map.password,
       firstName: map.firstName,
       lastName: map.lastName,
-      ageRange: getAgeRangeFromIndex(map.ageRange),
-      gender: getGenderFromIndex(map.gender),
-      nationality: getNationalityFromIndex(map.nationality),
+      ageRange:
+        map.ageRange !== null
+          ? Object.values(AgeRange)[map.ageRange]
+          : undefined,
+      gender:
+        map.gender !== null ? Object.values(Gender)[map.gender] : undefined,
+      nationality:
+        map.nationality !== null
+          ? Object.values(Nationality)[map.nationality]
+          : undefined,
       phoneNumber: map.phoneNumber,
-      level: getLevelFromIndex(map.level),
+      level: map.level !== null ? Object.values(Level)[map.level] : undefined,
     })
   }
-}
-
-// Helper functions to get enum values from index
-export function getAgeRangeFromIndex(
-  index: number | undefined
-): AgeRange | undefined {
-  if (index === undefined) return undefined
-  return Object.values(AgeRange)[index] as AgeRange
-}
-
-export function getGenderFromIndex(
-  index: number | undefined
-): Gender | undefined {
-  if (index === undefined) return undefined
-  return Object.values(Gender)[index] as Gender
-}
-
-export function getNationalityFromIndex(
-  index: number | undefined
-): Nationality | undefined {
-  if (index === undefined) return undefined
-  return Object.values(Nationality)[index] as Nationality
-}
-
-export function getLevelFromIndex(
-  index: number | undefined
-): Level | undefined {
-  if (index === undefined) return undefined
-  return Object.values(Level)[index] as Level
 }

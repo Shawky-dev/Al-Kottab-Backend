@@ -1,14 +1,5 @@
 import { teacherResponse } from '../../controllers/teacher.controller'
-import {
-  AgeRange,
-  Gender,
-  getAgeRangeFromIndex,
-  getGenderFromIndex,
-  getLevelFromIndex,
-  getNationalityFromIndex,
-  Level,
-  Nationality,
-} from '../student.type'
+import { AgeRange, Gender, Level, Nationality } from '../student.type'
 import { TimeSlot } from './timeSlot.type'
 
 export enum Qiraah {
@@ -35,7 +26,6 @@ export class Teacher {
   preferredStudentAgeRange?: AgeRange
   preferredStudentLevel?: Level
   qiraah: Qiraah[]
-  // Changed to an array of Qiraah
 
   constructor({
     email,
@@ -53,12 +43,12 @@ export class Teacher {
     gender,
     preferredStudentAgeRange,
     preferredStudentLevel,
-    qiraah = [], // Default to an empty array
+    qiraah = [],
   }: {
     email: string
     uid: string
     rating: number
-    timeSlots: TimeSlot[]
+    timeSlots?: TimeSlot[]
     firstName?: string
     lastName?: string
     birthYear?: string
@@ -70,7 +60,7 @@ export class Teacher {
     gender?: Gender
     preferredStudentAgeRange?: AgeRange
     preferredStudentLevel?: Level
-    qiraah?: Qiraah[] // Updated to accept an array
+    qiraah?: Qiraah[]
   }) {
     this.email = email
     this.uid = uid
@@ -90,55 +80,54 @@ export class Teacher {
     this.qiraah = qiraah
   }
 
-  // Convert Teacher object to a Map<string, any> for Firebase
+  // Convert Teacher object to a Record<string, any> for Firebase
   toFirebaseMap(): Record<string, any> {
-    return Object.fromEntries(
-      // to encure that there are no undefined values just null
-      Object.entries({
-        email: this.email,
-        rating: this.rating,
-        timeSlots:
-          this.timeSlots.length > 0
-            ? this.timeSlots.map((slot) => slot.toMap())
-            : [],
-        firstName: this.firstName,
-        lastName: this.lastName,
-        birthYear: this.birthYear,
-        birthMonth: this.birthMonth,
-        birthDay: this.birthDay,
-        phoneNumber: this.phoneNumber,
-        description: this.description,
-        nationality:
-          this.nationality !== undefined
-            ? Object.values(Nationality).indexOf(this.nationality)
-            : null,
-        gender:
-          this.gender !== undefined
-            ? Object.values(Gender).indexOf(this.gender)
-            : null,
-        preferredStudentAgeRange:
-          this.preferredStudentAgeRange !== undefined
-            ? Object.values(AgeRange).indexOf(this.preferredStudentAgeRange)
-            : null,
-        preferredStudentLevel:
-          this.preferredStudentLevel !== undefined
-            ? Object.values(Level).indexOf(this.preferredStudentLevel)
-            : null,
-        qiraah:
-          this.qiraah.length > 0
-            ? this.qiraah.map((q) => Object.values(Qiraah).indexOf(q))
-            : null, // Convert empty array to null if needed
-      }).map(([key, value]) => [key, value ?? null]) // Replace undefined with null
-    )
+    return {
+      email: this.email,
+      rating: this.rating,
+      timeSlots:
+        this.timeSlots.length > 0
+          ? this.timeSlots.map((slot) => slot.toMap())
+          : null,
+      firstName: this.firstName ?? null,
+      lastName: this.lastName ?? null,
+      birthYear: this.birthYear ?? null,
+      birthMonth: this.birthMonth ?? null,
+      birthDay: this.birthDay ?? null,
+      phoneNumber: this.phoneNumber ?? null,
+      description: this.description ?? null,
+      nationality:
+        this.nationality !== undefined
+          ? Object.values(Nationality).indexOf(this.nationality)
+          : null,
+      gender:
+        this.gender !== undefined
+          ? Object.values(Gender).indexOf(this.gender)
+          : null,
+      preferredStudentAgeRange:
+        this.preferredStudentAgeRange !== undefined
+          ? Object.values(AgeRange).indexOf(this.preferredStudentAgeRange)
+          : null,
+      preferredStudentLevel:
+        this.preferredStudentLevel !== undefined
+          ? Object.values(Level).indexOf(this.preferredStudentLevel)
+          : null,
+      qiraah:
+        this.qiraah.length > 0
+          ? this.qiraah.map((q) => Object.values(Qiraah).indexOf(q))
+          : null,
+    }
   }
 
-  // Convert a Map<string, any> to a Teacher object
+  // Convert a Record<string, any> to a Teacher object
   static fromFirebaseMap(map: Record<string, any>, uid: string): Teacher {
     return new Teacher({
       email: map.email,
       rating: map.rating,
       uid: uid,
-      timeSlots: TimeSlot.getTimeSlotsFromIndices(map.timeSlots), // Convert array of indices to array of Qiraah
+      timeSlots: map.timeSlots
+        ? TimeSlot.getTimeSlotsFromIndices(map.timeSlots)
+        : [],
       firstName: map.firstName,
       lastName: map.lastName,
       birthYear: map.birthYear,
@@ -146,32 +135,42 @@ export class Teacher {
       birthDay: map.birthDay,
       phoneNumber: map.phoneNumber,
       description: map.description,
-      nationality: getNationalityFromIndex(map.nationality),
-      gender: getGenderFromIndex(map.gender),
-      preferredStudentAgeRange: getAgeRangeFromIndex(
-        map.preferredStudentAgeRange
-      ),
-      preferredStudentLevel: getLevelFromIndex(map.preferredStudentLevel),
-      qiraah: getQiraahListFromIndices(map.qiraah),
+      nationality:
+        map.nationality !== null
+          ? Object.values(Nationality)[map.nationality]
+          : undefined,
+      gender:
+        map.gender !== null ? Object.values(Gender)[map.gender] : undefined,
+      preferredStudentAgeRange:
+        map.preferredStudentAgeRange !== null
+          ? Object.values(AgeRange)[map.preferredStudentAgeRange]
+          : undefined,
+      preferredStudentLevel:
+        map.preferredStudentLevel !== null
+          ? Object.values(Level)[map.preferredStudentLevel]
+          : undefined,
+      qiraah: map.qiraah
+        ? map.qiraah.map((index: number) => Object.values(Qiraah)[index])
+        : [],
     })
   }
+
+  // Add a new time slot if it doesn't conflict with existing ones
   static addNewTimeSlot(
     newTimeSlot: TimeSlot,
     timeSlots: TimeSlot[]
   ): TimeSlot | null {
-    let conflictedTimeSlot = null
-    //range cannot be within the same range as an existing timeslot
-    let existingTimeSlotDays = timeSlots.filter(
-      (ts) => ts.day == newTimeSlot.day
+    const existingTimeSlotDays = timeSlots.filter(
+      (ts) => ts.day === newTimeSlot.day
     )
 
-    for (let i = 0; i < existingTimeSlotDays.length; i++) {
-      if (TimeSlot.doTimeSlotsConflict(existingTimeSlotDays[i], newTimeSlot)) {
-        return existingTimeSlotDays[i]
+    for (const existingSlot of existingTimeSlotDays) {
+      if (TimeSlot.doTimeSlotsConflict(existingSlot, newTimeSlot)) {
+        return existingSlot // Return the conflicting time slot
       }
     }
 
-    return conflictedTimeSlot
+    return null // No conflict
   }
 }
 
@@ -181,12 +180,4 @@ export function getQiraahListFromIndices(
 ): Qiraah[] {
   if (!indices) return []
   return indices.map((index) => Object.values(Qiraah)[index] as Qiraah)
-}
-
-// Convert a single index to a Qiraah (optional, for backward compatibility)
-export function getQiraahFromIndex(
-  index: number | undefined
-): Qiraah | undefined {
-  if (index === undefined) return undefined
-  return Object.values(Qiraah)[index] as Qiraah
 }

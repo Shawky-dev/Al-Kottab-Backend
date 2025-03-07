@@ -303,7 +303,12 @@ const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
           newTimeSlot,
           teacher.timeSlots
         )
+
         if (conflictedTimeSlot == null) {
+          teacher.timeSlots.push(newTimeSlot)
+
+          await teacherRef.update(teacher.toFirebaseMap())
+
           const response: teacherResponse = {
             message: 'added new time slot to teacher',
             details: null,
