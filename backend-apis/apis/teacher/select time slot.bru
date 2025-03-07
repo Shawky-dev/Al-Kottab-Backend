@@ -1,0 +1,23 @@
+meta {
+  name: select time slot
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8080/api/teacher/selectTimeSlot
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJSUzI1NiIsImtpZCI6ImJjNDAxN2U3MGE4MWM5NTMxY2YxYjY4MjY4M2Q5OThlNGY1NTg5MTkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZWxrb3R0YWItNzgwNTMiLCJhdWQiOiJlbGtvdHRhYi03ODA1MyIsImF1dGhfdGltZSI6MTc0MTE3MzI0OCwidXNlcl9pZCI6IjJqWm1PUXAwd3NldTh5anFTRWU3WU1DT1VKbjIiLCJzdWIiOiIyalptT1FwMHdzZXU4eWpxU0VlN1lNQ09VSm4yIiwiaWF0IjoxNzQxMTczMjQ4LCJleHAiOjE3NDExNzY4NDgsImVtYWlsIjoidGV0b29vQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJ0ZXRvb29AZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.RDvXKx_VAAxM8fo5dSZdXX5b7jjI3Yp7sl-K_f8r_ZoiTF1eHWUJz0vciJ_udKKuYhNKFuZPL_snhixvJDeaBKJK0hIaNwNNah8Bojf_GiK49sZVXL6SgN2ep6KtfQIO1k_cTV22XhwcAeQLeiGC_cINAo9wGgLoC3uK3iagvq0VUi0UODyhDdt4N2onLk76ocQZuGSuNbHNgu1RA6yW3gGm1HkRiRfMOlAE0D5byQwGwMSoEmvWR5exKuI09nJqvh34tv1Is9ns9yAfGYoZdXgDctrLPpifcvkRF353El-xevK0_ctr3WQPxoowVfA1QCsnzwOEC1XIy7DQMNtuxQ
+}
+
+body:json {
+  {
+    "day": 0,
+    "hourRangeA":"03:00:00",
+    "hourRangeB":"03:35:00"
+  }
+}

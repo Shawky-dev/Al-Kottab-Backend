@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { AgeRange, Gender, Level, Nationality } from '../../types/student.type'
-import { Qiraah } from '../../types/teacher.type'
+import { Qiraah } from '../../types/teacher/teacher.type'
 
 export const editProfileTeacherSchema = z.object({
   firstName: z.string(),

@@ -3,11 +3,17 @@ import { AuthorizationRequest } from '../types/express'
 import { StatusCodes } from 'http-status-codes'
 import admin from '../config/firebase.config'
 import { DecodedIdToken, getAuth } from 'firebase-admin/auth'
-import { Teacher } from '../types/teacher.type'
+import { Teacher } from '../types/teacher/teacher.type'
 import { registerSchema, RegisterSchema } from '../schemas/register.schema'
 import { auth } from 'firebase-admin'
+import {
+  selectTimeSLot,
+  selectTimeSlotTeacherSchema,
+} from '../schemas/teacher/selectTimeSlot.teacher.schema'
+import { string } from 'zod'
+import { TimeSlot } from '../types/teacher/timeSlot.type'
 
-type teacherResponse = {
+export type teacherResponse = {
   message: string
   details?: string | null
   teacher?: object | null
@@ -223,6 +229,7 @@ const registerTeacher = async (req: Request, res: Response) => {
       uid: userRecord.uid,
       //other essential attributes below
       rating: 0,
+      timeSlots: [],
     })
 
     const teacherData = teacher.toFirebaseMap()
@@ -269,11 +276,77 @@ const registerTeacher = async (req: Request, res: Response) => {
     return
   }
 }
+const selectTimeSlot = async (req: AuthorizationRequest, res: Response) => {
+  try {
+    const parsedBody: selectTimeSLot = selectTimeSlotTeacherSchema.parse(
+      req.body
+    )
+    const uid: string = req.user?.uid as string
+    const teacherRef = admin.firestore().collection('teachers').doc(uid)
+    const teacherDoc = await teacherRef.get()
+    if (!teacherDoc.exists) {
+      const response: teacherResponse = {
+        message: 'Teacher not found',
+        details: null,
+        teacher: null,
+        teacherList: null,
+        customToken: null,
+      }
+      res.status(StatusCodes.NOT_FOUND).json(response)
+    } else {
+      const teacherData = teacherDoc.data()
+      if (teacherData) {
+        const teacher = Teacher.fromFirebaseMap(teacherData, teacherDoc.id)
+        const newTimeSlot = new TimeSlot(parsedBody)
 
+        const conflictedTimeSlot: TimeSlot | null = Teacher.addNewTimeSlot(
+          newTimeSlot,
+          teacher.timeSlots
+        )
+
+        if (conflictedTimeSlot == null) {
+          teacher.timeSlots.push(newTimeSlot)
+
+          await teacherRef.update(teacher.toFirebaseMap())
+
+          const response: teacherResponse = {
+            message: 'added new time slot to teacher',
+            details: null,
+            teacher: teacher,
+            teacherList: null,
+            customToken: null,
+          }
+          res.status(StatusCodes.OK).json(response)
+        } else {
+          const response: teacherResponse = {
+            message: 'Conflicts with existing TimeSlot',
+            details: conflictedTimeSlot.toMap() as any,
+            teacher: null,
+            teacherList: null,
+            customToken: null,
+          }
+          res.status(StatusCodes.CONFLICT).json(response)
+        }
+      }
+    }
+  } catch (error: any) {
+    logging.error(error)
+    const response: teacherResponse = {
+      message: 'Error occurred',
+      details: error,
+      teacher: null,
+      teacherList: null,
+      customToken: null,
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+    return
+  }
+}
 export default {
   getTeacherFromUid,
   editTeacherProfile,
   getCurrentTeacher,
   getAllTeachers,
   registerTeacher,
+  selectTimeSlot,
 }

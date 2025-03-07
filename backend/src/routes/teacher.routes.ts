@@ -5,6 +5,7 @@ import { validateData } from '../middleware/validateData'
 import { verifyToken } from '../middleware/verifyToken'
 import { editProfileTeacherSchema } from '../schemas/teacher/editProfile.teacher.schema'
 import { registerSchema } from '../schemas/register.schema'
+import { selectTimeSlotTeacherSchema } from '../schemas/teacher/selectTimeSlot.teacher.schema'
 
 const router: Router = express.Router()
 
@@ -30,5 +31,12 @@ router.put(
 )
 
 router.get('/getAllTeacher', teacherController.getAllTeachers)
+
+router.put(
+  '/selectTimeSlot',
+  verifyToken,
+  validateData(selectTimeSlotTeacherSchema),
+  teacherController.selectTimeSlot
+)
 
 export default router
